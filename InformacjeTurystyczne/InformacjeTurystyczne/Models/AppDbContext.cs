@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore; // DbContext
+﻿using InformacjeTurystyczne.Models.Tabels;
+using Microsoft.EntityFrameworkCore; // DbContext
 
 namespace InformacjeTurystyczne.Models
 {
@@ -17,6 +18,13 @@ namespace InformacjeTurystyczne.Models
             // ustalamy które typy będą określone w rzeczywistej bazie danych
             // każdy typ jaki będzie określony w bazie danych jako tabela określamy jako DbSet
         }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Entertainment> Entertainments { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<PermissionEntertainment> PermissionEntertainments { get; set; }
+        public DbSet<RegionLocation> RegionLocations { get; set; }
+        public DbSet<Trial> Trials { get; set; }
 
         // DbSet<Model np Schronisko> Schroniska {get; set;}
         // EF Core jest świadomy istnienia modelu Schronisko i utworzy odpowiednią tabelę
