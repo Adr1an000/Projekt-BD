@@ -13,10 +13,6 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Repository\" />
-  </ItemGroup>
-
 
 
 </Project>

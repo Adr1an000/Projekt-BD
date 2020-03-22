@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InformacjeTurystyczne.Models;
+using InformacjeTurystyczne.Models.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,8 @@ namespace InformacjeTurystyczne
 
             // póŸniej robimy coœ w stulu
             // services.AddTransient<ISchroniskoRepository, SchroniskoRepository>();
+
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
 
             services.AddControllersWithViews();
         }
