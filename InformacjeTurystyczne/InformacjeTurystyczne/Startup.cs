@@ -7,10 +7,13 @@ using InformacjeTurystyczne.Models.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 namespace InformacjeTurystyczne
 {
@@ -26,13 +29,38 @@ namespace InformacjeTurystyczne
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             // musimy zarejestrowaæ w kolekcji us³ug, ¿e bêdziemy korzystaæ z EF Core
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); // rejestrowanie naszego contextu i deklaracja, ¿e chcemy u¿ywaæ SQL Server
+            services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); // rejestrowanie naszego contextu i deklaracja, ¿e chcemy u¿ywaæ SQL Server
             // jak nie dzia³a to w konsoli menad¿era pakietów wklepujemy PM > Install-Package Microsoft.EntityFrameworkCore.SqlServer
             // potrzebujemy ci¹gu po³¹czenia by po³¹czyæ siê z rzeczywist¹ baz¹ danych (connection string), jest on w appsettings.json
 
             // póŸniej robimy coœ w stulu
             // services.AddTransient<ISchroniskoRepository, SchroniskoRepository>();
+
+            // AddIndentity rejestruje serwisy (?)
+            services.AddIdentity<IdentityUser, IdentityRole>(config =>
+            {
+                config.Password.RequiredLength = 4;
+                config.Password.RequireDigit = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.SignIn.RequireConfirmedEmail = true;
+            })
+                .AddEntityFrameworkStores<AppDbContext>() // most pomiedzy baza danych a autoryzacja konta
+                .AddDefaultTokenProviders(); // defaultowy mechanizm 
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.Name = "Identity.Cookie";
+                config.LoginPath = "/Home/Login";
+            });
+
+            var mailKitOptions = Configuration.GetSection("Email").Get<MailKitOptions>();
+
+            services.AddMailKit(config => config.UseMailKit(Configuration.GetSection("Email").Get<MailKitOptions>()));
 
             services.AddTransient<ICategoryRepository, CategoryRepository>();
 
@@ -55,15 +83,26 @@ namespace InformacjeTurystyczne
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+           
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication(); // sprwadza kim jestes
+
+            app.UseAuthorization(); // sprawdza autoryzacje, musi byc po UseRouting!
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapDefaultControllerRoute();
+
+                /*
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "action",
+                    pattern: "{controller=Authentication}/{action=Index}/{id?}");
+                    */
             });
         }
     }
