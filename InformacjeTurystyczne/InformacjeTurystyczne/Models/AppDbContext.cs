@@ -14,7 +14,7 @@ namespace InformacjeTurystyczne.Models
      * 
      * Misi być instancja DbContextOption, bo nie zadziała (przesłaniamy metodę configuration, lub przekazujemy przez argument konstruktora)
      */
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {

@@ -37,10 +37,10 @@ namespace InformacjeTurystyczne
 
             services.AddTransient<ICategoryRepository, CategoryRepository>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(config =>
+            services.AddIdentity<AppUser, IdentityRole>(config =>
             {
-                config.Password.RequiredLength = 2;
-                config.Password.RequireDigit = false;
+                config.Password.RequiredLength = 8;
+                config.Password.RequireDigit = true;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
                 config.SignIn.RequireConfirmedEmail = false;
@@ -62,6 +62,9 @@ namespace InformacjeTurystyczne
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseStatusCodePages();
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
@@ -79,7 +82,12 @@ namespace InformacjeTurystyczne
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Admin}/{action=Index}/{id?}");
             });
+            
         }
     }
 }
