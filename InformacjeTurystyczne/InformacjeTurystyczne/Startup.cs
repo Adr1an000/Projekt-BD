@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InformacjeTurystyczne.IdentityPolicy;
 using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,9 @@ namespace InformacjeTurystyczne
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
+
+
             // musimy zarejestrowaæ w kolekcji us³ug, ¿e bêdziemy korzystaæ z EF Core
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); // rejestrowanie naszego contextu i deklaracja, ¿e chcemy u¿ywaæ SQL Server
             // jak nie dzia³a to w konsoli menad¿era pakietów wklepujemy PM > Install-Package Microsoft.EntityFrameworkCore.SqlServer
@@ -36,6 +40,8 @@ namespace InformacjeTurystyczne
             // services.AddTransient<ISchroniskoRepository, SchroniskoRepository>();
 
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+
+            services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordPolicy>();
 
             services.AddIdentity<AppUser, IdentityRole>(config =>
             {
@@ -74,8 +80,6 @@ namespace InformacjeTurystyczne
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-
 
             app.UseEndpoints(endpoints =>
             {
