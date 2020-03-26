@@ -7,6 +7,7 @@ using InformacjeTurystyczne.Models.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,15 @@ namespace InformacjeTurystyczne
 
             services.AddTransient<ICategoryRepository, CategoryRepository>();
 
+            services.AddIdentity<IdentityUser, IdentityRole>(config =>
+            {
+                config.Password.RequiredLength = 2;
+                config.Password.RequireDigit = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.SignIn.RequireConfirmedEmail = false;
+            }).AddEntityFrameworkStores<AppDbContext>();
+
             services.AddControllersWithViews();
         }
 
@@ -53,11 +63,16 @@ namespace InformacjeTurystyczne
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+
 
             app.UseEndpoints(endpoints =>
             {
