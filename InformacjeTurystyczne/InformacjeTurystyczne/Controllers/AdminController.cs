@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using InformacjeTurystyczne.Models.ViewModels;
 using InformacjeTurystyczne.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InformacjeTurystyczne.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -45,31 +47,31 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(string userId, string userEmail, string userPassword)
+        public async Task<IActionResult> UpdateUser(string id, string email, string password)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(id);
 
             if(user!= null)
             {
-                if(!string.IsNullOrEmpty(userEmail))
+                if(!string.IsNullOrEmpty(email))
                 {
-                    user.Email = userEmail;
+                    user.Email = email;
                 }
                 else
                 {
                     ModelState.AddModelError("", "Musi być wprowadzony adres email.");
                 }
 
-                if(!string.IsNullOrEmpty(userPassword))
+                if(!string.IsNullOrEmpty(password))
                 {
-                    user.PasswordHash = _passwordHasher.HashPassword(user, userPassword);
+                    user.PasswordHash = _passwordHasher.HashPassword(user, password);
                 }
                 else
                 {
                     ModelState.AddModelError("", "Musi być wprowadzone hasło.");
                 }
 
-                if(!string.IsNullOrEmpty(userEmail) && !string.IsNullOrEmpty(userPassword))
+                if(!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
                 {
                     var result = await _userManager.UpdateAsync(user);
 
@@ -120,7 +122,7 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(LoginVM user)
+        public async Task<IActionResult> Create(RegisterVM user)
         {
             if(ModelState.IsValid)
             {

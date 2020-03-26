@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InformacjeTurystyczne.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly SignInManager<AppUser> _signInManager;
@@ -21,16 +23,35 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         // GET: /<controller>/
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
             if(!ModelState.IsValid)
             {
+                /*
+                var errors = ModelState.Select(x => x.Value.Errors)
+                          .Where(y => y.Count > 0)
+                          .ToList();
+                          */
+
+                if(loginVM.UserName == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Musisz uzupełnić nazwę użytkownika!");
+                }
+
+                if(loginVM.Password == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Musisz uzupełnić hasło!");
+                }
+
                 return View(loginVM);
             }
 
@@ -46,19 +67,22 @@ namespace InformacjeTurystyczne.Controllers
                 }
             }
 
-            ModelState.AddModelError("", "Nazwa użytkownika lub hasło nie są poprawne.");
+            ModelState.AddModelError(string.Empty, "Nazwa użytkownika lub hasło nie są poprawne.");
 
             return View(loginVM);
         }
 
         // GET: /<controller>/
+        [AllowAnonymous]
         public IActionResult Register()
         {
-            return View(new LoginVM());
+            return View(new RegisterVM());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(LoginVM loginVM)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterVM loginVM)
         {
             if(ModelState.IsValid)
             {
@@ -68,6 +92,23 @@ namespace InformacjeTurystyczne.Controllers
                 if(result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                if (loginVM.UserName == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Musisz uzupełnić nazwę użytkownika!");
+                }
+
+                if (loginVM.Password == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Musisz uzupełnić hasło!");
+                }
+
+                if (loginVM.Email == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Musisz uzupełnić adres email!");
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿@model LoginVM
+﻿@model RegisterVM
 
 <h1>Strona rejestracji</h1>
 
@@ -7,9 +7,23 @@
     <a asp-action="Login" asp-controller="Account">Zaloguj</a>
 </h2>
 
+<div asp-validation-summary="All"></div>
+
 <form asp-action="Register" asp-controller="Account" method="post" , class="form-horizontal" role="form">
-    <input asp-for="UserName" type="text" name="username" value="" />
-    <input asp-for="Email" type="text" name="email" value="" />
-    <input asp-for="Password" type="text" name="password" value="" />
+    <div>
+        <label>Nazwa użytkownika</label>
+        <input asp-for="UserName" type="text" name="username" value="" />
+    </div>
+
+    <div>
+        <label>E-mail</label>
+        <input asp-for="Email" type="text" name="email" value="" />
+    </div>
+
+    <div>
+        <label>Hasło</label>
+        <input asp-for="Password" type="text" name="password" value="" />
+    </div>
+
     <button type="submit">Rejestruj</button>
 </form>
