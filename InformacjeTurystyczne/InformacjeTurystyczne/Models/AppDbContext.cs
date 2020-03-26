@@ -1,5 +1,4 @@
 ﻿using InformacjeTurystyczne.Models.Tabels;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore; // DbContext
 
 namespace InformacjeTurystyczne.Models
@@ -12,7 +11,7 @@ namespace InformacjeTurystyczne.Models
      * 
      * Misi być instancja DbContextOption, bo nie zadziała (przesłaniamy metodę configuration, lub przekazujemy przez argument konstruktora)
      */
-    public class AppDbContext : IdentityDbContext // IdentityDbContext zawiera wszystkie tabele userow
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
