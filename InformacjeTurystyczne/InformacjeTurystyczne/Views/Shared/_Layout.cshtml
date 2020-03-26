@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 
-@inject SignInManager<IdentityUser> SignInManager
+@inject SignInManager<AppUser> SignInManager
 
 <html lang="en">
 <head>
@@ -28,6 +28,10 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Autorzy</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Panel admina</a>
                         </li>
 
                         @if (SignInManager.IsSignedIn(User))

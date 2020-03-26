@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,10 @@ namespace InformacjeTurystyczne.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -61,7 +62,7 @@ namespace InformacjeTurystyczne.Controllers
         {
             if(ModelState.IsValid)
             {
-                var user = new IdentityUser() { UserName = loginVM.UserName };
+                var user = new AppUser() { UserName = loginVM.UserName, Email = loginVM.Email };
                 var result = await _userManager.CreateAsync(user, loginVM.Password);
 
                 if(result.Succeeded)
