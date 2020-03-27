@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace InformacjeTurystyczne.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -149,6 +149,13 @@ namespace InformacjeTurystyczne.Controllers
             }
 
             return View(user);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
+        {
+            return RedirectToAction("AccessDenied", "Account");
         }
     }
 }

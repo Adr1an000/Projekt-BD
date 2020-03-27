@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using InformacjeTurystyczne.IdentityPolicy;
 using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +30,12 @@ namespace InformacjeTurystyczne
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
+            services.Configure<CookieAuthenticationOptions>(options =>
+            {
+                options.LoginPath = new PathString("/Account/Login");
+                options.AccessDeniedPath = new PathString("/Account/AccessDenied");
+        }); 
+
 
 
             // musimy zarejestrowaæ w kolekcji us³ug, ¿e bêdziemy korzystaæ z EF Core

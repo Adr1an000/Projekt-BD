@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using InformacjeTurystyczne.Models;
+using InformacjeTurystyczne.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +13,12 @@ namespace InformacjeTurystyczne.Controllers
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public RoleController(RoleManager<IdentityRole> roleManager)
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public ViewResult Index()
@@ -22,17 +26,23 @@ namespace InformacjeTurystyczne.Controllers
             return View(_roleManager.Roles);
         }
 
+        [HttpGet]
         public IActionResult CreateRole()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRole([Required] string roleName)
+        public async Task<IActionResult> CreateRole(RoleVM roleVM)
         {
             if(ModelState.IsValid)
             {
-                var result = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                var identityRole = new IdentityRole
+                {
+                    Name = roleVM.RoleName
+                };
+
+                var result = await _roleManager.CreateAsync(identityRole);
 
                 if(result.Succeeded)
                 {
@@ -44,13 +54,13 @@ namespace InformacjeTurystyczne.Controllers
                 }
             }
 
-            return View(roleName);
+            return View(roleVM);
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteRole(string roleId)
+        public async Task<IActionResult> DeleteRole(RoleVM roleVM)
         {
-            var role = await _roleManager.FindByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(roleVM.Id);
 
             if(role!= null)
             {
@@ -71,6 +81,69 @@ namespace InformacjeTurystyczne.Controllers
             }
 
             return View("Index", _roleManager.Roles);
+        }
+
+        public async Task<IActionResult> UpdateRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            List<AppUser> membersList = new List<AppUser>();
+            List<AppUser> nonMembersList = new List<AppUser>();
+
+            foreach (var user in _userManager.Users)
+            {
+                var list = await _userManager.IsInRoleAsync(user, role.Name) ? membersList : nonMembersList;
+
+                list.Add(user);
+            }
+
+            return View(new RoleUsersVM { Role = role, Members = membersList, NonMembers = nonMembersList });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRole(RoleVM roleVM)
+        {
+            if(ModelState.IsValid)
+            {
+                foreach (var id in roleVM.AddId ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(id);
+
+                    if(user != null)
+                    {
+                        var result = await _userManager.AddToRoleAsync(user, roleVM.RoleName);
+
+                        if(!result.Succeeded)
+                        {
+                            ResultErrors(result);
+                        }
+                    }
+                }
+
+                foreach (var id in roleVM.DeleteId ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(id);
+
+                    if(user != null)
+                    {
+                        var result = await _userManager.RemoveFromRoleAsync(user, roleVM.RoleName);
+
+                        if(!result.Succeeded)
+                        {
+                            ResultErrors(result);
+                        }
+                    }
+                }
+            }
+
+            if(ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Role");
+            }
+            else
+            {
+                return await UpdateRole(roleVM.Id);
+            }
         }
 
         private void ResultErrors(IdentityResult result)
