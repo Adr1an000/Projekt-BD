@@ -81,7 +81,7 @@ namespace InformacjeTurystyczne
             }
             else
             {
-                app.UseStatusCodePagesWithRedirects("/error/{0}");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
             }
 
             app.UseStatusCodePages();
@@ -89,6 +89,8 @@ namespace InformacjeTurystyczne
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
