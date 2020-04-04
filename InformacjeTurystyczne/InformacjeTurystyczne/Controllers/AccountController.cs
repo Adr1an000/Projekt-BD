@@ -24,10 +24,18 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         // GET: /<controller>/
+        [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login(string returnUrl)
         {
-            return View();
+            LoginVM loginVM = new LoginVM
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+
+            };
+
+            return View(loginVM);
         }
 
         [HttpPost]
@@ -35,7 +43,7 @@ namespace InformacjeTurystyczne.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 /*
                 var errors = ModelState.Select(x => x.Value.Errors)
@@ -43,12 +51,12 @@ namespace InformacjeTurystyczne.Controllers
                           .ToList();
                           */
 
-                if(loginVM.UserName == null)
+                if (loginVM.UserName == null)
                 {
                     ModelState.AddModelError(string.Empty, "Musisz uzupełnić nazwę użytkownika!");
                 }
 
-                if(loginVM.Password == null)
+                if (loginVM.Password == null)
                 {
                     ModelState.AddModelError(string.Empty, "Musisz uzupełnić hasło!");
                 }
@@ -58,11 +66,11 @@ namespace InformacjeTurystyczne.Controllers
 
             var user = await _userManager.FindByNameAsync(loginVM.UserName);
 
-            if(user != null) 
+            if (user != null)
             {
                 var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
 
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -85,12 +93,12 @@ namespace InformacjeTurystyczne.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterVM loginVM)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = new AppUser() { UserName = loginVM.UserName, Email = loginVM.Email };
                 var result = await _userManager.CreateAsync(user, loginVM.Password);
 
-                if(result.Succeeded)
+                if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -131,35 +139,55 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult GoogleLogin()
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
         {
-            var url = Url.Action("GoogleResponse", "Account");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", url);
+            var url = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, url);
 
-            return new ChallengeResult("Google", properties);
+            return new ChallengeResult(provider, properties);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> GoogleResponse()
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteUrl = null)
         {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            LoginVM loginVM = new LoginVM
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            if (remoteUrl != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Błąd ze strony zewnętrznych usług logowania: {remoteUrl}");
+
+                return View("Login", loginVM);
+            }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
 
             if (info == null)
             {
-                return RedirectToAction(nameof(Login));
+                ModelState.AddModelError(string.Empty, "Błąd podczas odczytywania informacji od dostawcy zewnętrznych usług logowania.");
+
+                return View("Login", loginVM);
             }
 
 
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+            //  string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
 
             if (result.Succeeded)
             {
-                return View(userInfo);
+                //return View(userInfo);
+                return LocalRedirect(returnUrl);
             }
             else
             {
+
                 var user = new AppUser
                 {
                     Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
@@ -176,9 +204,10 @@ namespace InformacjeTurystyczne.Controllers
                     {
                         await _signInManager.SignInAsync(user, false);
 
-                        return View(userInfo);
+                        return LocalRedirect(returnUrl);
                     }
                 }
+
 
                 return AccessDenied();
             }

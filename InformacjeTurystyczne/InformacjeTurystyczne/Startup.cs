@@ -24,13 +24,12 @@ namespace InformacjeTurystyczne
 
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration; // odczytujemy konfiguracje przez klasê Program.cs
+            Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+      
             services.Configure<CookieAuthenticationOptions>(options =>
             {
                 options.LoginPath = new PathString("/Account/Login");
@@ -38,22 +37,34 @@ namespace InformacjeTurystyczne
 
             });
 
-
-
-            // musimy zarejestrowaæ w kolekcji us³ug, ¿e bêdziemy korzystaæ z EF Core
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            // rejestrowanie naszego contextu i deklaracja, ¿e chcemy u¿ywaæ SQL Server
-            // jak nie dzia³a to w konsoli menad¿era pakietów wklepujemy PM > Install-Package Microsoft.EntityFrameworkCore.SqlServer
-            // potrzebujemy ci¹gu po³¹czenia by po³¹czyæ siê z rzeczywist¹ baz¹ danych (connection string), jest on w appsettings.json
-            // póŸniej robimy coœ w stulu
-            // services.AddTransient<ISchroniskoRepository, SchroniskoRepository>();
 
-
-            services.AddAuthentication().AddGoogle(options =>
+            services.AddAuthentication().AddGoogle(googleOptions =>
             {
-                options.ClientId = "278465396718-e4gkbb2to6lmjn5lq85j2m3d2oukr48k.apps.googleusercontent.com";
-                options.ClientSecret = "kZwtCzF48bQ0ytZPckBk3yCJ";
+                googleOptions.ClientId = "278465396718-e4gkbb2to6lmjn5lq85j2m3d2oukr48k.apps.googleusercontent.com";
+                googleOptions.ClientSecret = "kZwtCzF48bQ0ytZPckBk3yCJ";
             });
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = "227029605074219";
+                facebookOptions.AppSecret = "5ccf746455c007bb1add0cb8ad71c673";
+            });
+
+            /*
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
+            
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+            */
+
 
             services.AddTransient<ICategoryRepository, CategoryRepository>();
 
@@ -72,7 +83,7 @@ namespace InformacjeTurystyczne
             services.AddRazorPages();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
