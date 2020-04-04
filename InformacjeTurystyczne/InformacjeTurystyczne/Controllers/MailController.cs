@@ -8,8 +8,7 @@ using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
 using MailKit.Security;
-using System.Net.Mail;
-using SmtpClient = System.Net.Mail.SmtpClient;
+
 
 namespace InformacjeTurystyczne.Controllers
 {
@@ -17,10 +16,10 @@ namespace InformacjeTurystyczne.Controllers
     {
         public IActionResult Index()
         {
-            /*
+            
             var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("Informacje turystyczne", "informacjeturystyczne.projekt@zohomail.eu"));
+            message.From.Add(new MailboxAddress("Informacje turystyczne", "informacje.turystyczne1@onet.pl"));
 
             message.To.Add(new MailboxAddress("Pawel", "pawel.s.ps777@gmail.com"));
 
@@ -33,31 +32,31 @@ namespace InformacjeTurystyczne.Controllers
 
             using(var client = new SmtpClient())
             {
-                client.Connect("smtp.zoho.com", 465, false);
+                client.Connect("smtp.poczta.onet.pl", 465, true);
 
-                client.Authenticate("informacjeturystyczne.projekt@zohomail.eu", "InfTur123");
+                client.Authenticate("informacje.turystyczne1@onet.pl", "InfTur123");
 
                 client.Send(message);
 
                 client.Disconnect(true);
             }
-            */
-           
-            {
-                MailMessage message = new System.Net.Mail.MailMessage("informacjeturystyczne.projekt@zohomail.eu", "pawel.s.ps777@gmail.com");
 
-                message.Subject = "test";
+            /*
+             {
+                 MailMessage message = new System.Net.Mail.MailMessage("informacje.turystyczne1@onet.pl", "pawel.s.ps777@gmail.com");
 
-                SmtpClient smtp = new SmtpClient();
-               // smtp.UseDefaultCredentials = false;
-                smtp.Host = "smtp.zoho.com";
-                smtp.Port = 587;
-                smtp.Credentials = new System.Net.NetworkCredential("informacjeturystyczne.projekt@zohomail.eu", "InfTur123");
-                smtp.EnableSsl = true;
-                message.IsBodyHtml = true;
-                smtp.Send(message);
-            }
-            
+                 message.Subject = "test";
+
+                 SmtpClient smtp = new SmtpClient();
+                // smtp.UseDefaultCredentials = false;
+                 smtp.Host = "smtp.poczta.onet.pl";
+                 smtp.Port = 465;
+                 smtp.Credentials = new System.Net.NetworkCredential("informacje.turystyczne1@onet.pl", "InfTur123");
+                 smtp.EnableSsl = true;
+                 message.IsBodyHtml = true;
+                 smtp.Send(message);
+             }
+             */
 
             return View();
         }
