@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using InformacjeTurystyczne.IdentityPolicy;
 using InformacjeTurystyczne.Models;
+using InformacjeTurystyczne.Models.Email;
 using InformacjeTurystyczne.Models.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -29,7 +30,10 @@ namespace InformacjeTurystyczne
 
         public void ConfigureServices(IServiceCollection services)
         {
-      
+            var emailConfig = Configuration.GetSection("EmailConfiguration").Get<EmailService>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
+
             services.Configure<CookieAuthenticationOptions>(options =>
             {
                 options.LoginPath = new PathString("/Account/Login");
@@ -76,10 +80,16 @@ namespace InformacjeTurystyczne
                 config.Password.RequireDigit = true;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireUppercase = false;
-                config.SignIn.RequireConfirmedEmail = false;
-            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+                config.SignIn.RequireConfirmedEmail = true; // email confirm!
+            }).AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            options.TokenLifespan = TimeSpan.FromHours(24));
 
             services.AddControllersWithViews();
+
             services.AddRazorPages();
         }
 

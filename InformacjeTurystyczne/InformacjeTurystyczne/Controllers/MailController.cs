@@ -9,7 +9,7 @@ using MailKit;
 using MimeKit;
 using MailKit.Security;
 
-
+// TO BEDZIE DO WYWALENIA (TYLKO DLA TESTOW)
 namespace InformacjeTurystyczne.Controllers
 {
     public class MailController : Controller

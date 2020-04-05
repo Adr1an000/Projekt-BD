@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using InformacjeTurystyczne.Models;
@@ -8,6 +6,9 @@ using InformacjeTurystyczne.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using InformacjeTurystyczne.Models.Email;
 
 namespace InformacjeTurystyczne.Controllers
 {
@@ -16,11 +17,18 @@ namespace InformacjeTurystyczne.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly ILogger<AccountController> _iLogger;
+        private readonly IEmailSender _emailSender;
+        
 
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public AccountController(SignInManager<AppUser> signInManager, 
+            UserManager<AppUser> userManager, ILogger<AccountController> iLogger,
+            IEmailSender emailSender)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _iLogger = iLogger;
+            _emailSender = emailSender;
         }
 
         // GET: /<controller>/
@@ -43,8 +51,12 @@ namespace InformacjeTurystyczne.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
+            loginVM.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+
             if (!ModelState.IsValid)
             {
+                
                 /*
                 var errors = ModelState.Select(x => x.Value.Errors)
                           .Where(y => y.Count > 0)
@@ -68,11 +80,18 @@ namespace InformacjeTurystyczne.Controllers
 
             if (user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
-
-                if (result.Succeeded)
+                if(user.EmailConfirmed)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var result = await _signInManager.PasswordSignInAsync(user, loginVM.Password, false, false);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Musisz potwierdzić adres email!");
                 }
             }
 
@@ -100,6 +119,14 @@ namespace InformacjeTurystyczne.Controllers
 
                 if (result.Succeeded)
                 {
+                    var confirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Action(nameof(ConfirmEmail), "Account", new
+                    { token = confirmationToken, email = user.Email }, Request.Scheme);
+
+                    var message = new Message(new string[] { user.Email }, "Informacje Turysyuczne - Weryfikacja konta", "Twój token weryfikacyjny: " + confirmationLink);
+
+                    await _emailSender.SendEmailAsync(message);
+
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -124,11 +151,35 @@ namespace InformacjeTurystyczne.Controllers
             return View(loginVM);
         }
 
+
+        
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                return View(nameof(ConfirmEmail));
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
-
+         
             return RedirectToAction("Index", "Home");
         }
 
@@ -175,14 +226,11 @@ namespace InformacjeTurystyczne.Controllers
                 return View("Login", loginVM);
             }
 
-
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
-            //  string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
 
             if (result.Succeeded)
             {
-                //return View(userInfo);
                 return LocalRedirect(returnUrl);
             }
             else
@@ -213,6 +261,12 @@ namespace InformacjeTurystyczne.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult SuccessRegistration()
+        {
+            return View();
+        }
 
+     
     }
 }
