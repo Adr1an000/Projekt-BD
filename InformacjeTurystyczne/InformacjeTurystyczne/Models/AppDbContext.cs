@@ -16,6 +16,7 @@ namespace InformacjeTurystyczne.Models
      */
     public class AppDbContext : IdentityDbContext<AppUser>
     {
+        
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             // ustalamy które typy będą określone w rzeczywistej bazie danych
