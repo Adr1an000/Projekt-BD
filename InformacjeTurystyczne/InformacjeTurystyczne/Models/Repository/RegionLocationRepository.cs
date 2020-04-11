@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
         
         public RegionLocation GetPermissionEntertainmentByID(int regionLocationID)
         {
-            return _appDbContext.RegionLocations.FirstOrDefault(s => s.Id == regionLocationID);
+            return _appDbContext.RegionLocations.FirstOrDefault(s => s.IdRegionLocation == regionLocationID);
         }
     }
 }

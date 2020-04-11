@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Tabels
 {
-    public class Message
+    public class Shelter
     {
         [Key]
-        public int IdMessage { get; set; } // K
+        public int IdShelter { get; set; }
 
         public string Name { get; set; }
+        public int MaxPlaces { get; set; }
+        public int Places { get; set; }
+        public bool IsOpen { get; set; }
+        public string PhoneNumber { get; set; }
         public string Description { get; set; }
-
-        public DateTime PostingDate1 { get; set; }
-
-        [ForeignKey("Category")]
-        public int? IdCategory { get; set; }
-        public Category Category { get; set; }
 
         [ForeignKey("Region")]
         public int? IdRegion { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,8 @@ namespace InformacjeTurystyczne.Models.Tabels
 {
     public class Trial
     {
-        public int Id { get; set; } // K
+        [Key]
+        public int IdTrial { get; set; } // K
 
         public string Colour { get; set; }
         public bool Open { get; set; }
@@ -15,5 +17,8 @@ namespace InformacjeTurystyczne.Models.Tabels
         public float Length { get; set; }
         public int Difficulty { get; set; }
         public string Description { get; set; }
+
+        public ICollection<RegionLocation> RegionLocation { get; set; }
+        public ICollection<PermissionTrial> PermissionTrial { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public Category GetCategoryByID(int categoryID)
         {
-            return _appDbContext.Categories.FirstOrDefault(s => s.Id == categoryID);
+            return _appDbContext.Categories.FirstOrDefault(s => s.IdCategory == categoryID);
         }
     }
 }

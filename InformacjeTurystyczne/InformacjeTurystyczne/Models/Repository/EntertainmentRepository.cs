@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public Entertainment GetEntertainmentByID(int entertainmentID)
         {
-            return _appDbContext.Entertainments.FirstOrDefault(s => s.Id == entertainmentID);
+            return _appDbContext.Entertainments.FirstOrDefault(s => s.IdEntertainment == entertainmentID);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,9 +9,13 @@ namespace InformacjeTurystyczne.Models.Tabels
 {
     public class PermissionEntertainment
     {
-        public int Id { get; set; } // K
+        [Key]
+        public int IdPermissionEntertainment { get; set; } // K
 
-        public int ID_Entertainment { get; set; } // FK
-        public int ID_User { get; set; } // FK
+        [ForeignKey("Entertainment")]
+        public int? IdEntertainment { get; set; }
+        public Entertainment Entertainment { get; set; }
+
+        // USER ???
     }
 }

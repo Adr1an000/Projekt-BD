@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public Trial GetTrialByID(int trialID)
         {
-            return _appDbContext.Trials.FirstOrDefault(s => s.Id == trialID);
+            return _appDbContext.Trials.FirstOrDefault(s => s.IdTrial == trialID);
         }
     }
 }

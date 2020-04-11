@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public Message GetMessageByID(int messageID)
         {
-            return _appDbContext.Messages.FirstOrDefault(s => s.Id == messageID);
+            return _appDbContext.Messages.FirstOrDefault(s => s.IdMessage == messageID);
         }
     }
 }
