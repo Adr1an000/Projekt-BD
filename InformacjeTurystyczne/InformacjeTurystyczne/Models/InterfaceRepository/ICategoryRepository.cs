@@ -10,5 +10,9 @@ namespace InformacjeTurystyczne.Models.Repository
     {
         IEnumerable<Category> GetAllCategory();
         Category GetCategoryByID(int categoryID);
+
+        void AddCategory(Category category);
+        void EditCategory(Category category);
+        void DeleteCategory(Category category);
     }
 }

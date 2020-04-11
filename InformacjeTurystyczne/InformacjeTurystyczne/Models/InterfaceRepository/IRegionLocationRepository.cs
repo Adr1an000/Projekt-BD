@@ -8,10 +8,11 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
     interface IRegionLocationRepository
     {
-        interface ITrialRepository
-        {
             IEnumerable<RegionLocation> GetAllRegionLocation();
             RegionLocation GetRegionLocationByID(int regionLocationlID);
-        }
+
+            void AddRegionLocation(RegionLocation regionLocation);
+            void EditRegionLocation(RegionLocation regionLocation);
+            void DeleteRegionLocation(RegionLocation regionLocation);
     }
 }

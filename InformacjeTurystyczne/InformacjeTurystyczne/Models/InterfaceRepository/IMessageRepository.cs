@@ -10,5 +10,9 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
     {
         IEnumerable<Message> GetAllMesage();
         Message GetMessageByID(int messageID);
+
+        void AddMessage(Message message);
+        void EditMessage(Message message);
+        void DeleteMessage(Message message);
     }
 }

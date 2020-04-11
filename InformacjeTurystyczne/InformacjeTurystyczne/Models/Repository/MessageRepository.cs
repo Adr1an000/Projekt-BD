@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using InformacjeTurystyczne.Models.InterfaceRepository;
+
 namespace InformacjeTurystyczne.Models.Repository
 {
-    public class MessageRepository
+    public class MessageRepository : IMessageRepository
     {
         private readonly AppDbContext _appDbContext;
 
@@ -15,7 +17,7 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Message> GetAllMessage()
+        public IEnumerable<Message> GetAllMesage()
         {
             return _appDbContext.Messages;
         }
@@ -23,6 +25,24 @@ namespace InformacjeTurystyczne.Models.Repository
         public Message GetMessageByID(int messageID)
         {
             return _appDbContext.Messages.FirstOrDefault(s => s.IdMessage == messageID);
+        }
+
+        public void AddMessage(Message message)
+        {
+            _appDbContext.Messages.Add(message);
+            _appDbContext.SaveChanges();
+        }
+
+        public void DeleteMessage(Message message)
+        {
+            _appDbContext.Messages.Remove(message);
+            _appDbContext.SaveChanges();
+        }
+
+        public void EditMessage(Message message)
+        {
+            _appDbContext.Messages.Update(message);
+            _appDbContext.SaveChanges();
         }
     }
 }

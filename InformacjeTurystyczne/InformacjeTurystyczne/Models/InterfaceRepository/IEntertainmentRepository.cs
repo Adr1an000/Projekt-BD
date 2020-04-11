@@ -10,5 +10,9 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
     {
         IEnumerable<Entertainment> GetAllEntertainment();
         Entertainment GetEntertainmentByID(int entertainmentID);
+
+        void AddEntertainment(Entertainment entertainment);
+        void EditEntertainment(Entertainment entertainment);
+        void DeleteEntertainment(Entertainment entertainment);
     }
 }

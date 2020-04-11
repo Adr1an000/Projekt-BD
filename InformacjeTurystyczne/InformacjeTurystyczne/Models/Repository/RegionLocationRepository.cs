@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using InformacjeTurystyczne.Models.InterfaceRepository;
+
 namespace InformacjeTurystyczne.Models.Repository
 {
-    public class RegionLocationRepository
+    public class RegionLocationRepository : IRegionLocationRepository
     {
         private readonly AppDbContext _appDbContext;
 
@@ -15,14 +17,33 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<RegionLocation> GetAllPermissionEntertainment()
+        public IEnumerable<RegionLocation> GetAllRegionLocation()
         {
             return _appDbContext.RegionLocations;
         }
-        
-        public RegionLocation GetPermissionEntertainmentByID(int regionLocationID)
+
+        public RegionLocation GetRegionLocationByID(int regionLocationlID)
         {
-            return _appDbContext.RegionLocations.FirstOrDefault(s => s.IdRegionLocation == regionLocationID);
+            return _appDbContext.RegionLocations.FirstOrDefault(s => s.IdRegion == regionLocationlID);
         }
+
+        public void AddRegionLocation(RegionLocation regionLocation)
+        {
+            _appDbContext.RegionLocations.Add(regionLocation);
+            _appDbContext.SaveChanges();
+        }
+
+        public void DeleteRegionLocation(RegionLocation regionLocation)
+        {
+            _appDbContext.RegionLocations.Remove(regionLocation);
+            _appDbContext.SaveChanges();
+        }
+
+        public void EditRegionLocation(RegionLocation regionLocation)
+        {
+            _appDbContext.RegionLocations.Update(regionLocation);
+            _appDbContext.SaveChanges();
+        }
+
     }
 }

@@ -9,6 +9,10 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
     interface ITrialRepository
     {
         IEnumerable<Trial> GetAllTrial();
-        Trial GetMessageByID(int trialID);
+        Trial GetTrialByID(int trialID);
+
+        void AddTrial(Trial trial);
+        void EditTrial(Trial trial);
+        void DeleteTrial(Trial trial);
     }
 }
