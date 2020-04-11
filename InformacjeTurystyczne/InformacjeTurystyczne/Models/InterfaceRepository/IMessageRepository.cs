@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IMessageRepository
+    public interface IMessageRepository
     {
         IEnumerable<Message> GetAllMesage();
         Message GetMessageByID(int messageID);

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface ISubscriptionRepository
+    public interface ISubscriptionRepository
     {
         IEnumerable<Subscription> GetAllSubscription();
-        Subscription GetMessageByID(int ubscriptionID);
+        Subscription GetSubscriptionByID(int ubscriptionID);
 
         void AddSubscription(Subscription subscription);
         void EditSubscription(Subscription subscription);

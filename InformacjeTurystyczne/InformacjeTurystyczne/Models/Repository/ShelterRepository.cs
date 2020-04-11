@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
             return _appDbContext.Shelters;
         }
 
-        public Shelter GetMessageByID(int shelterID)
+        public Shelter GetShelterByID(int shelterID)
         {
             return _appDbContext.Shelters.FirstOrDefault(s => s.IdRegion == shelterID);
         }

@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
             return _appDbContext.PermissionTrials;
         }
 
-        public PermissionTrial GetRegionLocationByID(int permissionTrialID)
+        public PermissionTrial GetPermissionTrialByID(int permissionTrialID)
         {
             return _appDbContext.PermissionTrials.FirstOrDefault(s => s.IdPermissionTrial == permissionTrialID);
         }

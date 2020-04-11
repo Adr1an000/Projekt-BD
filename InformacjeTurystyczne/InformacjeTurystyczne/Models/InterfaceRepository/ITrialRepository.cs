@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface ITrialRepository
+    public interface ITrialRepository
     {
         IEnumerable<Trial> GetAllTrial();
         Trial GetTrialByID(int trialID);

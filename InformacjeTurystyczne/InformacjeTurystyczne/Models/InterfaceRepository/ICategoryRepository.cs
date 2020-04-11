@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
-    interface ICategoryRepository
+    public interface ICategoryRepository
     {
         IEnumerable<Category> GetAllCategory();
         Category GetCategoryByID(int categoryID);

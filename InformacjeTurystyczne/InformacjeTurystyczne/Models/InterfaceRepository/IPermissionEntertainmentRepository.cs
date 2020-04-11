@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IPermissionEntertainmentRepository
+    public interface IPermissionEntertainmentRepository
     {
         IEnumerable<PermissionEntertainment> GetAllPermissionEntertainment();
         PermissionEntertainment GetPermissionEntertainmentByID(int permissionEntertainmentID);

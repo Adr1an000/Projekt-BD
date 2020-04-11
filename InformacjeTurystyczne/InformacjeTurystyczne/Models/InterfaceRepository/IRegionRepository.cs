@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IRegionRepository
+    public interface IRegionRepository
     {
         IEnumerable<Region> GetAllRegion();
-        Region GetMessageByID(int regionID);
+        Region GetRegionByID(int regionID);
 
         void AddRegion(Region region);
         void EditRegion(Region region);

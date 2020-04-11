@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IPermissionTrialRepository
+    public interface IPermissionTrialRepository
     {
         IEnumerable<PermissionTrial> GetAllPermissionTrial();
-        PermissionTrial GetRegionLocationByID(int permissionTrialID);
+        PermissionTrial GetPermissionTrialByID(int permissionTrialID);
 
         void AddPermissionTrial(PermissionTrial permissionTrial);
         void EditPermissionTrial(PermissionTrial permissionTrial);

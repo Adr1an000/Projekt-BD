@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IShelterRepository
+    public interface IShelterRepository
     {
         IEnumerable<Shelter> GetAllShelter();
-        Shelter GetMessageByID(int shelterID);
+        Shelter GetShelterByID(int shelterID);
 
         void AddShelter(Shelter shelter);
         void EditShelter(Shelter shelter);

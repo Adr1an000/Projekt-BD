@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
             return _appDbContext.Regions;
         }
 
-        public Region GetMessageByID(int regionID)
+        public Region GetRegionByID(int regionID)
         {
             return _appDbContext.Regions.FirstOrDefault(s => s.IdRegion == regionID);
         }

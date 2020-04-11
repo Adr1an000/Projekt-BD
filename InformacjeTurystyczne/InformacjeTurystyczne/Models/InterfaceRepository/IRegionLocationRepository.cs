@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IRegionLocationRepository
+    public interface IRegionLocationRepository
     {
             IEnumerable<RegionLocation> GetAllRegionLocation();
             RegionLocation GetRegionLocationByID(int regionLocationlID);

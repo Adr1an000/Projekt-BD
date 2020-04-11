@@ -17,12 +17,12 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<PermissionShelter> GetAllRegionLocation()
+        public IEnumerable<PermissionShelter> GetAllPermissionShelter()
         {
             return _appDbContext.PermissionShelters;
         }
 
-        public PermissionShelter GetRegionLocationByID(int permissionShelterID)
+        public PermissionShelter GetPermissionShelterByID(int permissionShelterID)
         {
             return _appDbContext.PermissionShelters.FirstOrDefault(s => s.IdPermissionShelter == permissionShelterID);
         }

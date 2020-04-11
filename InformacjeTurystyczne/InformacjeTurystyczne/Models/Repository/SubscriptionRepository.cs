@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
             return _appDbContext.Subscriptions;
         }
 
-        public Subscription GetMessageByID(int subscriptionID)
+        public Subscription GetSubscriptionByID(int subscriptionID)
         {
             return _appDbContext.Subscriptions.FirstOrDefault(s => s.IdSubscription == subscriptionID);
         }

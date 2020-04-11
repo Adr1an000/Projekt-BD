@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IPermissionRegionRepository
+    public interface IPermissionRegionRepository
     {
         IEnumerable<PermissionRegion> GetAllPermissionRegion();
-        PermissionRegion GetMessageByID(int permissionRegionID);
+        PermissionRegion GetPermissionRegionByID(int permissionRegionID);
 
         void AddPermissionRegion(PermissionRegion permissionRegion);
         void EditPermissionRegion(PermissionRegion permissionRegion);

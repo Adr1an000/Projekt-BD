@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IPermissionShelterRepository
+    public interface IPermissionShelterRepository
     {
-        IEnumerable<PermissionShelter> GetAllRegionLocation();
-        PermissionShelter GetRegionLocationByID(int permissionShelterID);
+        IEnumerable<PermissionShelter> GetAllPermissionShelter();
+        PermissionShelter GetPermissionShelterByID(int permissionShelterID);
 
         void AddPermissionShelter(PermissionShelter permissionShelter);
         void EditPermissionShelter(PermissionShelter permissionShelter);
