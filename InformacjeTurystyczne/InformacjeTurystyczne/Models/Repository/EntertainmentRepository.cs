@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using InformacjeTurystyczne.Models.InterfaceRepository;
+
 namespace InformacjeTurystyczne.Models.Repository
 {
-    public class EntertainmentRepository
+    public class EntertainmentRepository : IEntertainmentRepository
     {
         private readonly AppDbContext _appDbContext;
 
@@ -22,7 +24,27 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public Entertainment GetEntertainmentByID(int entertainmentID)
         {
-            return _appDbContext.Entertainments.FirstOrDefault(s => s.Id == entertainmentID);
+            return _appDbContext.Entertainments.FirstOrDefault(s => s.IdEntertainment == entertainmentID);
         }
+
+        public void AddEntertainment(Entertainment entertainment)
+        {
+            _appDbContext.Entertainments.Add(entertainment);
+            _appDbContext.SaveChanges();
+        }
+
+        public void DeleteEntertainment(Entertainment entertainment)
+        {
+            _appDbContext.Entertainments.Remove(entertainment);
+            _appDbContext.SaveChanges();
+        }
+
+        public void EditEntertainment(Entertainment entertainment)
+        {
+            _appDbContext.Entertainments.Update(entertainment);
+            _appDbContext.SaveChanges();
+        }
+
+
     }
 }

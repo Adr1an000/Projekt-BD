@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IRegionLocationRepository
+    public interface IRegionLocationRepository
     {
-        interface ITrialRepository
-        {
             IEnumerable<RegionLocation> GetAllRegionLocation();
             RegionLocation GetRegionLocationByID(int regionLocationlID);
-        }
+
+            void AddRegionLocation(RegionLocation regionLocation);
+            void EditRegionLocation(RegionLocation regionLocation);
+            void DeleteRegionLocation(RegionLocation regionLocation);
     }
 }

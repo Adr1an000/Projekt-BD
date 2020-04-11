@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Tabels
 {
-    public class Category
+    public class PermissionShelter
     {
         [Key]
-        public int IdCategory { get; set; } // K
+        public int IdPermissionShelter { get; set; }
 
-        public string Name { get; set; }
+        [ForeignKey("Shelter")]
+        public int? IdShelter { get; set; }
+        public Shelter Shelter { get; set; }
 
-        public ICollection<Message> Message;
+        // USER ???
     }
 }

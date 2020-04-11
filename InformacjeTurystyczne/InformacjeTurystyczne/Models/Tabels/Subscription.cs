@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Tabels
 {
-    public class Category
+    public class Subscription
     {
         [Key]
-        public int IdCategory { get; set; } // K
+        public int IdSubscription { get; set; }
 
-        public string Name { get; set; }
+        public bool IsSubscribed { get; set; }
 
-        public ICollection<Message> Message;
+        [ForeignKey("Region")]
+        public int? IdRegion { get; set; }
+        public Region Region { get; set; }
+
+        // USER ???
     }
 }

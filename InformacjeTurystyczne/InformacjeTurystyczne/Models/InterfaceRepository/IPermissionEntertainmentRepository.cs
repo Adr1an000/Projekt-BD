@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
-    interface IPermissionEntertainmentRepository
+    public interface IPermissionEntertainmentRepository
     {
         IEnumerable<PermissionEntertainment> GetAllPermissionEntertainment();
-        PermissionEntertainment GetMessageByID(int permissionEntertainmentID);
+        PermissionEntertainment GetPermissionEntertainmentByID(int permissionEntertainmentID);
+
+        void AddPermissionEntertainment(PermissionEntertainment permissionEntertainment);
+        void EditPermissionEntertainment(PermissionEntertainment permissionEntertainment);
+        void DeletePermissionEntertainment(PermissionEntertainment permissionEntertainment);
     }
 }
