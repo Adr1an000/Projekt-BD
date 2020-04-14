@@ -17,5 +17,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         public Region Region { get; set; }
 
         // USER ???
+        public string IdUser { get; set; }
+        public AppUser User { get; set; }
     }
 }

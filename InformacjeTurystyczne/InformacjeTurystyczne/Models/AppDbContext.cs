@@ -51,6 +51,85 @@ namespace InformacjeTurystyczne.Models
                 .HasMany<Message>(bc => bc.Messages)
                 .WithOne(c=>c.Category)
                 .HasForeignKey(s => s.IdCategory);
+
+            modelBuilder.Entity<Message>()
+                .HasOne<Region>(bc => bc.Region)
+                .WithMany(c => c.Message)
+                .HasForeignKey(s => s.IdRegion);
+
+            modelBuilder.Entity<Message>()
+                .HasOne<Category>(bc => bc.Category)
+                .WithMany(c => c.Messages)
+                .HasForeignKey(s => s.IdCategory);
+
+            modelBuilder.Entity<PermissionEntertainment>()
+                .HasOne<Entertainment>(bc => bc.Entertainment)
+                .WithMany(c => c.PermissionEntertainment)
+                .HasForeignKey(s => s.IdEntertainment);
+
+            modelBuilder.Entity<PermissionEntertainment>()
+                .HasOne<AppUser>(bc => bc.User)
+                .WithMany(c => c.PermissionEntertainments)
+                .HasForeignKey(s => s.IdUser);
+
+            modelBuilder.Entity<PermissionRegion>()
+                .HasOne<Region>(bc => bc.Region)
+                .WithMany(c => c.PermissionRegion)
+                .HasForeignKey(c => c.IdRegion);
+
+            modelBuilder.Entity<PermissionRegion>()
+                .HasOne<AppUser>(bc => bc.User)
+                .WithMany(c => c.PermissionRegions)
+                .HasForeignKey(s => s.IdUser);
+
+            modelBuilder.Entity<PermissionShelter>()
+                .HasOne<Shelter>(bc => bc.Shelter)
+                .WithMany(c => c.PermissionShelters)
+                .HasForeignKey(s => s.IdShelter);
+
+            modelBuilder.Entity<PermissionShelter>()
+                .HasOne<AppUser>(bc => bc.User)
+                .WithMany(c => c.PermissionShelters)
+                .HasForeignKey(s => s.IdUser);
+
+            modelBuilder.Entity<PermissionTrial>()
+                .HasOne<Trial>(bc => bc.Trial)
+                .WithMany(c => c.PermissionTrial)
+                .HasForeignKey(s => s.IdTrial);
+
+            modelBuilder.Entity<PermissionTrial>()
+                .HasOne<AppUser>(bc => bc.User)
+                .WithMany(c => c.PermissionTrials)
+                .HasForeignKey(s => s.IdUser);
+
+            //REGION??? chyba pozostałe funkcje WithMany() to załatwią (?)
+
+            modelBuilder.Entity<RegionLocation>()
+                .HasOne<Trial>(bc => bc.Trial)
+                .WithMany(c => c.RegionLocation)
+                .HasForeignKey(s => s.IdTrial);
+
+            modelBuilder.Entity<RegionLocation>()
+                .HasOne<Region>(bc => bc.Region)
+                .WithMany(c => c.RegionLocation)
+                .HasForeignKey(s => s.IdRegion);
+
+            modelBuilder.Entity<Shelter>()
+                .HasOne<Region>(bc => bc.Region)
+                .WithMany(c => c.Shelter)
+                .HasForeignKey(s => s.IdRegion);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne<Region>(bc => bc.Region)
+                .WithMany(c => c.Subscription)
+                .HasForeignKey(s => s.IdRegion);
+
+            modelBuilder.Entity<Subscription>()
+                .HasOne<AppUser>(bc => bc.User)
+                .WithMany(c => c.Subscriptions)
+                .HasForeignKey(s => s.IdUser);
+
+            // TRIAL ??? chyba też załatwiony przez funkcje WithMany w pozostałych wywołaniach
         }
     }
 }
