@@ -15,13 +15,14 @@ namespace InformacjeTurystyczne.Models.Tabels
         public string Name { get; set; }
         public string Description { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PostingDate1 { get; set; }
 
-        [ForeignKey("Category")]
+        //[ForeignKey("Category")]
         public int? IdCategory { get; set; }
         public Category Category { get; set; }
 
-        [ForeignKey("Region")]
+        //[ForeignKey("Region")]
         public int? IdRegion { get; set; }
         public Region Region { get; set; }
     }

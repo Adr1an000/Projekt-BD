@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Microsoft.EntityFrameworkCore;
 using InformacjeTurystyczne.Models.InterfaceRepository;
 using InformacjeTurystyczne.Models.Tabels;
 
@@ -17,32 +18,52 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Region> GetAllRegion()
+        public async Task<IEnumerable<Region>> GetAllRegion()
         {
-            return _appDbContext.Regions;
+            return await _appDbContext.Regions.Include(i => i.Entertainment).AsNoTracking().ToListAsync();
         }
 
-        public Region GetRegionByID(int regionID)
+        public async Task<Region> GetRegionByID(int? regionID)
         {
-            return _appDbContext.Regions.FirstOrDefault(s => s.IdRegion == regionID);
+            return await _appDbContext.Regions.Include(i => i.Entertainment).AsNoTracking().FirstOrDefaultAsync(s => s.IdRegion == regionID);
         }
 
-        public void AddRegion(Region region)
+        public async Task<Region> GetRegionByIDWithoutInclude(int? regionID)
+        {
+            return await _appDbContext.Regions.AsNoTracking().FirstOrDefaultAsync(c => c.IdRegion == regionID);
+        }
+
+        public async Task<Region> GetRegionByIDWithoutIncludeAndAsNoTracking(int? regionID)
+        {
+            return await _appDbContext.Regions.FirstOrDefaultAsync(c => c.IdRegion == regionID);
+        }
+
+        public async Task AddRegionAsync(Region region)
         {
             _appDbContext.Regions.Add(region);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteRegion(Region region)
+        public async Task DeleteRegionAsync(Region region)
         {
             _appDbContext.Regions.Remove(region);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void EditRegion(Region region)
         {
             _appDbContext.Regions.Update(region);
             _appDbContext.SaveChanges();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Region> GetAllRegionAsNoTracking()
+        {
+            return _appDbContext.Regions.AsNoTracking();
         }
 
     }

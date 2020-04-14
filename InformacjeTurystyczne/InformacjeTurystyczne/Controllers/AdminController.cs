@@ -47,7 +47,7 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUser(string id, string email, string password)
+        public async Task<IActionResult> UpdateUser(string id, string email, string password, bool emailConfirmed)
         {
             var user = await _userManager.FindByIdAsync(id);
 
@@ -73,6 +73,7 @@ namespace InformacjeTurystyczne.Controllers
 
                 if(!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
                 {
+                    user.EmailConfirmed = emailConfirmed;
                     var result = await _userManager.UpdateAsync(user);
 
                     if(result.Succeeded)

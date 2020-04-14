@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - InformacjeTurystyczne</title>
+    <title>@ViewData["Title"] - Informacje Turystyczne</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -16,7 +16,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">InformacjeTurystyczne</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -24,12 +24,17 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Strona główna</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TouristInformation" asp-action="Index">Informacje turystyczne</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Autorzy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Notifications" asp-action="Index">Powiadomienia</a>
                         </li>
-
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Użytkownicy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Mail" asp-action="Index">Wiadomości</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Panel admina</a>
                         </li>
@@ -39,14 +44,14 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Map" asp-action="Index">Mapy google</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Map" asp-action="Index">Mapy google - testy</a>
                         </li>
 
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
                                   method="post" class="navbar-right">
-                                <li class="nav-item">
+                                <li class="nav-link nav-item text-dark">
                                     <a href="javascript:document.getElementById('logoutForm').submit()">Wyloguj</a>
                                 </li>
                             </form>

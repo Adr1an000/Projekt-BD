@@ -14,7 +14,7 @@ namespace InformacjeTurystyczne.Models.Tabels
 
         public bool IsSubscribed { get; set; }
 
-        [ForeignKey("Region")]
+      //  [ForeignKey("Region")]
         public int? IdRegion { get; set; }
         public Region Region { get; set; }
 

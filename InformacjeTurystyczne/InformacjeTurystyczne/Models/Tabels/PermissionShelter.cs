@@ -12,7 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdPermissionShelter { get; set; }
 
-        [ForeignKey("Shelter")]
+        //[ForeignKey("Shelter")]
         public int? IdShelter { get; set; }
         public Shelter Shelter { get; set; }
 

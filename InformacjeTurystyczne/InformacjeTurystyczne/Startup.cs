@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InformacjeTurystyczne.IdentityPolicy;
 using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.Email;
+using InformacjeTurystyczne.Models.InterfaceRepository;
 using InformacjeTurystyczne.Models.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -71,6 +72,8 @@ namespace InformacjeTurystyczne
 
 
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IEntertainmentRepository, EntertainmentRepository>();
+            services.AddTransient<IRegionRepository, RegionRepository>();
 
             services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordPolicy>();
 

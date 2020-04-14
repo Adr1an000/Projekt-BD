@@ -14,6 +14,6 @@ namespace InformacjeTurystyczne.Models.Tabels
 
         public string Name { get; set; }
 
-        public ICollection<Message> Message;
+        public ICollection<Message> Messages { get; set; }
     }
 }

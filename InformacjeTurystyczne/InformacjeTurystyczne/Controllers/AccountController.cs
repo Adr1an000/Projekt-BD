@@ -127,7 +127,7 @@ namespace InformacjeTurystyczne.Controllers
 
                     await _emailSender.SendEmailAsync(message);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("SuccessRegistration", "Account");
                 }
             }
             else
@@ -150,9 +150,6 @@ namespace InformacjeTurystyczne.Controllers
 
             return View(loginVM);
         }
-
-
-        
 
         [HttpGet]
         [AllowAnonymous]
@@ -262,11 +259,10 @@ namespace InformacjeTurystyczne.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult SuccessRegistration()
         {
             return View();
         }
-
-     
     }
 }

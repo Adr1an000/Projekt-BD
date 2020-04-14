@@ -19,7 +19,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         public string PhoneNumber { get; set; }
         public string Description { get; set; }
 
-        [ForeignKey("Region")]
+       // [ForeignKey("Region")]
         public int? IdRegion { get; set; }
         public Region Region { get; set; }
     }

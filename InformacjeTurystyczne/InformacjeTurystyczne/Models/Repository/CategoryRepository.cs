@@ -3,38 +3,49 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly AppDbContext _appDbContext;
+        public readonly AppDbContext _appDbContext;
 
         public CategoryRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Category> GetAllCategory()
+        public async Task<IEnumerable<Category>> GetAllCategory()
         {
-            return _appDbContext.Categories;
+            return await _appDbContext.Categories.AsNoTracking().ToListAsync();
         }
 
-        public Category GetCategoryByID(int categoryID)
+        public async Task<Category> GetCategoryByID(int? categoryID)
         {
-            return _appDbContext.Categories.FirstOrDefault(s => s.IdCategory == categoryID);
+            return await _appDbContext.Categories.AsNoTracking().FirstOrDefaultAsync(s => s.IdCategory == categoryID);
         }
 
-        public void AddCategory(Category category)
+        public async Task<Category> GetCategoryByIDWithoutInclude(int? categoryID)
+        {
+            return await _appDbContext.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.IdCategory == categoryID);
+        }
+
+        public async Task<Category> GetCategoryByIDWithoutIncludeAndAsNoTracking(int? categoryID)
+        {
+            return await _appDbContext.Categories.FirstOrDefaultAsync(c => c.IdCategory == categoryID);
+        }
+
+        public async Task AddCategoryAsync(Category category)
         {
             _appDbContext.Categories.Add(category);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteCategory(Category category)
+        public async Task DeleteCategoryAsync(Category category)
         {
             _appDbContext.Categories.Remove(category);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void EditCategory(Category category)
@@ -43,5 +54,14 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext.SaveChanges();
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Category> GetAllCategoryAsNoTracking()
+        {
+            return _appDbContext.Categories.AsNoTracking();
+        }
     }
 }

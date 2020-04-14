@@ -12,7 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdPermissionTrial { get; set; }
 
-        [ForeignKey("Trial")]
+        //[ForeignKey("Trial")]
         public int? IdTrial { get; set; }
         public Trial Trial { get; set; }
 
