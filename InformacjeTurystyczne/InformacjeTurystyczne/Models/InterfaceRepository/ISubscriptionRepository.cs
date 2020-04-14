@@ -8,11 +8,18 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
     public interface ISubscriptionRepository
     {
-        IEnumerable<Subscription> GetAllSubscription();
-        Subscription GetSubscriptionByID(int ubscriptionID);
+        Task<IEnumerable<Subscription>> GetAllSubscription();
+        Task<Subscription> GetSubscriptionByID(int? subscriptionID);
+        Task<Subscription> GetSubscriptionByIDWithoutInclude(int? subscriptionID);
+        Task<Subscription> GetSubscriptionByIDWithoutIncludeAndAsNoTracking(int? subscriptionID);
 
-        void AddSubscription(Subscription subscription);
+        Task AddSubscriptionAsync(Subscription subscription);
         void EditSubscription(Subscription subscription);
-        void DeleteSubscription(Subscription subscription);
+        Task DeleteSubscriptionAsync(Subscription subscription);
+
+        Task SaveChangesAsync();
+        IEnumerable<Subscription> GetAllSubscriptionAsNoTracking();
+        IEnumerable<Region> GetAllRegionAsNoTracking();
+        IEnumerable<AppUser> GetAllAppUserAsNoTracking();
     }
 }

@@ -22,5 +22,7 @@ namespace InformacjeTurystyczne.Models.Tabels
        // [ForeignKey("Region")]
         public int? IdRegion { get; set; }
         public Region Region { get; set; }
+
+        public ICollection<PermissionShelter> PermissionShelters { get; set; }
     }
 }

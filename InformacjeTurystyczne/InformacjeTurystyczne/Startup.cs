@@ -74,6 +74,8 @@ namespace InformacjeTurystyczne
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IEntertainmentRepository, EntertainmentRepository>();
             services.AddTransient<IRegionRepository, RegionRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
 
             services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordPolicy>();
 

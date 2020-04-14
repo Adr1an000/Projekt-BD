@@ -19,5 +19,6 @@ namespace InformacjeTurystyczne.Models.Tabels
         public ICollection<RegionLocation> RegionLocation { get; set; }
         public ICollection<Shelter> Shelter { get; set; }
         public ICollection<PermissionRegion> PermissionRegion {get; set;}
+        public ICollection<Subscription> Subscription { get; set; }
     }
 }

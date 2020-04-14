@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InformacjeTurystyczne.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200413195836_test")]
-    partial class test
+    [Migration("20200414185050_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,14 +152,11 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<DateTime>("PostingDate1")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RegionIdRegion")
-                        .HasColumnType("int");
-
                     b.HasKey("IdMessage");
 
                     b.HasIndex("IdCategory");
 
-                    b.HasIndex("RegionIdRegion");
+                    b.HasIndex("IdRegion");
 
                     b.ToTable("Message");
                 });
@@ -332,18 +329,15 @@ namespace InformacjeTurystyczne.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("IdRegion")
+                    b.Property<int>("IdRegion")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsSubscribed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("RegionIdRegion")
-                        .HasColumnType("int");
-
                     b.HasKey("IdSubscription");
 
-                    b.HasIndex("RegionIdRegion");
+                    b.HasIndex("IdRegion");
 
                     b.ToTable("Subscription");
                 });
@@ -526,7 +520,7 @@ namespace InformacjeTurystyczne.Migrations
 
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("Message")
-                        .HasForeignKey("RegionIdRegion");
+                        .HasForeignKey("IdRegion");
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionEntertainment", b =>
@@ -578,8 +572,10 @@ namespace InformacjeTurystyczne.Migrations
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Subscription", b =>
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionIdRegion");
+                        .WithMany("Subscription")
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
