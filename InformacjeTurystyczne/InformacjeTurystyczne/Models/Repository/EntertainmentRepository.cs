@@ -3,40 +3,50 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 using InformacjeTurystyczne.Models.InterfaceRepository;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
     public class EntertainmentRepository : IEntertainmentRepository
     {
-        private readonly AppDbContext _appDbContext;
+        public readonly AppDbContext _appDbContext;
 
         public EntertainmentRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Entertainment> GetAllEntertainment()
+        public async Task<IEnumerable<Entertainment>> GetAllEntertainment()
         {
-            return _appDbContext.Entertainments;
+            return await _appDbContext.Entertainments.Include(c => c.Region).AsNoTracking().ToListAsync();
         }
 
-        public Entertainment GetEntertainmentByID(int entertainmentID)
+        public async Task<Entertainment> GetEntertainmentByID(int? entertainmentID)
         {
-            return _appDbContext.Entertainments.FirstOrDefault(s => s.IdEntertainment == entertainmentID);
+            return await _appDbContext.Entertainments.Include(c => c.Region).AsNoTracking().FirstOrDefaultAsync(s => s.IdEntertainment == entertainmentID);
         }
 
-        public void AddEntertainment(Entertainment entertainment)
+        public async Task<Entertainment> GetEntertainmentByIDWithoutInclude(int? entertainmentID)
+        {
+            return await _appDbContext.Entertainments.AsNoTracking().FirstOrDefaultAsync(c => c.IdEntertainment == entertainmentID);
+        }
+
+        public async Task<Entertainment> GetEntertainmentByIDWithoutIncludeAndAsNoTracking(int? entertainmentID)
+        {
+            return await _appDbContext.Entertainments.FirstOrDefaultAsync(c => c.IdEntertainment == entertainmentID);
+        }
+
+        public async Task AddEntertainmentAsync(Entertainment entertainment)
         {
             _appDbContext.Entertainments.Add(entertainment);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteEntertainment(Entertainment entertainment)
+        public async Task DeleteEntertainmentAsync(Entertainment entertainment)
         {
             _appDbContext.Entertainments.Remove(entertainment);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void EditEntertainment(Entertainment entertainment)
@@ -45,6 +55,19 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext.SaveChanges();
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
 
+        public IEnumerable<Entertainment> GetAllEntertainmentAsNoTracking()
+        {
+            return _appDbContext.Entertainments.AsNoTracking();
+        }
+
+        public IEnumerable<Region> GetAllRegionAsNoTracking()
+        {
+            return _appDbContext.Regions.AsNoTracking();
+        }
     }
 }

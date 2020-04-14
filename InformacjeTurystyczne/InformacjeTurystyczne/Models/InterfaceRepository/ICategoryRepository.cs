@@ -8,11 +8,16 @@ namespace InformacjeTurystyczne.Models.Repository
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> GetAllCategory();
-        Category GetCategoryByID(int categoryID);
+        Task<IEnumerable<Category>> GetAllCategory();
+        Task<Category> GetCategoryByID(int? categoryID);
+        Task<Category> GetCategoryByIDWithoutInclude(int? categoryID);
+        Task<Category> GetCategoryByIDWithoutIncludeAndAsNoTracking(int? categoryID);
 
-        void AddCategory(Category category);
+        Task AddCategoryAsync(Category category);
         void EditCategory(Category category);
-        void DeleteCategory(Category category);
+        Task DeleteCategoryAsync(Category category);
+
+        Task SaveChangesAsync();
+        IEnumerable<Category> GetAllCategoryAsNoTracking();
     }
 }

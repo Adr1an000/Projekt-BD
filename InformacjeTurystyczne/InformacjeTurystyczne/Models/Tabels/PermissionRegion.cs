@@ -12,7 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdPermissionRegion { get; set; }
 
-        [ForeignKey("Region")]
+        //[ForeignKey("Region")]
         public int? IdRegion { get; set; }
         public Region Region { get; set; }
 

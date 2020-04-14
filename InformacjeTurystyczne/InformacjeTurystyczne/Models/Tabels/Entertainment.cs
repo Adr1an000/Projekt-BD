@@ -17,8 +17,10 @@ namespace InformacjeTurystyczne.Models.Tabels
         public string Description { get; set; }
         public bool UpToDate { get; set; }
 
-        [ForeignKey("Region")]
-        public int? IdRegion { get; set; }
+        //[ForeignKey("Region")]
+        public int IdRegion { get; set; }
+
+        [Display(Name = "Region")]
         public Region Region { get; set; }
 
         public ICollection<PermissionEntertainment> PermissionEntertainment { get; set; }

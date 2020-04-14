@@ -12,7 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdPermissionEntertainment { get; set; } // K
 
-        [ForeignKey("Entertainment")]
+        //[ForeignKey("Entertainment")]
         public int? IdEntertainment { get; set; }
         public Entertainment Entertainment { get; set; }
 

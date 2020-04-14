@@ -12,11 +12,11 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdRegionLocation { get; set; } // K
 
-        [ForeignKey("Trial")]
+       // [ForeignKey("Trial")]
         public int? IdTrial { get; set; }
         public Trial Trial { get; set; }
 
-        [ForeignKey("Region")]
+      //  [ForeignKey("Region")]
         public int? IdRegion { get; set; }
         public Region Region { get; set; }
     }

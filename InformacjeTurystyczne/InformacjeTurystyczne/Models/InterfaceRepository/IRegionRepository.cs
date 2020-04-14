@@ -8,11 +8,16 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
     public interface IRegionRepository
     {
-        IEnumerable<Region> GetAllRegion();
-        Region GetRegionByID(int regionID);
+        Task<IEnumerable<Region>> GetAllRegion();
+        Task<Region> GetRegionByID(int? regionID);
+        Task<Region> GetRegionByIDWithoutInclude(int? regionID);
+        Task<Region> GetRegionByIDWithoutIncludeAndAsNoTracking(int? regionID);
 
-        void AddRegion(Region region);
+        Task AddRegionAsync(Region region);
         void EditRegion(Region region);
-        void DeleteRegion(Region region);
+        Task DeleteRegionAsync(Region region);
+
+        Task SaveChangesAsync();
+        IEnumerable<Region> GetAllRegionAsNoTracking();
     }
 }

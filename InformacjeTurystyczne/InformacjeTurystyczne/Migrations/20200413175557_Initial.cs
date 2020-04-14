@@ -47,7 +47,7 @@ namespace InformacjeTurystyczne.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Category",
                 columns: table => new
                 {
                     IdCategory = table.Column<int>(nullable: false)
@@ -56,7 +56,7 @@ namespace InformacjeTurystyczne.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.IdCategory);
+                    table.PrimaryKey("PK_Category", x => x.IdCategory);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +73,7 @@ namespace InformacjeTurystyczne.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trials",
+                name: "Trial",
                 columns: table => new
                 {
                     IdTrial = table.Column<int>(nullable: false)
@@ -87,7 +87,7 @@ namespace InformacjeTurystyczne.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trials", x => x.IdTrial);
+                    table.PrimaryKey("PK_Trial", x => x.IdTrial);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,7 +197,7 @@ namespace InformacjeTurystyczne.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Entertainments",
+                name: "Entertainment",
                 columns: table => new
                 {
                     IdEntertainment = table.Column<int>(nullable: false)
@@ -206,21 +206,21 @@ namespace InformacjeTurystyczne.Migrations
                     PlaceDescription = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     UpToDate = table.Column<bool>(nullable: false),
-                    IdRegion = table.Column<int>(nullable: true)
+                    IdRegion = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Entertainments", x => x.IdEntertainment);
+                    table.PrimaryKey("PK_Entertainment", x => x.IdEntertainment);
                     table.ForeignKey(
-                        name: "FK_Entertainments_Region_IdRegion",
+                        name: "FK_Entertainment_Region_IdRegion",
                         column: x => x.IdRegion,
                         principalTable: "Region",
                         principalColumn: "IdRegion",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
+                name: "Message",
                 columns: table => new
                 {
                     IdMessage = table.Column<int>(nullable: false)
@@ -229,20 +229,22 @@ namespace InformacjeTurystyczne.Migrations
                     Description = table.Column<string>(nullable: true),
                     PostingDate1 = table.Column<DateTime>(nullable: false),
                     IdCategory = table.Column<int>(nullable: true),
-                    IdRegion = table.Column<int>(nullable: true)
+                    CategoryIdCategory = table.Column<int>(nullable: true),
+                    IdRegion = table.Column<int>(nullable: true),
+                    RegionIdRegion = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.IdMessage);
+                    table.PrimaryKey("PK_Message", x => x.IdMessage);
                     table.ForeignKey(
-                        name: "FK_Messages_Categories_IdCategory",
-                        column: x => x.IdCategory,
-                        principalTable: "Categories",
+                        name: "FK_Message_Category_CategoryIdCategory",
+                        column: x => x.CategoryIdCategory,
+                        principalTable: "Category",
                         principalColumn: "IdCategory",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Messages_Region_IdRegion",
-                        column: x => x.IdRegion,
+                        name: "FK_Message_Region_RegionIdRegion",
+                        column: x => x.RegionIdRegion,
                         principalTable: "Region",
                         principalColumn: "IdRegion",
                         onDelete: ReferentialAction.Restrict);
@@ -254,14 +256,15 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     IdPermissionRegion = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdRegion = table.Column<int>(nullable: true)
+                    IdRegion = table.Column<int>(nullable: true),
+                    RegionIdRegion = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PermissionRegion", x => x.IdPermissionRegion);
                     table.ForeignKey(
-                        name: "FK_PermissionRegion_Region_IdRegion",
-                        column: x => x.IdRegion,
+                        name: "FK_PermissionRegion_Region_RegionIdRegion",
+                        column: x => x.RegionIdRegion,
                         principalTable: "Region",
                         principalColumn: "IdRegion",
                         onDelete: ReferentialAction.Restrict);
@@ -279,14 +282,36 @@ namespace InformacjeTurystyczne.Migrations
                     IsOpen = table.Column<bool>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    IdRegion = table.Column<int>(nullable: true)
+                    IdRegion = table.Column<int>(nullable: true),
+                    RegionIdRegion = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shelter", x => x.IdShelter);
                     table.ForeignKey(
-                        name: "FK_Shelter_Region_IdRegion",
-                        column: x => x.IdRegion,
+                        name: "FK_Shelter_Region_RegionIdRegion",
+                        column: x => x.RegionIdRegion,
+                        principalTable: "Region",
+                        principalColumn: "IdRegion",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subscription",
+                columns: table => new
+                {
+                    IdSubscription = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsSubscribed = table.Column<bool>(nullable: false),
+                    IdRegion = table.Column<int>(nullable: true),
+                    RegionIdRegion = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subscription", x => x.IdSubscription);
+                    table.ForeignKey(
+                        name: "FK_Subscription_Region_RegionIdRegion",
+                        column: x => x.RegionIdRegion,
                         principalTable: "Region",
                         principalColumn: "IdRegion",
                         onDelete: ReferentialAction.Restrict);
@@ -298,61 +323,85 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     IdPermissionTrial = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdTrial = table.Column<int>(nullable: true)
+                    IdTrial = table.Column<int>(nullable: true),
+                    TrialIdTrial = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PermissionTrial", x => x.IdPermissionTrial);
                     table.ForeignKey(
-                        name: "FK_PermissionTrial_Trials_IdTrial",
-                        column: x => x.IdTrial,
-                        principalTable: "Trials",
+                        name: "FK_PermissionTrial_Trial_TrialIdTrial",
+                        column: x => x.TrialIdTrial,
+                        principalTable: "Trial",
                         principalColumn: "IdTrial",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RegionLocations",
+                name: "RegionLocation",
                 columns: table => new
                 {
                     IdRegionLocation = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdTrial = table.Column<int>(nullable: true),
-                    IdRegion = table.Column<int>(nullable: true)
+                    TrialIdTrial = table.Column<int>(nullable: true),
+                    IdRegion = table.Column<int>(nullable: true),
+                    RegionIdRegion = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RegionLocations", x => x.IdRegionLocation);
+                    table.PrimaryKey("PK_RegionLocation", x => x.IdRegionLocation);
                     table.ForeignKey(
-                        name: "FK_RegionLocations_Region_IdRegion",
-                        column: x => x.IdRegion,
+                        name: "FK_RegionLocation_Region_RegionIdRegion",
+                        column: x => x.RegionIdRegion,
                         principalTable: "Region",
                         principalColumn: "IdRegion",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_RegionLocations_Trials_IdTrial",
-                        column: x => x.IdTrial,
-                        principalTable: "Trials",
+                        name: "FK_RegionLocation_Trial_TrialIdTrial",
+                        column: x => x.TrialIdTrial,
+                        principalTable: "Trial",
                         principalColumn: "IdTrial",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PermissionEntertainments",
+                name: "PermissionEntertainment",
                 columns: table => new
                 {
                     IdPermissionEntertainment = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdEntertainment = table.Column<int>(nullable: true)
+                    IdEntertainment = table.Column<int>(nullable: true),
+                    EntertainmentIdEntertainment = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PermissionEntertainments", x => x.IdPermissionEntertainment);
+                    table.PrimaryKey("PK_PermissionEntertainment", x => x.IdPermissionEntertainment);
                     table.ForeignKey(
-                        name: "FK_PermissionEntertainments_Entertainments_IdEntertainment",
-                        column: x => x.IdEntertainment,
-                        principalTable: "Entertainments",
+                        name: "FK_PermissionEntertainment_Entertainment_EntertainmentIdEntertainment",
+                        column: x => x.EntertainmentIdEntertainment,
+                        principalTable: "Entertainment",
                         principalColumn: "IdEntertainment",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PermissionShelter",
+                columns: table => new
+                {
+                    IdPermissionShelter = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdShelter = table.Column<int>(nullable: true),
+                    ShelterIdShelter = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PermissionShelter", x => x.IdPermissionShelter);
+                    table.ForeignKey(
+                        name: "FK_PermissionShelter_Shelter_ShelterIdShelter",
+                        column: x => x.ShelterIdShelter,
+                        principalTable: "Shelter",
+                        principalColumn: "IdShelter",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -396,49 +445,59 @@ namespace InformacjeTurystyczne.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Entertainments_IdRegion",
-                table: "Entertainments",
+                name: "IX_Entertainment_IdRegion",
+                table: "Entertainment",
                 column: "IdRegion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_IdCategory",
-                table: "Messages",
-                column: "IdCategory");
+                name: "IX_Message_CategoryIdCategory",
+                table: "Message",
+                column: "CategoryIdCategory");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Messages_IdRegion",
-                table: "Messages",
-                column: "IdRegion");
+                name: "IX_Message_RegionIdRegion",
+                table: "Message",
+                column: "RegionIdRegion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionEntertainments_IdEntertainment",
-                table: "PermissionEntertainments",
-                column: "IdEntertainment");
+                name: "IX_PermissionEntertainment_EntertainmentIdEntertainment",
+                table: "PermissionEntertainment",
+                column: "EntertainmentIdEntertainment");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionRegion_IdRegion",
+                name: "IX_PermissionRegion_RegionIdRegion",
                 table: "PermissionRegion",
-                column: "IdRegion");
+                column: "RegionIdRegion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionTrial_IdTrial",
+                name: "IX_PermissionShelter_ShelterIdShelter",
+                table: "PermissionShelter",
+                column: "ShelterIdShelter");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PermissionTrial_TrialIdTrial",
                 table: "PermissionTrial",
-                column: "IdTrial");
+                column: "TrialIdTrial");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RegionLocations_IdRegion",
-                table: "RegionLocations",
-                column: "IdRegion");
+                name: "IX_RegionLocation_RegionIdRegion",
+                table: "RegionLocation",
+                column: "RegionIdRegion");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RegionLocations_IdTrial",
-                table: "RegionLocations",
-                column: "IdTrial");
+                name: "IX_RegionLocation_TrialIdTrial",
+                table: "RegionLocation",
+                column: "TrialIdTrial");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shelter_IdRegion",
+                name: "IX_Shelter_RegionIdRegion",
                 table: "Shelter",
-                column: "IdRegion");
+                column: "RegionIdRegion");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Subscription_RegionIdRegion",
+                table: "Subscription",
+                column: "RegionIdRegion");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -459,22 +518,25 @@ namespace InformacjeTurystyczne.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "Message");
 
             migrationBuilder.DropTable(
-                name: "PermissionEntertainments");
+                name: "PermissionEntertainment");
 
             migrationBuilder.DropTable(
                 name: "PermissionRegion");
 
             migrationBuilder.DropTable(
+                name: "PermissionShelter");
+
+            migrationBuilder.DropTable(
                 name: "PermissionTrial");
 
             migrationBuilder.DropTable(
-                name: "RegionLocations");
+                name: "RegionLocation");
 
             migrationBuilder.DropTable(
-                name: "Shelter");
+                name: "Subscription");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -483,13 +545,16 @@ namespace InformacjeTurystyczne.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Entertainments");
+                name: "Entertainment");
 
             migrationBuilder.DropTable(
-                name: "Trials");
+                name: "Shelter");
+
+            migrationBuilder.DropTable(
+                name: "Trial");
 
             migrationBuilder.DropTable(
                 name: "Region");

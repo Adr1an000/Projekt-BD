@@ -16,7 +16,7 @@ namespace InformacjeTurystyczne.Controllers
     {
         public IActionResult Index()
         {
-            
+         /*   
             var message = new MimeMessage();
 
             message.From.Add(new MailboxAddress("Informacje turystyczne", "informacje.turystyczne1@onet.pl"));
@@ -40,24 +40,7 @@ namespace InformacjeTurystyczne.Controllers
 
                 client.Disconnect(true);
             }
-
-            /*
-             {
-                 MailMessage message = new System.Net.Mail.MailMessage("informacje.turystyczne1@onet.pl", "pawel.s.ps777@gmail.com");
-
-                 message.Subject = "test";
-
-                 SmtpClient smtp = new SmtpClient();
-                // smtp.UseDefaultCredentials = false;
-                 smtp.Host = "smtp.poczta.onet.pl";
-                 smtp.Port = 465;
-                 smtp.Credentials = new System.Net.NetworkCredential("informacje.turystyczne1@onet.pl", "InfTur123");
-                 smtp.EnableSsl = true;
-                 message.IsBodyHtml = true;
-                 smtp.Send(message);
-             }
-             */
-
+            */
             return View();
         }
     }

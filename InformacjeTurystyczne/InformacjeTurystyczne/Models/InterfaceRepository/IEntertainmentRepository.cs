@@ -8,11 +8,17 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
     public interface IEntertainmentRepository
     {
-        IEnumerable<Entertainment> GetAllEntertainment();
-        Entertainment GetEntertainmentByID(int entertainmentID);
+        Task<IEnumerable<Entertainment>> GetAllEntertainment();
+        Task<Entertainment> GetEntertainmentByID(int? entertainmentID);
+        Task<Entertainment> GetEntertainmentByIDWithoutInclude(int? entertainmentID);
+        Task<Entertainment> GetEntertainmentByIDWithoutIncludeAndAsNoTracking(int? entertainmentID);
 
-        void AddEntertainment(Entertainment entertainment);
+        Task AddEntertainmentAsync(Entertainment entertainment);
         void EditEntertainment(Entertainment entertainment);
-        void DeleteEntertainment(Entertainment entertainment);
+        Task DeleteEntertainmentAsync(Entertainment entertainment);
+
+        Task SaveChangesAsync();
+        IEnumerable<Entertainment> GetAllEntertainmentAsNoTracking();
+        IEnumerable<Region> GetAllRegionAsNoTracking();
     }
 }
