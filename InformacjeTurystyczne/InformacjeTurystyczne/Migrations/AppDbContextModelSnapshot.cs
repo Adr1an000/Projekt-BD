@@ -294,7 +294,7 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IdRegion")
+                    b.Property<int>("IdRegion")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsOpen")
@@ -584,7 +584,9 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("Shelter")
-                        .HasForeignKey("IdRegion");
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Subscription", b =>

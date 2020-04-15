@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InformacjeTurystyczne.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200414202922_PowiazaniaTabel")]
-    partial class PowiazaniaTabel
+    [Migration("20200415125001_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -296,7 +296,7 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("IdRegion")
+                    b.Property<int>("IdRegion")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsOpen")
@@ -586,7 +586,9 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("Shelter")
-                        .HasForeignKey("IdRegion");
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Subscription", b =>

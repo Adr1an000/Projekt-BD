@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using InformacjeTurystyczne.Models.InterfaceRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
@@ -17,26 +18,36 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Trial> GetAllTrial()
+        public async Task<IEnumerable<Trial>> GetAllTrial()
         {
-            return _appDbContext.Trials;
+            return await _appDbContext.Trials.AsNoTracking().ToListAsync();
         }
 
-        public Trial GetTrialByID(int trialID)
+        public async Task<Trial> GetTrialByID(int? trialID)
         {
-            return _appDbContext.Trials.FirstOrDefault(s => s.IdTrial == trialID);
+            return await _appDbContext.Trials.AsNoTracking().FirstOrDefaultAsync(s => s.IdTrial == trialID);
         }
 
-        public void AddTrial(Trial trial)
+        public async Task<Trial> GetTrialByIDWithoutInclude(int? trialID)
+        {
+            return await _appDbContext.Trials.AsNoTracking().FirstOrDefaultAsync(c => c.IdTrial == trialID);
+        }
+
+        public async Task<Trial> GetTrialByIDWithoutIncludeAndAsNoTracking(int? trialID)
+        {
+            return await _appDbContext.Trials.FirstOrDefaultAsync(c => c.IdTrial == trialID);
+        }
+
+        public async Task AddTrialAsync(Trial trial)
         {
             _appDbContext.Trials.Add(trial);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteTrial(Trial trial)
+        public async Task DeleteTrialAsync(Trial trial)
         {
             _appDbContext.Trials.Remove(trial);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void EditTrial(Trial trial)
@@ -45,5 +56,14 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext.SaveChanges();
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Trial> GetAllTrialAsNoTracking()
+        {
+            return _appDbContext.Trials.AsNoTracking();
+        }
     }
 }
