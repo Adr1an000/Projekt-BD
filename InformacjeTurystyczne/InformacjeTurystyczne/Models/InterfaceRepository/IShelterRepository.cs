@@ -8,11 +8,17 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
     public interface IShelterRepository
     {
-        IEnumerable<Shelter> GetAllShelter();
-        Shelter GetShelterByID(int shelterID);
+        Task<IEnumerable<Shelter>> GetAllShelter();
+        Task<Shelter> GetShelterByID(int? shelterID);
+        Task<Shelter> GetShelterByIDWithoutInclude(int? shelterID);
+        Task<Shelter> GetShelterByIDWithoutIncludeAndAsNoTracking(int? shelterID);
 
-        void AddShelter(Shelter shelter);
+        Task AddShelterAsync(Shelter shelter);
         void EditShelter(Shelter shelter);
-        void DeleteShelter(Shelter shelter);
+        Task DeleteShelterAsync(Shelter shelter);
+
+        Task SaveChangesAsync();
+        IEnumerable<Shelter> GetAllShelterAsNoTracking();
+        IEnumerable<Region> GetAllRegionAsNoTracking();
     }
 }

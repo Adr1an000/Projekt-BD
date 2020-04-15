@@ -20,7 +20,8 @@ namespace InformacjeTurystyczne.Models.Tabels
         public string Description { get; set; }
 
        // [ForeignKey("Region")]
-        public int? IdRegion { get; set; }
+        public int IdRegion { get; set; }
+        [Display(Name = "Region")]
         public Region Region { get; set; }
 
         public ICollection<PermissionShelter> PermissionShelters { get; set; }
