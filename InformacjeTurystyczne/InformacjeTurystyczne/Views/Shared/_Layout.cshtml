@@ -18,7 +18,7 @@
     <header>
         <div class="navbar">
             <ul class="navbar__list">
-                <a class="navbar__link navbar__link--active" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar__link" asp-area="" asp-controller="Home" asp-action="Index">
                     <li class="navbar__item">Strona główna</li>
                 </a>
                 <a class="navbar__link" asp-area="" asp-controller="TouristInformation" asp-action="Index">
@@ -40,7 +40,7 @@
                     <li class="navbar__item">Zarządzanie rolami</li>
                 </a>
                 <a class="navbar__link" asp-area="" asp-controller="Map" asp-action="Index">
-                    <li class="navbar__item">Strona</li>
+                    <li class="navbar__item">Mapa</li>
                 </a>
                 @if (SignInManager.IsSignedIn(User))
                 {
@@ -53,14 +53,28 @@
                 }
                 else
                 {
-                    <a class="navbar__link" asp-area="" asp-controller="Role" asp-action="Index">
+                    <a class="navbar__link" asp-area="" asp-controller="Account" asp-action="Register">
                         <li class="navbar__item">Zarejestruj</li>
                     </a>
-                    <a class="navbar__link" asp-area="" asp-controller="Map" asp-action="Index">
+                    <a class="navbar__link" asp-area="" asp-controller="Account" asp-action="Login">
                         <li class="navbar__item">Zaloguj</li>
                     </a>
                 }
             </ul>
+            <script>
+                var controller = "@ViewContext.RouteData.Values["Controller"]";
+                var action = "@ViewContext.RouteData.Values["Action"]";
+                console.log(controller);
+                console.log(action);
+                var elem;
+                if (controller === "Home")
+                    elem = document.querySelector(`a.navbar__link[href='/']`);
+                else if (action === "Index")
+                    elem = document.querySelector(`a.navbar__link[href='/${controller}']`);
+                else
+                    elem = document.querySelector(`a.navbar__link[href='/${controller}/${action}']`);
+                elem.classList.add("navbar__link--active");
+            </script>
         </div>
     </header>
     <div>

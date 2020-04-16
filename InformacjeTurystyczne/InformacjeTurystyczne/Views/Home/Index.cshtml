@@ -1,6 +1,6 @@
 ﻿@model HomepageVM
 
-    <div class="home" id="homepage">
+    <div class="page home" id="homepage">
         <div class="home__title">
             <h1>SYSTEM INFORMACJI TURYSTYCZNEJ</h1>
         </div>
@@ -10,8 +10,8 @@
         "~/media/winter-forest.mp4",
         "~/media/mountains.mp4",
         };
-            Random rnd = new Random();
-            string mp4ToPlay = Url.Content(mp4sources[rnd.Next(mp4sources.Length)]);
+            //Random rnd = new Random();
+            string mp4ToPlay = Url.Content(mp4sources[Model.RandomInt(mp4sources.Length)]);
         }
         <video class="home__background-video" autoplay loop muted>
             <source src=@mp4ToPlay type="video/mp4" />
