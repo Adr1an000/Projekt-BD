@@ -9,11 +9,11 @@ namespace InformacjeTurystyczne.Models.Tabels
 {
     public class PermissionEntertainment
     {
-        [Key]
-        public int IdPermissionEntertainment { get; set; } // K
+       // [Key]
+       // public int IdPermissionEntertainment { get; set; } // K
 
         //[ForeignKey("Entertainment")]
-        public int? IdEntertainment { get; set; }
+        public int IdEntertainment { get; set; }
         public Entertainment Entertainment { get; set; }
 
         // USER ???
