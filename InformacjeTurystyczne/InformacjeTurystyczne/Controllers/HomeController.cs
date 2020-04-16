@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using InformacjeTurystyczne.Models;
+using InformacjeTurystyczne.Models.ViewModels;
 
 
 
@@ -22,7 +23,8 @@ namespace InformacjeTurystyczne.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new HomepageVM(); //used to generate random numbers in view
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
