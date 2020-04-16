@@ -49,7 +49,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdTrial, Colour, Open, Feedback, Length, Difficulty, Description")] Trial trial)
+        public async Task<IActionResult> Create([Bind("IdTrial, Name, Colour, Open, Feedback, Length, Difficulty, Description")] Trial trial)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
             if (await TryUpdateModelAsync<Trial>(trialToUpdate,
                     "",
-                    c => c.Colour, c=>c.Open, c=>c.Feedback, c=>c.Length, c=>c.Difficulty, c=>c.Description))
+                    c=>c.Name, c => c.Colour, c=>c.Open, c=>c.Feedback, c=>c.Length, c=>c.Difficulty, c=>c.Description))
             {
                 try
                 {

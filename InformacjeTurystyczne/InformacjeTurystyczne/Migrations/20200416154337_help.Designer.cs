@@ -4,14 +4,16 @@ using InformacjeTurystyczne.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InformacjeTurystyczne.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200416154337_help")]
+    partial class help
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,13 +238,20 @@ namespace InformacjeTurystyczne.Migrations
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.RegionLocation", b =>
                 {
+                    b.Property<int>("IdRegionLocation")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int?>("IdRegion")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdTrial")
                         .HasColumnType("int");
 
-                    b.HasKey("IdRegion", "IdTrial");
+                    b.HasKey("IdRegionLocation");
+
+                    b.HasIndex("IdRegion");
 
                     b.HasIndex("IdTrial");
 
@@ -330,9 +339,6 @@ namespace InformacjeTurystyczne.Migrations
 
                     b.Property<float>("Length")
                         .HasColumnType("real");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Open")
                         .HasColumnType("bit");
@@ -557,15 +563,11 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("RegionLocation")
-                        .HasForeignKey("IdRegion")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdRegion");
 
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Trial", "Trial")
                         .WithMany("RegionLocation")
-                        .HasForeignKey("IdTrial")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("IdTrial");
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Shelter", b =>

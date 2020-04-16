@@ -20,12 +20,18 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public async Task<IEnumerable<Region>> GetAllRegion()
         {
-            return await _appDbContext.Regions.Include(i => i.Entertainment).AsNoTracking().ToListAsync();
+            return await _appDbContext.Regions
+                .Include(i=>i.RegionLocation)
+                .ThenInclude(i=>i.Trial)
+                .AsNoTracking().ToListAsync();
         }
 
         public async Task<Region> GetRegionByID(int? regionID)
         {
-            return await _appDbContext.Regions.Include(i => i.Entertainment).AsNoTracking().FirstOrDefaultAsync(s => s.IdRegion == regionID);
+            return await _appDbContext.Regions
+                .Include(i=>i.RegionLocation)
+                .ThenInclude(i=>i.Trial)
+                .FirstOrDefaultAsync(s => s.IdRegion == regionID);
         }
 
         public async Task<Region> GetRegionByIDWithoutInclude(int? regionID)
@@ -66,5 +72,14 @@ namespace InformacjeTurystyczne.Models.Repository
             return _appDbContext.Regions.AsNoTracking();
         }
 
+        public IEnumerable<Trial> GetAllTrials()
+        {
+            return _appDbContext.Trials;
+        }
+
+        void IRegionRepository.RemoveTrial(RegionLocation regionLocation)
+        {
+            _appDbContext.Remove(regionLocation);
+        }
     }
 }

@@ -24,6 +24,7 @@ namespace InformacjeTurystyczne.Models
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<RegionLocation> RegionLocations { get; set; }
         public DbSet<Trial> Trials { get; set; }
+        public override DbSet<AppUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,6 +42,7 @@ namespace InformacjeTurystyczne.Models
             modelBuilder.Entity<Subscription>().ToTable("Subscription");
             modelBuilder.Entity<RegionLocation>().ToTable("RegionLocation");
             modelBuilder.Entity<Trial>().ToTable("Trial");
+            modelBuilder.Entity<AppUser>().ToTable("AspNetUsers");
 
             modelBuilder.Entity<Entertainment>()
                 .HasOne<Region>(bc => bc.Region)
@@ -62,6 +64,7 @@ namespace InformacjeTurystyczne.Models
                 .WithMany(c => c.Messages)
                 .HasForeignKey(s => s.IdCategory);
 
+            /*
             modelBuilder.Entity<PermissionEntertainment>()
                 .HasOne<Entertainment>(bc => bc.Entertainment)
                 .WithMany(c => c.PermissionEntertainment)
@@ -92,6 +95,7 @@ namespace InformacjeTurystyczne.Models
                 .WithMany(c => c.PermissionShelters)
                 .HasForeignKey(s => s.IdUser);
 
+            
             modelBuilder.Entity<PermissionTrial>()
                 .HasOne<Trial>(bc => bc.Trial)
                 .WithMany(c => c.PermissionTrial)
@@ -101,6 +105,22 @@ namespace InformacjeTurystyczne.Models
                 .HasOne<AppUser>(bc => bc.User)
                 .WithMany(c => c.PermissionTrials)
                 .HasForeignKey(s => s.IdUser);
+                */
+
+            modelBuilder.Entity<PermissionEntertainment>()
+                .HasKey(c => new { c.IdEntertainment, c.IdUser });
+
+            modelBuilder.Entity<PermissionRegion>()
+                .HasKey(c => new { c.IdRegion, c.IdUser });
+
+            modelBuilder.Entity<PermissionShelter>()
+                .HasKey(c => new { c.IdShelter, c.IdUser });
+
+            modelBuilder.Entity<PermissionTrial>()
+                .HasKey(c => new { c.IdTrial, c.IdUser });
+
+            modelBuilder.Entity<RegionLocation>()
+                .HasKey(c => new { c.IdRegion, c.IdTrial });
 
             //REGION??? chyba pozostałe funkcje WithMany() to załatwią (?)
 
@@ -130,6 +150,33 @@ namespace InformacjeTurystyczne.Models
                 .HasForeignKey(s => s.IdUser);
 
             // TRIAL ??? chyba też załatwiony przez funkcje WithMany w pozostałych wywołaniach
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(i => i.PermissionEntertainments)
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.IdUser);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(i => i.PermissionRegions)
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.IdUser);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(i => i.PermissionTrials)
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.IdUser);
+
+            modelBuilder.Entity<AppUser>()
+                .HasMany(i => i.PermissionShelters)
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.IdUser);
+
+            modelBuilder.Entity<Region>()
+                .HasMany(i => i.RegionLocation)
+                .WithOne(i => i.Region)
+                .HasForeignKey(i => i.IdRegion);
+
+
         }
     }
 }

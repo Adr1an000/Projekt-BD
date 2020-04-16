@@ -9,8 +9,8 @@ namespace InformacjeTurystyczne.Models.Tabels
 {
     public class RegionLocation
     {
-        [Key]
-        public int IdRegionLocation { get; set; } // K
+       // [Key]
+       // public int IdRegionLocation { get; set; } // K
 
        // [ForeignKey("Trial")]
         public int? IdTrial { get; set; }

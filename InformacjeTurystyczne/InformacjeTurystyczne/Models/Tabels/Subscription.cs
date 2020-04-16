@@ -12,6 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdSubscription { get; set; }
 
+        [Display(Name = "Zasubskrybowano")]
         public bool IsSubscribed { get; set; }
 
       //  [ForeignKey("Region")]

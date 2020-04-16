@@ -12,6 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdRegion { get; set; }
 
+        [Display(Name = "Nazwa regionu")]
         public string Name { get; set; }
 
         public ICollection<Message> Message { get; set; }

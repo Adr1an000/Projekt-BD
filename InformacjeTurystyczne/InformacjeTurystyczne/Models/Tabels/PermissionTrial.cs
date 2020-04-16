@@ -9,8 +9,8 @@ namespace InformacjeTurystyczne.Models.Tabels
 {
     public class PermissionTrial
     {
-        [Key]
-        public int IdPermissionTrial { get; set; }
+        //[Key]
+        //public int IdPermissionTrial { get; set; }
 
         //[ForeignKey("Trial")]
         public int? IdTrial { get; set; }
