@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using InformacjeTurystyczne.Models.InterfaceRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
@@ -17,32 +18,62 @@ namespace InformacjeTurystyczne.Models.Repository
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Message> GetAllMesage()
+        public async Task<IEnumerable<Message>> GetAllMessage()
         {
-            return _appDbContext.Messages;
+            return await _appDbContext.Messages.Include(c => c.Region).Include(d => d.Category).AsNoTracking().ToListAsync();
         }
 
-        public Message GetMessageByID(int messageID)
+        public async Task<Message> GetMessageByID(int? messageID)
         {
-            return _appDbContext.Messages.FirstOrDefault(s => s.IdMessage == messageID);
+            return await _appDbContext.Messages.Include(c => c.Region).Include(d => d.Category).AsNoTracking().FirstOrDefaultAsync(s => s.IdMessage == messageID);
         }
 
-        public void AddMessage(Message message)
+        public async Task<Message> GetMessageByIDWithoutInclude(int? messageID)
+        {
+            return await _appDbContext.Messages.AsNoTracking().FirstOrDefaultAsync(c => c.IdMessage == messageID);
+        }
+
+        public async Task<Message> GetMessageByIDWithoutIncludeAndAsNoTracking(int? messageID)
+        {
+            return await _appDbContext.Messages.FirstOrDefaultAsync(c => c.IdMessage == messageID);
+        }
+
+        public async Task AddMessageAsync(Message message)
         {
             _appDbContext.Messages.Add(message);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteMessage(Message message)
+        public async Task DeleteMessageAsync(Message message)
         {
             _appDbContext.Messages.Remove(message);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void EditMessage(Message message)
         {
             _appDbContext.Messages.Update(message);
             _appDbContext.SaveChanges();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Message> GetAllMessageAsNoTracking()
+        {
+            return _appDbContext.Messages.AsNoTracking();
+        }
+
+        public IEnumerable<Category> GetAllCategoryAsNoTracking()
+        {
+            return _appDbContext.Categories.AsNoTracking();
+        }
+
+        public IEnumerable<Region> GetAllRegionAsNoTracking()
+        {
+            return _appDbContext.Regions.AsNoTracking();
         }
     }
 }

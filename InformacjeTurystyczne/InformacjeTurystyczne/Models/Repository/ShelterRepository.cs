@@ -5,44 +5,70 @@ using System.Threading.Tasks;
 
 using InformacjeTurystyczne.Models.InterfaceRepository;
 using InformacjeTurystyczne.Models.Tabels;
+using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
     public class ShelterRepository : IShelterRepository
     {
-        private readonly AppDbContext _appDbContext;
+        public readonly AppDbContext _appDbContext;
 
         public ShelterRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Shelter> GetAllShelter()
+        public async Task<IEnumerable<Shelter>> GetAllShelter()
         {
-            return _appDbContext.Shelters;
+            return await _appDbContext.Shelters.Include(c => c.Region).AsNoTracking().ToListAsync();
         }
 
-        public Shelter GetShelterByID(int shelterID)
+        public async Task<Shelter> GetShelterByID(int? shelterID)
         {
-            return _appDbContext.Shelters.FirstOrDefault(s => s.IdRegion == shelterID);
+            return await _appDbContext.Shelters.Include(c => c.Region).AsNoTracking().FirstOrDefaultAsync(s => s.IdShelter == shelterID);
         }
 
-        public void AddShelter(Shelter shelter)
+        public async Task<Shelter> GetShelterByIDWithoutInclude(int? shelterID)
+        {
+            return await _appDbContext.Shelters.AsNoTracking().FirstOrDefaultAsync(c => c.IdShelter == shelterID);
+        }
+
+        public async Task<Shelter> GetShelterByIDWithoutIncludeAndAsNoTracking(int? shelterID)
+        {
+            return await _appDbContext.Shelters.FirstOrDefaultAsync(c => c.IdShelter == shelterID);
+        }
+
+        public async Task AddShelterAsync(Shelter shelter)
         {
             _appDbContext.Shelters.Add(shelter);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public void DeleteShelter(Shelter shelter)
+        public async Task DeleteShelterAsync(Shelter shelter)
         {
             _appDbContext.Shelters.Remove(shelter);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
         }
 
         public void EditShelter(Shelter shelter)
         {
             _appDbContext.Shelters.Update(shelter);
             _appDbContext.SaveChanges();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Shelter> GetAllShelterAsNoTracking()
+        {
+            return _appDbContext.Shelters.AsNoTracking();
+        }
+
+        public IEnumerable<Region> GetAllRegionAsNoTracking()
+        {
+            return _appDbContext.Regions.AsNoTracking();
         }
     }
 }

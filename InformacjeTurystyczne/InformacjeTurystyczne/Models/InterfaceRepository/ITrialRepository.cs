@@ -8,11 +8,17 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 {
     public interface ITrialRepository
     {
-        IEnumerable<Trial> GetAllTrial();
-        Trial GetTrialByID(int trialID);
+        Task<IEnumerable<Trial>> GetAllTrial();
+        Task<Trial> GetTrialByID(int? trialID);
+        Task<Trial> GetTrialByIDWithoutInclude(int? trialID);
+        Task<Trial> GetTrialByIDWithoutIncludeAndAsNoTracking(int? trialID);
 
-        void AddTrial(Trial trial);
+        Task AddTrialAsync(Trial trial);
         void EditTrial(Trial trial);
-        void DeleteTrial(Trial trial);
+        Task DeleteTrialAsync(Trial trial);
+
+        Task SaveChangesAsync();
+        IEnumerable<Trial> GetAllTrialAsNoTracking();
     }
+
 }
