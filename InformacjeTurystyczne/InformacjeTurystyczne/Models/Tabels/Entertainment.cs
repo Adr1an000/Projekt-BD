@@ -12,9 +12,16 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdEntertainment { get; set; } // K
 
+        [Display(Name = "Nazwa imprezy")]
         public string Name { get; set; }
+
+        [Display(Name = "Lokalizacja")]
         public string PlaceDescription { get; set; }
+
+        [Display(Name = "Opis")]
         public string Description { get; set; }
+
+        [Display(Name = "Aktualna")]
         public bool UpToDate { get; set; }
 
         //[ForeignKey("Region")]

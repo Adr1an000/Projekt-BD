@@ -19,5 +19,8 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
 
         Task SaveChangesAsync();
         IEnumerable<Region> GetAllRegionAsNoTracking();
+        IEnumerable<Trial> GetAllTrials();
+        void RemoveTrial(RegionLocation regionLocation);
+
     }
 }

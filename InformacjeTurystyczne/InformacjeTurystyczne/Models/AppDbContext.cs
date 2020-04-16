@@ -119,6 +119,9 @@ namespace InformacjeTurystyczne.Models
             modelBuilder.Entity<PermissionTrial>()
                 .HasKey(c => new { c.IdTrial, c.IdUser });
 
+            modelBuilder.Entity<RegionLocation>()
+                .HasKey(c => new { c.IdRegion, c.IdTrial });
+
             //REGION??? chyba pozostałe funkcje WithMany() to załatwią (?)
 
             modelBuilder.Entity<RegionLocation>()
@@ -167,6 +170,13 @@ namespace InformacjeTurystyczne.Models
                 .HasMany(i => i.PermissionShelters)
                 .WithOne(i => i.User)
                 .HasForeignKey(i => i.IdUser);
+
+            modelBuilder.Entity<Region>()
+                .HasMany(i => i.RegionLocation)
+                .WithOne(i => i.Region)
+                .HasForeignKey(i => i.IdRegion);
+
+
         }
     }
 }

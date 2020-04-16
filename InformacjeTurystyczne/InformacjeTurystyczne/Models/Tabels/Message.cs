@@ -12,9 +12,13 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdMessage { get; set; } // K
 
+        [Display(Name = "Nazwa")]
         public string Name { get; set; }
+
+        [Display(Name = "Treść")]
         public string Description { get; set; }
 
+        [Display(Name = "Data zapostowania")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PostingDate1 { get; set; }
 

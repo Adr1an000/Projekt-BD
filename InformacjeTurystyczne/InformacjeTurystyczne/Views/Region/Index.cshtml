@@ -14,7 +14,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            
+            <th>Szlaki</th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +28,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                
+                <td>
+                    @{
+                        foreach (var trial in item.RegionLocation)
+                        {
+                            @trial.Trial.IdTrial @: @trial.Trial.Name <br />
+                        }
+                    }
+                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.IdRegion">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.IdRegion">Details</a> |
