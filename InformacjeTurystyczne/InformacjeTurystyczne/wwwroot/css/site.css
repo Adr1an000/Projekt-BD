@@ -83,3 +83,31 @@ html, body {
     padding: 4rem 10rem;
     box-shadow: 0px 5px 5px black, 0px -1px 5px black, 5px 0px 5px black, -1px 0px 5px black;
 }
+
+/* || tables*/
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+    table td, tables th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    table tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    table tr:hover {
+        background-color: #ddd;
+    }
+
+    table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: rgba(215, 255, 167, 0.5);
+        color: #006107;
+    }
