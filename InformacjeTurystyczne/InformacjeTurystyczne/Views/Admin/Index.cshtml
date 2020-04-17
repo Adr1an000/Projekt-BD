@@ -4,7 +4,7 @@
 <a asp-action="Create">Dodaj użytkownika</a>
 
 <table>
-    <tr><th>Id użytkownika</th><th>Nazwa</th><th>Adres e-mail</th><th>Konto ważne</th></tr>
+    <tr><th>Id użytkownika</th><th>Nazwa</th><th>Adres e-mail</th><th colspan="3">Konto ważne</th></tr>
 
     @foreach (var user in (IEnumerable<AppUser>)ViewData["Users"])
     {
