@@ -1,3 +1,54 @@
-﻿<h1>Informacje turystyczne</h1>
-<h3>// TODO wyświetlanie informacji i filtrowanie czekboxami</h3>
+﻿
+<div class="page info">
+    <div class="sidebar">
+        <div class="expand">
+            <button type="button" class="expand__button">
+                <p>Region</p> <span>></span>
+            </button>
+            <div class="expand__content">
+                <p>something!!!</p>
+                <p>something else!!!</p>
+            </div>
+        </div>
+    </div>
+    <div class="info__list" id="info__list">
+    </div>
+    <script>
+        const createElement = (tag, options) => {
+            const { withText = null } = options;
 
+            let element = document.createElement(tag);
+            if (withText) {
+                let text = document.createTextNode(withText);
+                element.appendChild(text);
+            }
+            return element;
+        };
+        const createInfoItem = (name, ...records) => {
+            let item = {
+                name: name,
+                records: [...records]
+            }
+            return item;
+        }
+        (() => {
+            let itemArray = [];
+            itemArray[0] = createInfoItem("schronisko 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
+            itemArray[1] = createInfoItem("impreza 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
+            /*TODO: initialize array from the viewModel*/
+            let fragment = document.createDocumentFragment();
+            for (let infoItem of itemArray) {
+                let info__item = document.createElement("div");
+                info__item.classList.add("info__item");
+
+                info__item.appendChild(createElement("h1", { withText: infoItem.name }));
+                for (let key of infoItem.records) {
+                    info__item.appendChild(createElement("p", { withText: key.tag }));
+                    info__item.appendChild(createElement("p", { withText: key.value }));
+                }
+                fragment.appendChild(info__item);
+            }
+            document.getElementById("info__list").appendChild(fragment);
+        })();
+    </script>
+</div>
