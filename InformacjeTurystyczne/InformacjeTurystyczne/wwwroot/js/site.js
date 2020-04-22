@@ -47,7 +47,7 @@ const Filter = () => {
     }
     object.filter = function (item) {
         this.filterExpression.forEach((key, value) => {
-            if (value.has(item.records [key]) || value.has("any")) {
+            if (value.has(item[key]) || value.has("any")) {
                 return true;
             }
             return false;
@@ -66,7 +66,9 @@ const TouristInfoPage = (data) => {
     object.types = types;
     object.filter = Filter();
     object.renderFiltered = function () {
-        TouristInfoPage.renderItems(this.items.map())
+        TouristInfoPage.renderItems(this.items.filter((item) => {
+            this.filter({ name: item.name, type: item.type, region: item.records })
+        }))
     }
 
     return object;
@@ -87,3 +89,5 @@ TouristInfoPage.renderItems = function (items) {
     }
     document.getElementById("info__list").appendChild(fragment);
 }
+
+function
