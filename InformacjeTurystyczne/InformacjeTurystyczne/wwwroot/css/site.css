@@ -4,6 +4,13 @@
     font-size: 2rem;
 }
 
+:root {
+    --primaryColor: #006107;
+    --secondaryColor: #d7ffa7;
+    --supportColorLight: white;
+    --supportColorDark: black;
+}
+
 html, body {
     font-family: "Comfortaa", sans-serif;
     font-size: 10px;
@@ -13,6 +20,23 @@ html, body {
 
 .page {
     margin-top: 5px;
+}
+
+button:focus {
+    outline: none;
+}
+
+button {
+    color: var(--primaryColor);
+    background-color: var(--secondaryColor);
+    border: 3px solid var(--primaryColor);
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 /* || Main Navigation */
@@ -26,12 +50,11 @@ html, body {
     background-color: #d7ffa7;
     box-shadow: 0px 5px 5px black;
     margin-bottom: 5px;
-    z-index: 1;
 }
 
 .navbar__link {
     padding: 0.5rem;
-    color: #006107;
+    color: var(--primaryColor);
     text-decoration: none;
     text-align: center;
     font-size: 2rem;
@@ -41,12 +64,12 @@ html, body {
     display: flex;
 }
 .navbar__link:hover {
-    color: white;
-    background-color: #006107;
+    color: var(--supportColorLight);
+    background-color: var(--primaryColor);
 }
 .navbar__link--active {
-    color: white;
-    background-color: #006107;
+    color: var(--supportColorLight);
+    background-color: var(--primaryColor);
 }
 .navbar__item {
     margin: auto;
@@ -90,10 +113,41 @@ html, body {
 
 .sidebar {
     flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    border-right: 5px solid var(--secondaryColor);
+    padding: 20px;
 }
 
 .info__list {
     flex: 3;
+    border: 5px solid pink;
+}
+
+.expand {
+    width: 100%;
+    align-self: center;
+}
+
+.toggle-button--active {
+    background-color: var(--primaryColor);
+    color: var(--supportColorLight);
+}
+
+.toggle-button--active.expand__button {
+    border-radius: 5px 5px 0 0;
+}
+
+.expand__content {
+    display: none;
+    position: relative;
+    border: 5px solid var(--primaryColor);
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+}
+
+.show {
+    display: block;
 }
 
 /* || tables*/

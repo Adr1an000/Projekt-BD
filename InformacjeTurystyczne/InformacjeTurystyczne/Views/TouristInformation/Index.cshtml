@@ -2,18 +2,26 @@
 <div class="page info">
     <div class="sidebar">
         <div class="expand">
-            <button type="button" class="expand__button">
-                <p>Region</p> <span>></span>
+            <button type="button" class="toggle-button expand__button" data-show="expand-region">
+                <p>Region</p>
             </button>
-            <div class="expand__content">
-                <p>something!!!</p>
-                <p>something else!!!</p>
+            <div class="expand__content" id="expand-region">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="region1" name="region1" value="region1">
+                    <label for="region1"> Region 1</label><br>
+                    <input type="checkbox" id="region2" name="region1" value="region1">
+                    <label for="region2"> Region 2</label><br>
+                </div>
             </div>
         </div>
     </div>
     <div class="info__list" id="info__list">
     </div>
     <script>
+        function toggleButton(e) {
+            this.classList.toggle("toggle-button--active");
+            document.getElementById(this.getAttribute("data-show")).classList.toggle("show");
+        }
         const createElement = (tag, options) => {
             const { withText = null } = options;
 
@@ -32,23 +40,9 @@
             return item;
         }
         (() => {
-            let itemArray = [];
             itemArray[0] = createInfoItem("schronisko 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
             itemArray[1] = createInfoItem("impreza 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
-            /*TODO: initialize array from the viewModel*/
-            let fragment = document.createDocumentFragment();
-            for (let infoItem of itemArray) {
-                let info__item = document.createElement("div");
-                info__item.classList.add("info__item");
-
-                info__item.appendChild(createElement("h1", { withText: infoItem.name }));
-                for (let key of infoItem.records) {
-                    info__item.appendChild(createElement("p", { withText: key.tag }));
-                    info__item.appendChild(createElement("p", { withText: key.value }));
-                }
-                fragment.appendChild(info__item);
-            }
-            document.getElementById("info__list").appendChild(fragment);
+            let infoPage = TouristInfoPage({ items: itemArray });
         })();
     </script>
 </div>

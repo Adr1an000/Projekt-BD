@@ -18,10 +18,7 @@
     </video>
 </div>
 
+<script src="~/js/site.js" asp-append-version="true"></script>
 <script>
-    window.onload = () => {
-        var home = document.getElementById("homepage");
-        home.style.height = (document.documentElement.clientHeight - home.offsetTop) + "px";
-    }
-    window.onresize = window.onload;
+    initHomepage();
 </script>
