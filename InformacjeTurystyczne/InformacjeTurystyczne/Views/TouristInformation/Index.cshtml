@@ -17,6 +17,7 @@
     </div>
     <div class="info__list" id="info__list">
     </div>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
         function toggleButton(e) {
             this.classList.toggle("toggle-button--active");
@@ -40,9 +41,31 @@
             return item;
         }
         (() => {
-            itemArray[0] = createInfoItem("schronisko 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
-            itemArray[1] = createInfoItem("impreza 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
-            let infoPage = TouristInfoPage({ items: itemArray });
+            let buttons = document.getElementsByClassName("toggle-button");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener("click", toggleButton);
+            }
+            let itemArray = [];
+            //itemArray[0] = createInfoItem("schronisko 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
+            //itemArray[1] = createInfoItem("impreza 1", { tag: "telefon", value: "123-456-789" }, { tag: "region", value: "Śląsk" });
+            itemArray[0] = { name: "schronisko 1", telefon: "123-456-789", region: "Śląsk" };
+            itemArray[1] = { name: "impreza 1", telefon: "123-456-789", region: "Podkarpacie" };
+
+            /*let fragment = document.createDocumentFragment();
+            for (let infoItem of itemArray) {
+                let info__item = document.createElement("div");
+                info__item.classList.add("info__item");
+
+                info__item.appendChild(createElement("h1", { withText: infoItem.name }));
+                for (let key of infoItem.records) {
+                    info__item.appendChild(createElement("p", { withText: key.tag }));
+                    info__item.appendChild(createElement("p", { withText: key.value }));
+                }
+                fragment.appendChild(info__item);
+            }
+            document.getElementById("info__list").appendChild(fragment);*/
+            let infoPage = new InfoPage(itemArray);
+            infoPage.renderItems();
         })();
     </script>
 </div>

@@ -24,7 +24,7 @@ const initHomepage = () => {
     window.addEventListener("load", resizeHomepage);
     window.addEventListener("resize", resizeHomepage);
 }
-
+/*
 const initToggleButtons = () => {
     let buttons = document.getElementsByClassName("toggle-button");
     for (let i = 0; i < buttons.length; i++) {
@@ -89,5 +89,71 @@ TouristInfoPage.renderItems = function (items) {
     }
     document.getElementById("info__list").appendChild(fragment);
 }
+*/
 
-function
+const Filter = function () {
+
+}
+Filter.prototype.addProperty = function (name) {
+    if (typeof this[name] === "undefined") {
+        this[name] = {};
+        this[name].selected = new Set();
+        this[name].deselected = new Set();
+    }
+}
+Filter.prototype.select = function (name, ...values) {
+    this.addProperty(name);
+
+    values.forEach((value) => {
+        this[name].selected.add(value);
+        this[name].deselected.delete(value);
+    });
+}
+Filter.prototype.deselect = function (name, ...values) {
+    this.addProperty(name);
+
+    values.forEach((value) => {
+        this[name].deselected.add(value);
+        this[name].selected.delete(value);
+    });
+}
+Filter.prototype.check = function (item) {
+    for (let property in this) {
+        if (!this.hasOwnProperty(property)) {
+            continue;
+        }
+        if (typeof item[property] === "undefined" || !this[property].selected.has(item[property])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+const InfoPage = function (items, regions, types) {
+    this.regions = regions;
+    this.items = items;
+    this.types = types;
+    this.filter = new Filter();
+}
+
+InfoPage.prototype.renderItems = function () {
+    InfoPage.renderItems(this.items.filter((item) => this.filter.check(item)));
+}
+
+InfoPage.renderItems = function (items) {
+    let fragment = document.createDocumentFragment();
+    for (let infoItem of items) {
+        let info__item = document.createElement("div");
+        info__item.classList.add("info__item");
+
+        info__item.appendChild(createElement("h1", { withText: infoItem.name }));
+        for (let key in infoItem) {
+            if (infoItem.hasOwnProperty(key) && key !== "name") {
+                info__item.appendChild(createElement("p", { withText: key }));
+                info__item.appendChild(createElement("p", { withText: infoItem[key] }));
+            }
+        }
+        fragment.appendChild(info__item);
+    }
+    document.getElementById("info__list").appendChild(fragment);
+}
