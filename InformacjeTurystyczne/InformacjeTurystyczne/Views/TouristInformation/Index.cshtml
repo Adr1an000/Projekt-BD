@@ -1,3 +1,48 @@
-﻿<h1>Informacje turystyczne</h1>
-<h3>// TODO wyświetlanie informacji i filtrowanie czekboxami</h3>
+﻿@model TouristInformationVM
 
+<div class="page info">
+    <div class="sidebar">
+        <div class="expand">
+            <button type="button" class="toggle-button expand__button" data-show="expand-region">
+                <p>Region</p>
+            </button>
+            <div class="expand__content" id="expand-region">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="region1" name="region1" value="region1">
+                    <label for="region1"> Region 1</label><br>
+                    <input type="checkbox" id="region2" name="region1" value="region1">
+                    <label for="region2"> Region 2</label><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info__list" id="info__list">
+    </div>
+    <script>
+        window.addEventListener("load", () => {
+            initToggleButtons();
+
+            let itemArray = [];
+            let item = {};
+            @foreach(var infoRecord in Model.Records)
+            {
+                @:item = new InfoItem();
+                @foreach(var property in infoRecord.Properties)
+                {
+                    <text>
+                    item.addProperty(
+                        "@Html.Raw(property.Name)",
+                        "@Html.Raw(property.Value)",
+                        "@Html.Raw(property.DisplayName)",
+                        "@Html.Raw(property.DisplayValue)"
+                    );
+                    </text>
+                }
+                @:itemArray.push(item);
+            }
+
+            let infoPage = new InfoPage(itemArray);
+            infoPage.renderItems();
+        });
+    </script>
+</div>
