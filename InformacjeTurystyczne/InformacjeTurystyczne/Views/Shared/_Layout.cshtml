@@ -74,10 +74,10 @@
     @RenderSection("Scripts", required: false)
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        initNavbar(
+        window.addEventListener("load",  () => initNavbar(
             "@ViewContext.RouteData.Values["Controller"]",
             "@ViewContext.RouteData.Values["Action"]"
-        );
+        ));
     </script>
 </body>
 </html>
