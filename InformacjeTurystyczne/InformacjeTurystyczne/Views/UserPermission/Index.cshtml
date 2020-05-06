@@ -28,9 +28,9 @@
             </td>
             <td>
                 @{
-                    foreach (var entertiment in item.PermissionEntertainments)
+                    foreach (var entertiment in item.PermissionPartys)
                     {
-                        @entertiment.Entertainment.IdEntertainment @: @entertiment.Entertainment.Name <br />
+                        @entertiment.Party.IdParty @: @entertiment.Party.Name <br />
                     }
                 }
             </td>

@@ -70,14 +70,14 @@ namespace InformacjeTurystyczne
             });
             */
 
-
             services.AddTransient<ICategoryRepository, CategoryRepository>();
-            services.AddTransient<IEntertainmentRepository, EntertainmentRepository>();
+            services.AddTransient<IPartyRepository, PartyRepository>();
             services.AddTransient<IRegionRepository, RegionRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
             services.AddTransient<ITrialRepository, TrialRepository>();
             services.AddTransient<IShelterRepository, ShelterRepository>();
+            services.AddTransient<IAttractionRepository, AttractionRepository>();
 
             services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordPolicy>();
 

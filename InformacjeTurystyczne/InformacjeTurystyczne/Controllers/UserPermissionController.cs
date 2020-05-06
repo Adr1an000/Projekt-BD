@@ -21,7 +21,7 @@ namespace InformacjeTurystyczne.Controllers
             _appDbContext = appDbContext;
         }
 
-        public async Task<IActionResult> Index(string id, int? IdRegion, int? IdTrial, int? IdShelter, int? IdEntertainment)
+        public async Task<IActionResult> Index(string id, int? IdRegion, int? IdTrial, int? IdShelter, int? IdParty)
         {
             var viewModel = new UserIndexData();
             viewModel.Users = await _appDbContext.Users
@@ -31,8 +31,8 @@ namespace InformacjeTurystyczne.Controllers
                 .ThenInclude(i => i.Trial)
                 .Include(i => i.PermissionShelters)
                 .ThenInclude(i => i.Shelter)
-                .Include(i => i.PermissionEntertainments)
-                .ThenInclude(i => i.Entertainment)
+                .Include(i => i.PermissionPartys)
+                .ThenInclude(i => i.Party)
                 .OrderBy(i => i.UserName)
                 .ToListAsync();
 
@@ -42,7 +42,7 @@ namespace InformacjeTurystyczne.Controllers
 
                 AppUser user = viewModel.Users.Where(i => i.Id == id).Single();
 
-                viewModel.Entertainments = user.PermissionEntertainments.Select(s => s.Entertainment);
+                viewModel.Partys = user.PermissionPartys.Select(s => s.Party);
                 viewModel.Regions = user.PermissionRegions.Select(s => s.Region);
                 viewModel.Shelters = user.PermissionShelters.Select(s => s.Shelter);
                 viewModel.Trials = user.PermissionTrials.Select(s => s.Trial);
@@ -51,9 +51,9 @@ namespace InformacjeTurystyczne.Controllers
             /*
             foreach(var user in _appDbContext.Users)
             {
-                if(user.PermissionEntertainments == null)
+                if(user.PermissionPartys == null)
                 {
-                    user.PermissionEntertainments = new List<PermissionEntertainment>();
+                    user.PermissionPartys = new List<PermissionParty>();
                     PopulateUser(user);
                 }
             }
@@ -92,7 +92,7 @@ namespace InformacjeTurystyczne.Controllers
         public IActionResult Create()
         {
             var user = new AppUser();
-            user.PermissionEntertainments = new List<PermissionEntertainment>();
+            user.PermissionPartys = new List<PermissionParty>();
             user.PermissionRegions = new List<PermissionRegion>();
             user.PermissionShelters = new List<PermissionShelter>();
             user.PermissionTrials = new List<PermissionTrial>();
@@ -104,15 +104,15 @@ namespace InformacjeTurystyczne.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AppUser user, string[] selectedEntertainments, string[] selectedRegions, string[] selectedShelters, string[] selectedTrials)
+        public async Task<IActionResult> Create(AppUser user, string[] selectedPartys, string[] selectedRegions, string[] selectedShelters, string[] selectedTrials)
         {
-            if (selectedEntertainments != null)
+            if (selectedPartys != null)
             {
-                user.PermissionEntertainments = new List<PermissionEntertainment>();
-                foreach (var entertainment in selectedEntertainments)
+                user.PermissionPartys = new List<PermissionParty>();
+                foreach (var party in selectedPartys)
                 {
-                    var entertainmentToAdd = new PermissionEntertainment { IdUser = user.Id, IdEntertainment = int.Parse(entertainment) };
-                    user.PermissionEntertainments.Add(entertainmentToAdd);
+                    var partyToAdd = new PermissionParty { IdUser = user.Id, IdParty = int.Parse(party) };
+                    user.PermissionPartys.Add(partyToAdd);
                 }
             }
 
@@ -172,8 +172,8 @@ namespace InformacjeTurystyczne.Controllers
                 .ThenInclude(i => i.Trial)
                 .Include(i => i.PermissionShelters)
                 .ThenInclude(i => i.Shelter)
-                .Include(i => i.PermissionEntertainments)
-                .ThenInclude(i => i.Entertainment)
+                .Include(i => i.PermissionPartys)
+                .ThenInclude(i => i.Party)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -189,32 +189,32 @@ namespace InformacjeTurystyczne.Controllers
 
         private void PopulateUser(AppUser userToUpdate)
         {
-            var allEntertainments = _appDbContext.Entertainments;
+            var allPartys = _appDbContext.Partys;
             var allRegions = _appDbContext.Regions;
             var allShelters = _appDbContext.Shelters;
             var allTrials = _appDbContext.Trials;
 
-            var userEntertainment = new HashSet<int>(userToUpdate.PermissionEntertainments.Select(c => c.IdEntertainment));
+            var userParty = new HashSet<int>(userToUpdate.PermissionPartys.Select(c => c.IdParty));
             var userRegion = new HashSet<int?>(userToUpdate.PermissionRegions.Select(c => c.IdRegion));
             var userShelter = new HashSet<int?>(userToUpdate.PermissionShelters.Select(c => c.IdShelter));
             var userTrial = new HashSet<int?>(userToUpdate.PermissionTrials.Select(c => c.IdTrial));
 
-            var viewModelEntertainment = new List<PermissionEntertainmentData>();
+            var viewModelParty = new List<PermissionPartyData>();
             var viewModelRegion = new List<PermissionRegionData>();
             var viewModelShelter = new List<PermissionShelterData>();
             var viewModelTrial = new List<PermissionTrialData>();
 
-            foreach (var entertainment in allEntertainments)
+            foreach (var party in allPartys)
             {
-                viewModelEntertainment.Add(new PermissionEntertainmentData
+                viewModelParty.Add(new PermissionPartyData
                 {
-                    IdEntertainment = entertainment.IdEntertainment,
-                    Name = entertainment.Name,
-                    Assigned = userEntertainment.Contains(entertainment.IdEntertainment)
+                    IdParty = party.IdParty,
+                    Name = party.Name,
+                    Assigned = userParty.Contains(party.IdParty)
                 });
             }
 
-            ViewData["Entertainments"] = viewModelEntertainment;
+            ViewData["Partys"] = viewModelParty;
 
             foreach (var region in allRegions)
             {
@@ -261,7 +261,7 @@ namespace InformacjeTurystyczne.Controllers
             {
                 if(selectedEntertinments == null)
                 {
-                    userToUpdate.PermissionEntertainments = new List<PermissionEntertainment>();
+                    userToUpdate.PermissionPartys = new List<PermissionParty>();
                 }
                 if(selectedRegions == null)
                 {
@@ -279,26 +279,26 @@ namespace InformacjeTurystyczne.Controllers
                 return;
             }
 
-            var selectedEntertainmentsHS = new HashSet<string>(selectedEntertinments);
-            var userEntertainments = new HashSet<int>
-                (userToUpdate.PermissionEntertainments.Select(c => c.Entertainment.IdEntertainment));
+            var selectedPartysHS = new HashSet<string>(selectedEntertinments);
+            var userPartys = new HashSet<int>
+                (userToUpdate.PermissionPartys.Select(c => c.Party.IdParty));
 
-            foreach (var entertainment in _appDbContext.Entertainments)
+            foreach (var party in _appDbContext.Partys)
             {
-                if (selectedEntertainmentsHS.Contains(entertainment.IdEntertainment.ToString()))
+                if (selectedPartysHS.Contains(party.IdParty.ToString()))
                 {
-                    if (!userEntertainments.Contains(entertainment.IdEntertainment))
+                    if (!userPartys.Contains(party.IdParty))
                     {
-                        userToUpdate.PermissionEntertainments.Add(new PermissionEntertainment { IdUser = userToUpdate.Id, IdEntertainment = entertainment.IdEntertainment });
+                        userToUpdate.PermissionPartys.Add(new PermissionParty { IdUser = userToUpdate.Id, IdParty = party.IdParty });
 
                     }
                 }
                 else
                 {
-                    if (userEntertainments.Contains(entertainment.IdEntertainment))
+                    if (userPartys.Contains(party.IdParty))
                     {
-                        PermissionEntertainment entertainmentToRemove = userToUpdate.PermissionEntertainments.FirstOrDefault(i => i.IdEntertainment == entertainment.IdEntertainment);
-                        _appDbContext.Remove(entertainmentToRemove);
+                        PermissionParty partyToRemove = userToUpdate.PermissionPartys.FirstOrDefault(i => i.IdParty == party.IdParty);
+                        _appDbContext.Remove(partyToRemove);
                     }
                 }
             }
@@ -379,7 +379,7 @@ namespace InformacjeTurystyczne.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, string[] selectedEntertainments, string[] selectedRegions, 
+        public async Task<IActionResult> Edit(string id, string[] selectedPartys, string[] selectedRegions, 
             string[] selectedShelters, string[] selectedTrials)
         {
             if (id == null)
@@ -394,14 +394,14 @@ namespace InformacjeTurystyczne.Controllers
                 .ThenInclude(i => i.Trial)
                 .Include(i => i.PermissionShelters)
                 .ThenInclude(i => i.Shelter)
-                .Include(i => i.PermissionEntertainments)
-                .ThenInclude(i => i.Entertainment)
+                .Include(i => i.PermissionPartys)
+                .ThenInclude(i => i.Party)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
 
             if (userToUpdate != null)
             {
-                UpdateUser(selectedEntertainments, selectedRegions, 
+                UpdateUser(selectedPartys, selectedRegions, 
                     selectedShelters, selectedTrials, userToUpdate);
 
                 try
@@ -416,7 +416,7 @@ namespace InformacjeTurystyczne.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            UpdateUser(selectedEntertainments, selectedRegions,
+            UpdateUser(selectedPartys, selectedRegions,
                     selectedShelters, selectedTrials, userToUpdate);
 
             return View(userToUpdate);

@@ -16,7 +16,8 @@ namespace InformacjeTurystyczne.Models.ViewModels
             //lista regionów, które moze modyfikować
             public List<string> RegionsPermissions { get; set; }
             public List<string> ShelterPermissions { get; set; }
-            public List<string> EventsPermissions { get; set; }
+
+            public List<string> PartysPermissions { get; set; }
             public List<string> TrailsPermissions { get; set; }
         }
 

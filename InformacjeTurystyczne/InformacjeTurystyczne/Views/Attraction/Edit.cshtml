@@ -1,17 +1,22 @@
-﻿@model InformacjeTurystyczne.Models.Tabels.Party
+﻿@model InformacjeTurystyczne.Models.Tabels.Attraction
 
 <h1>Edit</h1>
 
-<h4>Party</h4>
+<h4>Attraction</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdParty" />
+            <input type="hidden" asp-for="IdAttraction" />
             <div class="form-group">
-                <label asp-for="IdParty" class="control-label"></label>
-                <div>@Html.DisplayFor(model => model.IdParty)</div>
+                <label asp-for="IdAttraction" class="control-label"></label>
+                <div>@Html.DisplayFor(model => model.IdAttraction)</div>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttractionType" class="control-label"></label>
+                <input asp-for="AttractionType" class="form-control" />
+                <span asp-validation-for="AttractionType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -19,19 +24,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PlaceDescription" class="control-label"></label>
-                <input asp-for="PlaceDescription" class="form-control" />
-                <span asp-validation-for="PlaceDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpToDate" class="control-label"></label>
-                <input asp-for="UpToDate" class="form-control" />
-                <span asp-validation-for="UpToDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Region" class="control-label"></label>

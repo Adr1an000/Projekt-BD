@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Tabels
 {
-    public class Entertainment
+    public class Party
     {
         [Key]
-        public int IdEntertainment { get; set; } // K
+        public int IdParty { get; set; } // K
 
         [Display(Name = "Nazwa imprezy")]
         public string Name { get; set; }
@@ -30,6 +30,6 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Display(Name = "Region")]
         public Region Region { get; set; }
 
-        public ICollection<PermissionEntertainment> PermissionEntertainment { get; set; }
+        public ICollection<PermissionParty> PermissionParty { get; set; }
     }
 }

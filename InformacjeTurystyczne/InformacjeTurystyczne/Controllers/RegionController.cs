@@ -20,7 +20,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
             _regionRepository = regionRepository;
         }
 
-        public async Task<IActionResult> Index(int? id, int? IdEntertainment)
+        public async Task<IActionResult> Index(int? id, int? IdParty)
         {
             var regions = _regionRepository.GetAllRegion();
 

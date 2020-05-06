@@ -2,6 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
 /* Navigation bar highlighting*/
 const initNavbar = (controller, action) => {
     console.log(controller);
@@ -122,4 +123,5 @@ InfoPage.renderItems = function (items) {
         fragment.appendChild(info__item);
     }
     document.getElementById("info__list").appendChild(fragment);
+
 };

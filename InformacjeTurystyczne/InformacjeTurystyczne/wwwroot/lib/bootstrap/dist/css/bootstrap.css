@@ -2416,7 +2416,7 @@ textarea.form-control {
 
 a.btn.disabled,
 fieldset:disabled a.btn {
-  pointer-events: none;
+  pointer-partys: none;
 }
 
 .btn-primary {
@@ -2965,7 +2965,7 @@ fieldset:disabled a.btn {
 
 .btn-link:disabled, .btn-link.disabled {
   color: #6c757d;
-  pointer-events: none;
+  pointer-partys: none;
 }
 
 .btn-lg, .btn-group-lg > .btn {
@@ -3253,7 +3253,7 @@ input[type="button"].btn-block {
 
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: #6c757d;
-  pointer-events: none;
+  pointer-partys: none;
   background-color: transparent;
 }
 
@@ -3400,7 +3400,7 @@ input[type="button"].btn-block {
 .btn-group-toggle > .btn-group > .btn input[type="checkbox"] {
   position: absolute;
   clip: rect(0, 0, 0, 0);
-  pointer-events: none;
+  pointer-partys: none;
 }
 
 .input-group {
@@ -3658,7 +3658,7 @@ input[type="button"].btn-block {
   display: block;
   width: 1rem;
   height: 1rem;
-  pointer-events: none;
+  pointer-partys: none;
   content: "";
   background-color: #fff;
   border: #adb5bd solid 1px;
@@ -3719,7 +3719,7 @@ input[type="button"].btn-block {
 .custom-switch .custom-control-label::before {
   left: -2.25rem;
   width: 1.75rem;
-  pointer-events: all;
+  pointer-partys: all;
   border-radius: 0.5rem;
 }
 
@@ -4071,7 +4071,7 @@ input[type="button"].btn-block {
 
 .nav-link.disabled {
   color: #6c757d;
-  pointer-events: none;
+  pointer-partys: none;
   cursor: default;
 }
 
@@ -4887,7 +4887,7 @@ input[type="button"].btn-block {
 
 .page-item.disabled .page-link {
   color: #6c757d;
-  pointer-events: none;
+  pointer-partys: none;
   cursor: auto;
   background-color: #fff;
   border-color: #dee2e6;
@@ -5368,7 +5368,7 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 .list-group-item.disabled, .list-group-item:disabled {
   color: #6c757d;
-  pointer-events: none;
+  pointer-partys: none;
   background-color: #fff;
 }
 
@@ -5666,7 +5666,7 @@ button.close {
 }
 
 a.close.disabled {
-  pointer-events: none;
+  pointer-partys: none;
 }
 
 .toast {
@@ -5741,7 +5741,7 @@ a.close.disabled {
   position: relative;
   width: auto;
   margin: 0.5rem;
-  pointer-events: none;
+  pointer-partys: none;
 }
 
 .modal.fade .modal-dialog {
@@ -5821,7 +5821,7 @@ a.close.disabled {
   -ms-flex-direction: column;
   flex-direction: column;
   width: 100%;
-  pointer-events: auto;
+  pointer-partys: auto;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -6217,7 +6217,7 @@ a.close.disabled {
   position: relative;
 }
 
-.carousel.pointer-event {
+.carousel.pointer-party {
   -ms-touch-action: pan-y;
   touch-action: pan-y;
 }
@@ -7909,7 +7909,7 @@ button.bg-dark:focus {
   bottom: 0;
   left: 0;
   z-index: 1;
-  pointer-events: auto;
+  pointer-partys: auto;
   content: "";
   background-color: rgba(0, 0, 0, 0);
 }
