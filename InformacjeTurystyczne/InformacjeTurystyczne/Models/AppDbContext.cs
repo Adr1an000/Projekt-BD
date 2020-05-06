@@ -13,9 +13,9 @@ namespace InformacjeTurystyczne.Models
         }
 
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Entertainment> Entertainments { get; set; }
+        public DbSet<Party> Partys { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<PermissionEntertainment> PermissionEntertainments { get; set; }
+        public DbSet<PermissionParty> PermissionPartys { get; set; }
         public DbSet<PermissionRegion> PermissionRegions { get; set; }
         public DbSet<PermissionShelter> PermissionShelters { get; set; }
         public DbSet<PermissionTrial> PermissionTrials { get; set; }
@@ -24,6 +24,7 @@ namespace InformacjeTurystyczne.Models
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<RegionLocation> RegionLocations { get; set; }
         public DbSet<Trial> Trials { get; set; }
+        public DbSet<Attraction> Attractions { get; set; }
         public override DbSet<AppUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,9 +32,9 @@ namespace InformacjeTurystyczne.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Category>().ToTable("Category");
-            modelBuilder.Entity<Entertainment>().ToTable("Entertainment");
+            modelBuilder.Entity<Party>().ToTable("Party");
             modelBuilder.Entity<Message>().ToTable("Message");
-            modelBuilder.Entity<PermissionEntertainment>().ToTable("PermissionEntertainment");
+            modelBuilder.Entity<PermissionParty>().ToTable("PermissionParty");
             modelBuilder.Entity<PermissionRegion>().ToTable("PermissionRegion");
             modelBuilder.Entity<PermissionShelter>().ToTable("PermissionShelter");
             modelBuilder.Entity<PermissionTrial>().ToTable("PermissionTrial");
@@ -42,12 +43,18 @@ namespace InformacjeTurystyczne.Models
             modelBuilder.Entity<Subscription>().ToTable("Subscription");
             modelBuilder.Entity<RegionLocation>().ToTable("RegionLocation");
             modelBuilder.Entity<Trial>().ToTable("Trial");
+            modelBuilder.Entity<Attraction>().ToTable("Attraction");
             modelBuilder.Entity<AppUser>().ToTable("AspNetUsers");
 
-            modelBuilder.Entity<Entertainment>()
+            modelBuilder.Entity<Party>()
                 .HasOne<Region>(bc => bc.Region)
-                .WithMany(c => c.Entertainment)
+                .WithMany(c => c.Party)
                 .HasForeignKey(s => s.IdRegion);
+
+            modelBuilder.Entity<Attraction>()
+                .HasOne<Region>(bc => bc.Region)
+                .WithMany(c => c.Attraction)
+                .HasForeignKey(bc => bc.IdRegion);
 
             modelBuilder.Entity<Category>()
                 .HasMany<Message>(bc => bc.Messages)
@@ -65,14 +72,14 @@ namespace InformacjeTurystyczne.Models
                 .HasForeignKey(s => s.IdCategory);
 
             /*
-            modelBuilder.Entity<PermissionEntertainment>()
-                .HasOne<Entertainment>(bc => bc.Entertainment)
-                .WithMany(c => c.PermissionEntertainment)
-                .HasForeignKey(s => s.IdEntertainment);
+            modelBuilder.Entity<PermissionParty>()
+                .HasOne<Party>(bc => bc.Party)
+                .WithMany(c => c.PermissionParty)
+                .HasForeignKey(s => s.IdParty);
 
-            modelBuilder.Entity<PermissionEntertainment>()
+            modelBuilder.Entity<PermissionParty>()
                 .HasOne<AppUser>(bc => bc.User)
-                .WithMany(c => c.PermissionEntertainments)
+                .WithMany(c => c.PermissionPartys)
                 .HasForeignKey(s => s.IdUser);
 
             modelBuilder.Entity<PermissionRegion>()
@@ -107,8 +114,8 @@ namespace InformacjeTurystyczne.Models
                 .HasForeignKey(s => s.IdUser);
                 */
 
-            modelBuilder.Entity<PermissionEntertainment>()
-                .HasKey(c => new { c.IdEntertainment, c.IdUser });
+            modelBuilder.Entity<PermissionParty>()
+                .HasKey(c => new { c.IdParty, c.IdUser });
 
             modelBuilder.Entity<PermissionRegion>()
                 .HasKey(c => new { c.IdRegion, c.IdUser });
@@ -152,7 +159,7 @@ namespace InformacjeTurystyczne.Models
             // TRIAL ??? chyba też załatwiony przez funkcje WithMany w pozostałych wywołaniach
 
             modelBuilder.Entity<AppUser>()
-                .HasMany(i => i.PermissionEntertainments)
+                .HasMany(i => i.PermissionPartys)
                 .WithOne(i => i.User)
                 .HasForeignKey(i => i.IdUser);
 

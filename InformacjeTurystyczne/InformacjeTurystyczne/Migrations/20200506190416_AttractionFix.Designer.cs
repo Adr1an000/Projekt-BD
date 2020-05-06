@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InformacjeTurystyczne.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200416124117_ergierjgerkerp")]
-    partial class ergierjgerkerp
+    [Migration("20200506190416_AttractionFix")]
+    partial class AttractionFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,6 +86,32 @@ namespace InformacjeTurystyczne.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Attraction", b =>
+                {
+                    b.Property<int>("IdAttraction")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AttractionType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdRegion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdAttraction");
+
+                    b.HasIndex("IdRegion");
+
+                    b.ToTable("Attraction");
+                });
+
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Category", b =>
                 {
                     b.Property<int>("IdCategory")
@@ -99,35 +125,6 @@ namespace InformacjeTurystyczne.Migrations
                     b.HasKey("IdCategory");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Entertainment", b =>
-                {
-                    b.Property<int>("IdEntertainment")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdRegion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PlaceDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("UpToDate")
-                        .HasColumnType("bit");
-
-                    b.HasKey("IdEntertainment");
-
-                    b.HasIndex("IdRegion");
-
-                    b.ToTable("Entertainment");
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Message", b =>
@@ -161,19 +158,48 @@ namespace InformacjeTurystyczne.Migrations
                     b.ToTable("Message");
                 });
 
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionEntertainment", b =>
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Party", b =>
                 {
-                    b.Property<int?>("IdEntertainment")
+                    b.Property<int>("IdParty")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdRegion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlaceDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("UpToDate")
+                        .HasColumnType("bit");
+
+                    b.HasKey("IdParty");
+
+                    b.HasIndex("IdRegion");
+
+                    b.ToTable("Party");
+                });
+
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionParty", b =>
+                {
+                    b.Property<int>("IdParty")
                         .HasColumnType("int");
 
                     b.Property<string>("IdUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("IdEntertainment", "IdUser");
+                    b.HasKey("IdParty", "IdUser");
 
                     b.HasIndex("IdUser");
 
-                    b.ToTable("PermissionEntertainment");
+                    b.ToTable("PermissionParty");
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionRegion", b =>
@@ -184,17 +210,9 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<string>("IdUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("RegionIdRegion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("IdRegion", "IdUser");
 
-                    b.HasIndex("RegionIdRegion");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("PermissionRegion");
                 });
@@ -207,17 +225,9 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<string>("IdUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ShelterIdShelter")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("IdShelter", "IdUser");
 
-                    b.HasIndex("ShelterIdShelter");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("PermissionShelter");
                 });
@@ -230,17 +240,9 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<string>("IdUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("TrialIdTrial")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("IdTrial", "IdUser");
 
-                    b.HasIndex("TrialIdTrial");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("PermissionTrial");
                 });
@@ -262,20 +264,13 @@ namespace InformacjeTurystyczne.Migrations
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.RegionLocation", b =>
                 {
-                    b.Property<int>("IdRegionLocation")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<int?>("IdRegion")
                         .HasColumnType("int");
 
                     b.Property<int?>("IdTrial")
                         .HasColumnType("int");
 
-                    b.HasKey("IdRegionLocation");
-
-                    b.HasIndex("IdRegion");
+                    b.HasKey("IdRegion", "IdTrial");
 
                     b.HasIndex("IdTrial");
 
@@ -363,6 +358,9 @@ namespace InformacjeTurystyczne.Migrations
 
                     b.Property<float>("Length")
                         .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Open")
                         .HasColumnType("bit");
@@ -503,10 +501,10 @@ namespace InformacjeTurystyczne.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Entertainment", b =>
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Attraction", b =>
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
-                        .WithMany("Entertainment")
+                        .WithMany("Attraction")
                         .HasForeignKey("IdRegion")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -523,16 +521,25 @@ namespace InformacjeTurystyczne.Migrations
                         .HasForeignKey("IdRegion");
                 });
 
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionEntertainment", b =>
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Party", b =>
                 {
-                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Entertainment", "Entertainment")
-                        .WithMany("PermissionEntertainment")
-                        .HasForeignKey("IdEntertainment")
+                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
+                        .WithMany("Party")
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionParty", b =>
+                {
+                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Party", "Party")
+                        .WithMany("PermissionParty")
+                        .HasForeignKey("IdParty")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("InformacjeTurystyczne.Models.AppUser", "User")
-                        .WithMany("PermissionEntertainments")
+                        .WithMany("PermissionPartys")
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -542,44 +549,60 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("PermissionRegion")
-                        .HasForeignKey("RegionIdRegion");
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("InformacjeTurystyczne.Models.AppUser", "User")
                         .WithMany("PermissionRegions")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionShelter", b =>
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Shelter", "Shelter")
                         .WithMany("PermissionShelters")
-                        .HasForeignKey("ShelterIdShelter");
+                        .HasForeignKey("IdShelter")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("InformacjeTurystyczne.Models.AppUser", "User")
                         .WithMany("PermissionShelters")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionTrial", b =>
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Trial", "Trial")
                         .WithMany("PermissionTrial")
-                        .HasForeignKey("TrialIdTrial");
+                        .HasForeignKey("IdTrial")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("InformacjeTurystyczne.Models.AppUser", "User")
                         .WithMany("PermissionTrials")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.RegionLocation", b =>
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("RegionLocation")
-                        .HasForeignKey("IdRegion");
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Trial", "Trial")
                         .WithMany("RegionLocation")
-                        .HasForeignKey("IdTrial");
+                        .HasForeignKey("IdTrial")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Shelter", b =>

@@ -12,20 +12,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Controllers.TabelsController
 {
-    public class EntertainmentController : Controller
+    public class AttractionController : Controller
     {
-        private readonly IEntertainmentRepository _entertainmentRepository;
+        private readonly IAttractionRepository _attractionRepository;
 
-        public EntertainmentController(IEntertainmentRepository entertainmentRepository)
+        public AttractionController(IAttractionRepository attractionRepository)
         {
-            _entertainmentRepository = entertainmentRepository;
+            _attractionRepository = attractionRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var entertainments = _entertainmentRepository.GetAllEntertainment();
+            var attractions = _attractionRepository.GetAllAttraction();
 
-            return View(await entertainments);
+            return View(await attractions);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -35,36 +35,36 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var entertainments = await _entertainmentRepository.GetEntertainmentByID(id);
-            if (entertainments == null)
+            var attractions = await _attractionRepository.GetAttractionByID(id);
+            if (attractions == null)
             {
                 return NotFound();
             }
 
-            return View(entertainments);
+            return View(attractions);
         }
 
         public IActionResult Create()
         {
-            PopulateEntertainment();
+            PopulateAttraction();
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdEntertainment,Name,PlaceDescription,Description,UpToDate,IdRegion")] Entertainment entertainment)
+        public async Task<IActionResult> Create([Bind("IdAttraction,Name,PlaceDescription,Description,UpToDate,IdRegion")] Attraction attraction)
         {
             if (ModelState.IsValid)
             {
-                await _entertainmentRepository.AddEntertainmentAsync(entertainment);
+                await _attractionRepository.AddAttractionAsync(attraction);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            PopulateEntertainment(entertainment.IdRegion);
+            PopulateAttraction(attraction.IdRegion);
 
-            return View(entertainment);
+            return View(attraction);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -74,16 +74,16 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var entertainment = await _entertainmentRepository.GetEntertainmentByIDWithoutInclude(id);
+            var attraction = await _attractionRepository.GetAttractionByIDWithoutInclude(id);
 
-            if (entertainment == null)
+            if (attraction == null)
             {
                 return NotFound();
             }
 
-            PopulateEntertainment(entertainment.IdRegion);
+            PopulateAttraction(attraction.IdRegion);
 
-            return View(entertainment);
+            return View(attraction);
         }
 
         [HttpPost, ActionName("Edit")]
@@ -95,15 +95,15 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var entertainmentToUpdate = await _entertainmentRepository.GetEntertainmentByIDWithoutIncludeAndAsNoTracking(id);
+            var attractionToUpdate = await _attractionRepository.GetAttractionByIDWithoutIncludeAndAsNoTracking(id);
 
-            if (await TryUpdateModelAsync<Entertainment>(entertainmentToUpdate,
+            if (await TryUpdateModelAsync<Attraction>(attractionToUpdate,
                     "",
-                    c => c.Name, c => c.PlaceDescription, c => c.Description, c => c.UpToDate, c => c.IdRegion))
+                    c => c.AttractionType, c => c.Name, c => c.Description,  c => c.IdRegion))
             {
                 try
                 {
-                    await _entertainmentRepository.SaveChangesAsync();
+                    await _attractionRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateException ex)
                 {
@@ -113,14 +113,14 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return RedirectToAction(nameof(Index));
             }
 
-            PopulateEntertainment(entertainmentToUpdate.IdRegion);
-            return View(entertainmentToUpdate);
+            PopulateAttraction(attractionToUpdate.IdRegion);
+            return View(attractionToUpdate);
         }
 
-        public void PopulateEntertainment(object selectedRegion = null)
+        public void PopulateAttraction(object selectedRegion = null)
         {
 
-            var regionQuery = from e in _entertainmentRepository.GetAllRegionAsNoTracking()
+            var regionQuery = from e in _attractionRepository.GetAllRegionAsNoTracking()
                               orderby e.Name
                               select e;
 
@@ -134,22 +134,22 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var entertainment = await _entertainmentRepository.GetEntertainmentByID(id);
+            var attraction = await _attractionRepository.GetAttractionByID(id);
 
-            if (entertainment == null)
+            if (attraction == null)
             {
                 return NotFound();
             }
 
-            return View(entertainment);
+            return View(attraction);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var course = await _entertainmentRepository.GetEntertainmentByIDWithoutIncludeAndAsNoTracking(id);
-            await _entertainmentRepository.DeleteEntertainmentAsync(course);
+            var course = await _attractionRepository.GetAttractionByIDWithoutIncludeAndAsNoTracking(id);
+            await _attractionRepository.DeleteAttractionAsync(course);
 
             return RedirectToAction(nameof(Index));
         }

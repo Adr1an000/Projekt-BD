@@ -1,8 +1,6 @@
-﻿@model IEnumerable<InformacjeTurystyczne.Models.Tabels.Party>
+﻿@model IEnumerable<InformacjeTurystyczne.Models.Tabels.Attraction>
 
-
-<h1>Party</h1>
-
+    <h1>Attraction</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -11,19 +9,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdParty)
+                @Html.DisplayNameFor(model => model.IdAttraction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttractionType)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlaceDescription)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpToDate)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IdRegion)
@@ -36,27 +31,24 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdParty)
+                    @Html.DisplayFor(modelItem => item.IdAttraction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AttractionType)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PlaceDescription)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpToDate)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Region.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdParty">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdParty">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdParty">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IdAttraction">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdAttraction">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdAttraction">Delete</a>
                 </td>
             </tr>
         }

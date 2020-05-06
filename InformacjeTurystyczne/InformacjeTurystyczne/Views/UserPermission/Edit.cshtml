@@ -15,7 +15,7 @@
 
             @{
                 int cnt = 0;
-                List<InformacjeTurystyczne.Models.ViewModels.PermissionEntertainmentData> entertainments = ViewBag.Entertainments;
+                List<InformacjeTurystyczne.Models.ViewModels.PermissionPartyData> partys = ViewBag.Partys;
                 List<InformacjeTurystyczne.Models.ViewModels.PermissionRegionData> regions = ViewBag.Regions;
                 List<InformacjeTurystyczne.Models.ViewModels.PermissionShelterData> shelters = ViewBag.Shelters;
                 List<InformacjeTurystyczne.Models.ViewModels.PermissionTrialData> trials = ViewBag.Trials;
@@ -35,14 +35,14 @@
                 <tbody>
                 <td>
                     @{
-                        foreach (var entertainment in entertainments)
+                        foreach (var party in partys)
                         {
 
                             <input type="checkbox"
-                                   name="selectedEntertainments"
-                                   value="@entertainment.IdEntertainment"
-                                   @(Html.Raw(entertainment.Assigned ? "checked=\"checked\"" : "")) />
-                            @entertainment.IdEntertainment @entertainment.Name
+                                   name="selectedPartys"
+                                   value="@party.IdParty"
+                                   @(Html.Raw(party.Assigned ? "checked=\"checked\"" : "")) />
+                            @party.IdParty @party.Name
                             <br>
                         }
                     }

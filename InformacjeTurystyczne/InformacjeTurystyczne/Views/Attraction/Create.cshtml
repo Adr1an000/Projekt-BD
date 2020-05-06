@@ -1,17 +1,15 @@
-﻿@model InformacjeTurystyczne.Models.Tabels.Party
+﻿@model InformacjeTurystyczne.Models.Tabels.Attraction
 
-<h1>Edit</h1>
-
-<h4>Party</h4>
+<h1>Create</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdParty" />
             <div class="form-group">
-                <label asp-for="IdParty" class="control-label"></label>
-                <div>@Html.DisplayFor(model => model.IdParty)</div>
+                <label asp-for="AttractionType" class="control-label"></label>
+                <input asp-for="AttractionType" class="form-control" />
+                <span asp-validation-for="AttractionType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -19,19 +17,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PlaceDescription" class="control-label"></label>
-                <input asp-for="PlaceDescription" class="form-control" />
-                <span asp-validation-for="PlaceDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpToDate" class="control-label"></label>
-                <input asp-for="UpToDate" class="form-control" />
-                <span asp-validation-for="UpToDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Region" class="control-label"></label>
@@ -41,7 +29,7 @@
                 <span asp-validation-for="IdRegion" class="text-danger" />
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

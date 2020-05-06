@@ -88,13 +88,13 @@
     return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
   }
 
-  function getSpecialTransitionEndEvent() {
+  function getSpecialTransitionEndParty() {
     return {
       bindType: TRANSITION_END,
       delegateType: TRANSITION_END,
-      handle: function handle(event) {
-        if ($(event.target).is(this)) {
-          return event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
+      handle: function handle(party) {
+        if ($(party.target).is(this)) {
+          return party.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
         }
 
         return undefined; // eslint-disable-line no-undefined
@@ -119,7 +119,7 @@
 
   function setTransitionEndSupport() {
     $.fn.emulateTransitionEnd = transitionEndEmulator;
-    $.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
+    $.party.special[Util.TRANSITION_END] = getSpecialTransitionEndParty();
   }
   /**
    * --------------------------------------------------------------------------
@@ -238,7 +238,7 @@
   var Selector = {
     DISMISS: '[data-dismiss="alert"]'
   };
-  var Event = {
+  var Party = {
     CLOSE: "close" + EVENT_KEY,
     CLOSED: "closed" + EVENT_KEY,
     CLICK_DATA_API: "click" + EVENT_KEY + DATA_API_KEY
@@ -273,9 +273,9 @@
         rootElement = this._getRootElement(element);
       }
 
-      var customEvent = this._triggerCloseEvent(rootElement);
+      var customParty = this._triggerCloseParty(rootElement);
 
-      if (customEvent.isDefaultPrevented()) {
+      if (customParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -303,10 +303,10 @@
       return parent;
     };
 
-    _proto._triggerCloseEvent = function _triggerCloseEvent(element) {
-      var closeEvent = $.Event(Event.CLOSE);
-      $(element).trigger(closeEvent);
-      return closeEvent;
+    _proto._triggerCloseParty = function _triggerCloseParty(element) {
+      var closeParty = $.Party(Party.CLOSE);
+      $(element).trigger(closeParty);
+      return closeParty;
     };
 
     _proto._removeElement = function _removeElement(element) {
@@ -321,13 +321,13 @@
       }
 
       var transitionDuration = Util.getTransitionDurationFromElement(element);
-      $(element).one(Util.TRANSITION_END, function (event) {
-        return _this._destroyElement(element, event);
+      $(element).one(Util.TRANSITION_END, function (party) {
+        return _this._destroyElement(element, party);
       }).emulateTransitionEnd(transitionDuration);
     };
 
     _proto._destroyElement = function _destroyElement(element) {
-      $(element).detach().trigger(Event.CLOSED).remove();
+      $(element).detach().trigger(Party.CLOSED).remove();
     } // Static
     ;
 
@@ -348,9 +348,9 @@
     };
 
     Alert._handleDismiss = function _handleDismiss(alertInstance) {
-      return function (event) {
-        if (event) {
-          event.preventDefault();
+      return function (party) {
+        if (party) {
+          party.prpartyDefault();
         }
 
         alertInstance.close(this);
@@ -373,7 +373,7 @@
    */
 
 
-  $(document).on(Event.CLICK_DATA_API, Selector.DISMISS, Alert._handleDismiss(new Alert()));
+  $(document).on(Party.CLICK_DATA_API, Selector.DISMISS, Alert._handleDismiss(new Alert()));
   /**
    * ------------------------------------------------------------------------
    * jQuery
@@ -412,7 +412,7 @@
     ACTIVE: '.active',
     BUTTON: '.btn'
   };
-  var Event$1 = {
+  var Party$1 = {
     CLICK_DATA_API: "click" + EVENT_KEY$1 + DATA_API_KEY$1,
     FOCUS_BLUR_DATA_API: "focus" + EVENT_KEY$1 + DATA_API_KEY$1 + " " + ("blur" + EVENT_KEY$1 + DATA_API_KEY$1)
     /**
@@ -435,7 +435,7 @@
 
     // Public
     _proto.toggle = function toggle() {
-      var triggerChangeEvent = true;
+      var triggerChangeParty = true;
       var addAriaPressed = true;
       var rootElement = $(this._element).closest(Selector$1.DATA_TOGGLE)[0];
 
@@ -445,7 +445,7 @@
         if (input) {
           if (input.type === 'radio') {
             if (input.checked && this._element.classList.contains(ClassName$1.ACTIVE)) {
-              triggerChangeEvent = false;
+              triggerChangeParty = false;
             } else {
               var activeElement = rootElement.querySelector(Selector$1.ACTIVE);
 
@@ -455,7 +455,7 @@
             }
           }
 
-          if (triggerChangeEvent) {
+          if (triggerChangeParty) {
             if (input.hasAttribute('disabled') || rootElement.hasAttribute('disabled') || input.classList.contains('disabled') || rootElement.classList.contains('disabled')) {
               return;
             }
@@ -473,7 +473,7 @@
         this._element.setAttribute('aria-pressed', !this._element.classList.contains(ClassName$1.ACTIVE));
       }
 
-      if (triggerChangeEvent) {
+      if (triggerChangeParty) {
         $(this._element).toggleClass(ClassName$1.ACTIVE);
       }
     };
@@ -515,18 +515,18 @@
    */
 
 
-  $(document).on(Event$1.CLICK_DATA_API, Selector$1.DATA_TOGGLE_CARROT, function (event) {
-    event.preventDefault();
-    var button = event.target;
+  $(document).on(Party$1.CLICK_DATA_API, Selector$1.DATA_TOGGLE_CARROT, function (party) {
+    party.prpartyDefault();
+    var button = party.target;
 
     if (!$(button).hasClass(ClassName$1.BUTTON)) {
       button = $(button).closest(Selector$1.BUTTON);
     }
 
     Button._jQueryInterface.call($(button), 'toggle');
-  }).on(Event$1.FOCUS_BLUR_DATA_API, Selector$1.DATA_TOGGLE_CARROT, function (event) {
-    var button = $(event.target).closest(Selector$1.BUTTON)[0];
-    $(button).toggleClass(ClassName$1.FOCUS, /^focus(in)?$/.test(event.type));
+  }).on(Party$1.FOCUS_BLUR_DATA_API, Selector$1.DATA_TOGGLE_CARROT, function (party) {
+    var button = $(party.target).closest(Selector$1.BUTTON)[0];
+    $(button).toggleClass(ClassName$1.FOCUS, /^focus(in)?$/.test(party.type));
   });
   /**
    * ------------------------------------------------------------------------
@@ -554,11 +554,11 @@
   var EVENT_KEY$2 = "." + DATA_KEY$2;
   var DATA_API_KEY$2 = '.data-api';
   var JQUERY_NO_CONFLICT$2 = $.fn[NAME$2];
-  var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
+  var ARROW_LEFT_KEYCODE = 37; // KeyboardParty.which value for left arrow key
 
-  var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
+  var ARROW_RIGHT_KEYCODE = 39; // KeyboardParty.which value for right arrow key
 
-  var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
+  var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat partys to fire after touch
 
   var SWIPE_THRESHOLD = 40;
   var Default = {
@@ -583,7 +583,7 @@
     LEFT: 'left',
     RIGHT: 'right'
   };
-  var Event$2 = {
+  var Party$2 = {
     SLIDE: "slide" + EVENT_KEY$2,
     SLID: "slid" + EVENT_KEY$2,
     KEYDOWN: "keydown" + EVENT_KEY$2,
@@ -607,7 +607,7 @@
     NEXT: 'carousel-item-next',
     PREV: 'carousel-item-prev',
     ITEM: 'carousel-item',
-    POINTER_EVENT: 'pointer-event'
+    POINTER_EVENT: 'pointer-party'
   };
   var Selector$2 = {
     ACTIVE: '.active',
@@ -646,9 +646,9 @@
       this._element = element;
       this._indicatorsElement = this._element.querySelector(Selector$2.INDICATORS);
       this._touchSupported = 'ontouchstart' in document.documentElement || navigator.maxTouchPoints > 0;
-      this._pointerEvent = Boolean(window.PointerEvent || window.MSPointerEvent);
+      this._pointerParty = Boolean(window.PointerParty || window.MSPointerParty);
 
-      this._addEventListeners();
+      this._addPartyListeners();
     } // Getters
 
 
@@ -675,8 +675,8 @@
       }
     };
 
-    _proto.pause = function pause(event) {
-      if (!event) {
+    _proto.pause = function pause(party) {
+      if (!party) {
         this._isPaused = true;
       }
 
@@ -689,8 +689,8 @@
       this._interval = null;
     };
 
-    _proto.cycle = function cycle(event) {
-      if (!event) {
+    _proto.cycle = function cycle(party) {
+      if (!party) {
         this._isPaused = false;
       }
 
@@ -716,7 +716,7 @@
       }
 
       if (this._isSliding) {
-        $(this._element).one(Event$2.SLID, function () {
+        $(this._element).one(Party$2.SLID, function () {
           return _this.to(index);
         });
         return;
@@ -772,118 +772,118 @@
       }
     };
 
-    _proto._addEventListeners = function _addEventListeners() {
+    _proto._addPartyListeners = function _addPartyListeners() {
       var _this2 = this;
 
       if (this._config.keyboard) {
-        $(this._element).on(Event$2.KEYDOWN, function (event) {
-          return _this2._keydown(event);
+        $(this._element).on(Party$2.KEYDOWN, function (party) {
+          return _this2._keydown(party);
         });
       }
 
       if (this._config.pause === 'hover') {
-        $(this._element).on(Event$2.MOUSEENTER, function (event) {
-          return _this2.pause(event);
-        }).on(Event$2.MOUSELEAVE, function (event) {
-          return _this2.cycle(event);
+        $(this._element).on(Party$2.MOUSEENTER, function (party) {
+          return _this2.pause(party);
+        }).on(Party$2.MOUSELEAVE, function (party) {
+          return _this2.cycle(party);
         });
       }
 
       if (this._config.touch) {
-        this._addTouchEventListeners();
+        this._addTouchPartyListeners();
       }
     };
 
-    _proto._addTouchEventListeners = function _addTouchEventListeners() {
+    _proto._addTouchPartyListeners = function _addTouchPartyListeners() {
       var _this3 = this;
 
       if (!this._touchSupported) {
         return;
       }
 
-      var start = function start(event) {
-        if (_this3._pointerEvent && PointerType[event.originalEvent.pointerType.toUpperCase()]) {
-          _this3.touchStartX = event.originalEvent.clientX;
-        } else if (!_this3._pointerEvent) {
-          _this3.touchStartX = event.originalEvent.touches[0].clientX;
+      var start = function start(party) {
+        if (_this3._pointerParty && PointerType[party.originalParty.pointerType.toUpperCase()]) {
+          _this3.touchStartX = party.originalParty.clientX;
+        } else if (!_this3._pointerParty) {
+          _this3.touchStartX = party.originalParty.touches[0].clientX;
         }
       };
 
-      var move = function move(event) {
+      var move = function move(party) {
         // ensure swiping with one touch and not pinching
-        if (event.originalEvent.touches && event.originalEvent.touches.length > 1) {
+        if (party.originalParty.touches && party.originalParty.touches.length > 1) {
           _this3.touchDeltaX = 0;
         } else {
-          _this3.touchDeltaX = event.originalEvent.touches[0].clientX - _this3.touchStartX;
+          _this3.touchDeltaX = party.originalParty.touches[0].clientX - _this3.touchStartX;
         }
       };
 
-      var end = function end(event) {
-        if (_this3._pointerEvent && PointerType[event.originalEvent.pointerType.toUpperCase()]) {
-          _this3.touchDeltaX = event.originalEvent.clientX - _this3.touchStartX;
+      var end = function end(party) {
+        if (_this3._pointerParty && PointerType[party.originalParty.pointerType.toUpperCase()]) {
+          _this3.touchDeltaX = party.originalParty.clientX - _this3.touchStartX;
         }
 
         _this3._handleSwipe();
 
         if (_this3._config.pause === 'hover') {
           // If it's a touch-enabled device, mouseenter/leave are fired as
-          // part of the mouse compatibility events on first tap - the carousel
+          // part of the mouse compatibility partys on first tap - the carousel
           // would stop cycling until user tapped out of it;
           // here, we listen for touchend, explicitly pause the carousel
-          // (as if it's the second time we tap on it, mouseenter compat event
+          // (as if it's the second time we tap on it, mouseenter compat party
           // is NOT fired) and after a timeout (to allow for mouse compatibility
-          // events to fire) we explicitly restart cycling
+          // partys to fire) we explicitly restart cycling
           _this3.pause();
 
           if (_this3.touchTimeout) {
             clearTimeout(_this3.touchTimeout);
           }
 
-          _this3.touchTimeout = setTimeout(function (event) {
-            return _this3.cycle(event);
+          _this3.touchTimeout = setTimeout(function (party) {
+            return _this3.cycle(party);
           }, TOUCHEVENT_COMPAT_WAIT + _this3._config.interval);
         }
       };
 
-      $(this._element.querySelectorAll(Selector$2.ITEM_IMG)).on(Event$2.DRAG_START, function (e) {
-        return e.preventDefault();
+      $(this._element.querySelectorAll(Selector$2.ITEM_IMG)).on(Party$2.DRAG_START, function (e) {
+        return e.prpartyDefault();
       });
 
-      if (this._pointerEvent) {
-        $(this._element).on(Event$2.POINTERDOWN, function (event) {
-          return start(event);
+      if (this._pointerParty) {
+        $(this._element).on(Party$2.POINTERDOWN, function (party) {
+          return start(party);
         });
-        $(this._element).on(Event$2.POINTERUP, function (event) {
-          return end(event);
+        $(this._element).on(Party$2.POINTERUP, function (party) {
+          return end(party);
         });
 
         this._element.classList.add(ClassName$2.POINTER_EVENT);
       } else {
-        $(this._element).on(Event$2.TOUCHSTART, function (event) {
-          return start(event);
+        $(this._element).on(Party$2.TOUCHSTART, function (party) {
+          return start(party);
         });
-        $(this._element).on(Event$2.TOUCHMOVE, function (event) {
-          return move(event);
+        $(this._element).on(Party$2.TOUCHMOVE, function (party) {
+          return move(party);
         });
-        $(this._element).on(Event$2.TOUCHEND, function (event) {
-          return end(event);
+        $(this._element).on(Party$2.TOUCHEND, function (party) {
+          return end(party);
         });
       }
     };
 
-    _proto._keydown = function _keydown(event) {
-      if (/input|textarea/i.test(event.target.tagName)) {
+    _proto._keydown = function _keydown(party) {
+      if (/input|textarea/i.test(party.target.tagName)) {
         return;
       }
 
-      switch (event.which) {
+      switch (party.which) {
         case ARROW_LEFT_KEYCODE:
-          event.preventDefault();
+          party.prpartyDefault();
           this.prev();
           break;
 
         case ARROW_RIGHT_KEYCODE:
-          event.preventDefault();
+          party.prpartyDefault();
           this.next();
           break;
 
@@ -914,19 +914,19 @@
       return itemIndex === -1 ? this._items[this._items.length - 1] : this._items[itemIndex];
     };
 
-    _proto._triggerSlideEvent = function _triggerSlideEvent(relatedTarget, eventDirectionName) {
+    _proto._triggerSlideParty = function _triggerSlideParty(relatedTarget, partyDirectionName) {
       var targetIndex = this._getItemIndex(relatedTarget);
 
       var fromIndex = this._getItemIndex(this._element.querySelector(Selector$2.ACTIVE_ITEM));
 
-      var slideEvent = $.Event(Event$2.SLIDE, {
+      var slideParty = $.Party(Party$2.SLIDE, {
         relatedTarget: relatedTarget,
-        direction: eventDirectionName,
+        direction: partyDirectionName,
         from: fromIndex,
         to: targetIndex
       });
-      $(this._element).trigger(slideEvent);
-      return slideEvent;
+      $(this._element).trigger(slideParty);
+      return slideParty;
     };
 
     _proto._setActiveIndicatorElement = function _setActiveIndicatorElement(element) {
@@ -956,16 +956,16 @@
       var isCycling = Boolean(this._interval);
       var directionalClassName;
       var orderClassName;
-      var eventDirectionName;
+      var partyDirectionName;
 
       if (direction === Direction.NEXT) {
         directionalClassName = ClassName$2.LEFT;
         orderClassName = ClassName$2.NEXT;
-        eventDirectionName = Direction.LEFT;
+        partyDirectionName = Direction.LEFT;
       } else {
         directionalClassName = ClassName$2.RIGHT;
         orderClassName = ClassName$2.PREV;
-        eventDirectionName = Direction.RIGHT;
+        partyDirectionName = Direction.RIGHT;
       }
 
       if (nextElement && $(nextElement).hasClass(ClassName$2.ACTIVE)) {
@@ -973,9 +973,9 @@
         return;
       }
 
-      var slideEvent = this._triggerSlideEvent(nextElement, eventDirectionName);
+      var slideParty = this._triggerSlideParty(nextElement, partyDirectionName);
 
-      if (slideEvent.isDefaultPrevented()) {
+      if (slideParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -992,9 +992,9 @@
 
       this._setActiveIndicatorElement(nextElement);
 
-      var slidEvent = $.Event(Event$2.SLID, {
+      var slidParty = $.Party(Party$2.SLID, {
         relatedTarget: nextElement,
-        direction: eventDirectionName,
+        direction: partyDirectionName,
         from: activeElementIndex,
         to: nextElementIndex
       });
@@ -1019,14 +1019,14 @@
           $(activeElement).removeClass(ClassName$2.ACTIVE + " " + orderClassName + " " + directionalClassName);
           _this4._isSliding = false;
           setTimeout(function () {
-            return $(_this4._element).trigger(slidEvent);
+            return $(_this4._element).trigger(slidParty);
           }, 0);
         }).emulateTransitionEnd(transitionDuration);
       } else {
         $(activeElement).removeClass(ClassName$2.ACTIVE);
         $(nextElement).addClass(ClassName$2.ACTIVE);
         this._isSliding = false;
-        $(this._element).trigger(slidEvent);
+        $(this._element).trigger(slidParty);
       }
 
       if (isCycling) {
@@ -1067,7 +1067,7 @@
       });
     };
 
-    Carousel._dataApiClickHandler = function _dataApiClickHandler(event) {
+    Carousel._dataApiClickHandler = function _dataApiClickHandler(party) {
       var selector = Util.getSelectorFromElement(this);
 
       if (!selector) {
@@ -1094,7 +1094,7 @@
         $(target).data(DATA_KEY$2).to(slideIndex);
       }
 
-      event.preventDefault();
+      party.prpartyDefault();
     };
 
     _createClass(Carousel, null, [{
@@ -1118,8 +1118,8 @@
    */
 
 
-  $(document).on(Event$2.CLICK_DATA_API, Selector$2.DATA_SLIDE, Carousel._dataApiClickHandler);
-  $(window).on(Event$2.LOAD_DATA_API, function () {
+  $(document).on(Party$2.CLICK_DATA_API, Selector$2.DATA_SLIDE, Carousel._dataApiClickHandler);
+  $(window).on(Party$2.LOAD_DATA_API, function () {
     var carousels = [].slice.call(document.querySelectorAll(Selector$2.DATA_RIDE));
 
     for (var i = 0, len = carousels.length; i < len; i++) {
@@ -1162,7 +1162,7 @@
     toggle: 'boolean',
     parent: '(string|element)'
   };
-  var Event$3 = {
+  var Party$3 = {
     SHOW: "show" + EVENT_KEY$3,
     SHOWN: "shown" + EVENT_KEY$3,
     HIDE: "hide" + EVENT_KEY$3,
@@ -1269,10 +1269,10 @@
         }
       }
 
-      var startEvent = $.Event(Event$3.SHOW);
-      $(this._element).trigger(startEvent);
+      var startParty = $.Party(Party$3.SHOW);
+      $(this._element).trigger(startParty);
 
-      if (startEvent.isDefaultPrevented()) {
+      if (startParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -1301,7 +1301,7 @@
 
         _this.setTransitioning(false);
 
-        $(_this._element).trigger(Event$3.SHOWN);
+        $(_this._element).trigger(Party$3.SHOWN);
       };
 
       var capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
@@ -1318,10 +1318,10 @@
         return;
       }
 
-      var startEvent = $.Event(Event$3.HIDE);
-      $(this._element).trigger(startEvent);
+      var startParty = $.Party(Party$3.HIDE);
+      $(this._element).trigger(startParty);
 
-      if (startEvent.isDefaultPrevented()) {
+      if (startParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -1352,7 +1352,7 @@
       var complete = function complete() {
         _this2.setTransitioning(false);
 
-        $(_this2._element).removeClass(ClassName$3.COLLAPSING).addClass(ClassName$3.COLLAPSE).trigger(Event$3.HIDDEN);
+        $(_this2._element).removeClass(ClassName$3.COLLAPSING).addClass(ClassName$3.COLLAPSE).trigger(Party$3.HIDDEN);
       };
 
       this._element.style[dimension] = '';
@@ -1471,10 +1471,10 @@
    */
 
 
-  $(document).on(Event$3.CLICK_DATA_API, Selector$3.DATA_TOGGLE, function (event) {
-    // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
-    if (event.currentTarget.tagName === 'A') {
-      event.preventDefault();
+  $(document).on(Party$3.CLICK_DATA_API, Selector$3.DATA_TOGGLE, function (party) {
+    // prpartyDefault only for <a> elements (which change the URL) not inside the collapsible element
+    if (party.currentTarget.tagName === 'A') {
+      party.prpartyDefault();
     }
 
     var $trigger = $(this);
@@ -1514,20 +1514,20 @@
   var EVENT_KEY$4 = "." + DATA_KEY$4;
   var DATA_API_KEY$4 = '.data-api';
   var JQUERY_NO_CONFLICT$4 = $.fn[NAME$4];
-  var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
+  var ESCAPE_KEYCODE = 27; // KeyboardParty.which value for Escape (Esc) key
 
-  var SPACE_KEYCODE = 32; // KeyboardEvent.which value for space key
+  var SPACE_KEYCODE = 32; // KeyboardParty.which value for space key
 
-  var TAB_KEYCODE = 9; // KeyboardEvent.which value for tab key
+  var TAB_KEYCODE = 9; // KeyboardParty.which value for tab key
 
-  var ARROW_UP_KEYCODE = 38; // KeyboardEvent.which value for up arrow key
+  var ARROW_UP_KEYCODE = 38; // KeyboardParty.which value for up arrow key
 
-  var ARROW_DOWN_KEYCODE = 40; // KeyboardEvent.which value for down arrow key
+  var ARROW_DOWN_KEYCODE = 40; // KeyboardParty.which value for down arrow key
 
-  var RIGHT_MOUSE_BUTTON_WHICH = 3; // MouseEvent.which value for the right button (assuming a right-handed mouse)
+  var RIGHT_MOUSE_BUTTON_WHICH = 3; // MouseParty.which value for the right button (assuming a right-handed mouse)
 
   var REGEXP_KEYDOWN = new RegExp(ARROW_UP_KEYCODE + "|" + ARROW_DOWN_KEYCODE + "|" + ESCAPE_KEYCODE);
-  var Event$4 = {
+  var Party$4 = {
     HIDE: "hide" + EVENT_KEY$4,
     HIDDEN: "hidden" + EVENT_KEY$4,
     SHOW: "show" + EVENT_KEY$4,
@@ -1595,7 +1595,7 @@
       this._menu = this._getMenuElement();
       this._inNavbar = this._detectNavbar();
 
-      this._addEventListeners();
+      this._addPartyListeners();
     } // Getters
 
 
@@ -1620,10 +1620,10 @@
       var relatedTarget = {
         relatedTarget: this._element
       };
-      var showEvent = $.Event(Event$4.SHOW, relatedTarget);
-      $(parent).trigger(showEvent);
+      var showParty = $.Party(Party$4.SHOW, relatedTarget);
+      $(parent).trigger(showParty);
 
-      if (showEvent.isDefaultPrevented()) {
+      if (showParty.isDefaultPrpartyed()) {
         return;
       } // Disable totally Popper.js for Dropdown in Navbar
 
@@ -1659,8 +1659,8 @@
         this._popper = new Popper(referenceElement, this._menu, this._getPopperConfig());
       } // If this is a touch-enabled device we add extra
       // empty mouseover listeners to the body's immediate children;
-      // only needed because of broken event delegation on iOS
-      // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+      // only needed because of broken party delegation on iOS
+      // https://www.quirksmode.org/blog/archives/2014/02/mouse_party_bub.html
 
 
       if ('ontouchstart' in document.documentElement && $(parent).closest(Selector$4.NAVBAR_NAV).length === 0) {
@@ -1672,7 +1672,7 @@
       this._element.setAttribute('aria-expanded', true);
 
       $(this._menu).toggleClass(ClassName$4.SHOW);
-      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Event(Event$4.SHOWN, relatedTarget));
+      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Party(Party$4.SHOWN, relatedTarget));
     };
 
     _proto.show = function show() {
@@ -1683,18 +1683,18 @@
       var relatedTarget = {
         relatedTarget: this._element
       };
-      var showEvent = $.Event(Event$4.SHOW, relatedTarget);
+      var showParty = $.Party(Party$4.SHOW, relatedTarget);
 
       var parent = Dropdown._getParentFromElement(this._element);
 
-      $(parent).trigger(showEvent);
+      $(parent).trigger(showParty);
 
-      if (showEvent.isDefaultPrevented()) {
+      if (showParty.isDefaultPrpartyed()) {
         return;
       }
 
       $(this._menu).toggleClass(ClassName$4.SHOW);
-      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Event(Event$4.SHOWN, relatedTarget));
+      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Party(Party$4.SHOWN, relatedTarget));
     };
 
     _proto.hide = function hide() {
@@ -1705,18 +1705,18 @@
       var relatedTarget = {
         relatedTarget: this._element
       };
-      var hideEvent = $.Event(Event$4.HIDE, relatedTarget);
+      var hideParty = $.Party(Party$4.HIDE, relatedTarget);
 
       var parent = Dropdown._getParentFromElement(this._element);
 
-      $(parent).trigger(hideEvent);
+      $(parent).trigger(hideParty);
 
-      if (hideEvent.isDefaultPrevented()) {
+      if (hideParty.isDefaultPrpartyed()) {
         return;
       }
 
       $(this._menu).toggleClass(ClassName$4.SHOW);
-      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Event(Event$4.HIDDEN, relatedTarget));
+      $(parent).toggleClass(ClassName$4.SHOW).trigger($.Party(Party$4.HIDDEN, relatedTarget));
     };
 
     _proto.dispose = function dispose() {
@@ -1741,12 +1741,12 @@
     } // Private
     ;
 
-    _proto._addEventListeners = function _addEventListeners() {
+    _proto._addPartyListeners = function _addPartyListeners() {
       var _this = this;
 
-      $(this._element).on(Event$4.CLICK, function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+      $(this._element).on(Party$4.CLICK, function (party) {
+        party.prpartyDefault();
+        party.stopPropagation();
 
         _this.toggle();
       });
@@ -1820,7 +1820,7 @@
           flip: {
             enabled: this._config.flip
           },
-          preventOverflow: {
+          prpartyOverflow: {
             boundariesElement: this._config.boundary
           }
         } // Disable Popper.js if we have a static display
@@ -1858,8 +1858,8 @@
       });
     };
 
-    Dropdown._clearMenus = function _clearMenus(event) {
-      if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
+    Dropdown._clearMenus = function _clearMenus(party) {
+      if (party && (party.which === RIGHT_MOUSE_BUTTON_WHICH || party.type === 'keyup' && party.which !== TAB_KEYCODE)) {
         return;
       }
 
@@ -1873,8 +1873,8 @@
           relatedTarget: toggles[i]
         };
 
-        if (event && event.type === 'click') {
-          relatedTarget.clickEvent = event;
+        if (party && party.type === 'click') {
+          relatedTarget.clickParty = party;
         }
 
         if (!context) {
@@ -1887,14 +1887,14 @@
           continue;
         }
 
-        if (event && (event.type === 'click' && /input|textarea/i.test(event.target.tagName) || event.type === 'keyup' && event.which === TAB_KEYCODE) && $.contains(parent, event.target)) {
+        if (party && (party.type === 'click' && /input|textarea/i.test(party.target.tagName) || party.type === 'keyup' && party.which === TAB_KEYCODE) && $.contains(parent, party.target)) {
           continue;
         }
 
-        var hideEvent = $.Event(Event$4.HIDE, relatedTarget);
-        $(parent).trigger(hideEvent);
+        var hideParty = $.Party(Party$4.HIDE, relatedTarget);
+        $(parent).trigger(hideParty);
 
-        if (hideEvent.isDefaultPrevented()) {
+        if (hideParty.isDefaultPrpartyed()) {
           continue;
         } // If this is a touch-enabled device we remove the extra
         // empty mouseover listeners we added for iOS support
@@ -1906,7 +1906,7 @@
 
         toggles[i].setAttribute('aria-expanded', 'false');
         $(dropdownMenu).removeClass(ClassName$4.SHOW);
-        $(parent).removeClass(ClassName$4.SHOW).trigger($.Event(Event$4.HIDDEN, relatedTarget));
+        $(parent).removeClass(ClassName$4.SHOW).trigger($.Party(Party$4.HIDDEN, relatedTarget));
       }
     };
 
@@ -1922,7 +1922,7 @@
     } // eslint-disable-next-line complexity
     ;
 
-    Dropdown._dataApiKeydownHandler = function _dataApiKeydownHandler(event) {
+    Dropdown._dataApiKeydownHandler = function _dataApiKeydownHandler(party) {
       // If not input/textarea:
       //  - And not a key in REGEXP_KEYDOWN => not a dropdown command
       // If input/textarea:
@@ -1930,12 +1930,12 @@
       //  - If key is other than escape
       //    - If key is not up or down => not a dropdown command
       //    - If trigger inside the menu => not a dropdown command
-      if (/input|textarea/i.test(event.target.tagName) ? event.which === SPACE_KEYCODE || event.which !== ESCAPE_KEYCODE && (event.which !== ARROW_DOWN_KEYCODE && event.which !== ARROW_UP_KEYCODE || $(event.target).closest(Selector$4.MENU).length) : !REGEXP_KEYDOWN.test(event.which)) {
+      if (/input|textarea/i.test(party.target.tagName) ? party.which === SPACE_KEYCODE || party.which !== ESCAPE_KEYCODE && (party.which !== ARROW_DOWN_KEYCODE && party.which !== ARROW_UP_KEYCODE || $(party.target).closest(Selector$4.MENU).length) : !REGEXP_KEYDOWN.test(party.which)) {
         return;
       }
 
-      event.preventDefault();
-      event.stopPropagation();
+      party.prpartyDefault();
+      party.stopPropagation();
 
       if (this.disabled || $(this).hasClass(ClassName$4.DISABLED)) {
         return;
@@ -1945,8 +1945,8 @@
 
       var isActive = $(parent).hasClass(ClassName$4.SHOW);
 
-      if (!isActive || isActive && (event.which === ESCAPE_KEYCODE || event.which === SPACE_KEYCODE)) {
-        if (event.which === ESCAPE_KEYCODE) {
+      if (!isActive || isActive && (party.which === ESCAPE_KEYCODE || party.which === SPACE_KEYCODE)) {
+        if (party.which === ESCAPE_KEYCODE) {
           var toggle = parent.querySelector(Selector$4.DATA_TOGGLE);
           $(toggle).trigger('focus');
         }
@@ -1961,14 +1961,14 @@
         return;
       }
 
-      var index = items.indexOf(event.target);
+      var index = items.indexOf(party.target);
 
-      if (event.which === ARROW_UP_KEYCODE && index > 0) {
+      if (party.which === ARROW_UP_KEYCODE && index > 0) {
         // Up
         index--;
       }
 
-      if (event.which === ARROW_DOWN_KEYCODE && index < items.length - 1) {
+      if (party.which === ARROW_DOWN_KEYCODE && index < items.length - 1) {
         // Down
         index++;
       }
@@ -2006,12 +2006,12 @@
    */
 
 
-  $(document).on(Event$4.KEYDOWN_DATA_API, Selector$4.DATA_TOGGLE, Dropdown._dataApiKeydownHandler).on(Event$4.KEYDOWN_DATA_API, Selector$4.MENU, Dropdown._dataApiKeydownHandler).on(Event$4.CLICK_DATA_API + " " + Event$4.KEYUP_DATA_API, Dropdown._clearMenus).on(Event$4.CLICK_DATA_API, Selector$4.DATA_TOGGLE, function (event) {
-    event.preventDefault();
-    event.stopPropagation();
+  $(document).on(Party$4.KEYDOWN_DATA_API, Selector$4.DATA_TOGGLE, Dropdown._dataApiKeydownHandler).on(Party$4.KEYDOWN_DATA_API, Selector$4.MENU, Dropdown._dataApiKeydownHandler).on(Party$4.CLICK_DATA_API + " " + Party$4.KEYUP_DATA_API, Dropdown._clearMenus).on(Party$4.CLICK_DATA_API, Selector$4.DATA_TOGGLE, function (party) {
+    party.prpartyDefault();
+    party.stopPropagation();
 
     Dropdown._jQueryInterface.call($(this), 'toggle');
-  }).on(Event$4.CLICK_DATA_API, Selector$4.FORM_CHILD, function (e) {
+  }).on(Party$4.CLICK_DATA_API, Selector$4.FORM_CHILD, function (e) {
     e.stopPropagation();
   });
   /**
@@ -2040,7 +2040,7 @@
   var EVENT_KEY$5 = "." + DATA_KEY$5;
   var DATA_API_KEY$5 = '.data-api';
   var JQUERY_NO_CONFLICT$5 = $.fn[NAME$5];
-  var ESCAPE_KEYCODE$1 = 27; // KeyboardEvent.which value for Escape (Esc) key
+  var ESCAPE_KEYCODE$1 = 27; // KeyboardParty.which value for Escape (Esc) key
 
   var Default$3 = {
     backdrop: true,
@@ -2054,7 +2054,7 @@
     focus: 'boolean',
     show: 'boolean'
   };
-  var Event$5 = {
+  var Party$5 = {
     HIDE: "hide" + EVENT_KEY$5,
     HIDDEN: "hidden" + EVENT_KEY$5,
     SHOW: "show" + EVENT_KEY$5,
@@ -2124,12 +2124,12 @@
         this._isTransitioning = true;
       }
 
-      var showEvent = $.Event(Event$5.SHOW, {
+      var showParty = $.Party(Party$5.SHOW, {
         relatedTarget: relatedTarget
       });
-      $(this._element).trigger(showEvent);
+      $(this._element).trigger(showParty);
 
-      if (this._isShown || showEvent.isDefaultPrevented()) {
+      if (this._isShown || showParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -2141,16 +2141,16 @@
 
       this._adjustDialog();
 
-      this._setEscapeEvent();
+      this._setEscapeParty();
 
-      this._setResizeEvent();
+      this._setResizeParty();
 
-      $(this._element).on(Event$5.CLICK_DISMISS, Selector$5.DATA_DISMISS, function (event) {
-        return _this.hide(event);
+      $(this._element).on(Party$5.CLICK_DISMISS, Selector$5.DATA_DISMISS, function (party) {
+        return _this.hide(party);
       });
-      $(this._dialog).on(Event$5.MOUSEDOWN_DISMISS, function () {
-        $(_this._element).one(Event$5.MOUSEUP_DISMISS, function (event) {
-          if ($(event.target).is(_this._element)) {
+      $(this._dialog).on(Party$5.MOUSEDOWN_DISMISS, function () {
+        $(_this._element).one(Party$5.MOUSEUP_DISMISS, function (party) {
+          if ($(party.target).is(_this._element)) {
             _this._ignoreBackdropClick = true;
           }
         });
@@ -2161,21 +2161,21 @@
       });
     };
 
-    _proto.hide = function hide(event) {
+    _proto.hide = function hide(party) {
       var _this2 = this;
 
-      if (event) {
-        event.preventDefault();
+      if (party) {
+        party.prpartyDefault();
       }
 
       if (!this._isShown || this._isTransitioning) {
         return;
       }
 
-      var hideEvent = $.Event(Event$5.HIDE);
-      $(this._element).trigger(hideEvent);
+      var hideParty = $.Party(Party$5.HIDE);
+      $(this._element).trigger(hideParty);
 
-      if (!this._isShown || hideEvent.isDefaultPrevented()) {
+      if (!this._isShown || hideParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -2186,19 +2186,19 @@
         this._isTransitioning = true;
       }
 
-      this._setEscapeEvent();
+      this._setEscapeParty();
 
-      this._setResizeEvent();
+      this._setResizeParty();
 
-      $(document).off(Event$5.FOCUSIN);
+      $(document).off(Party$5.FOCUSIN);
       $(this._element).removeClass(ClassName$5.SHOW);
-      $(this._element).off(Event$5.CLICK_DISMISS);
-      $(this._dialog).off(Event$5.MOUSEDOWN_DISMISS);
+      $(this._element).off(Party$5.CLICK_DISMISS);
+      $(this._dialog).off(Party$5.MOUSEDOWN_DISMISS);
 
       if (transition) {
         var transitionDuration = Util.getTransitionDurationFromElement(this._element);
-        $(this._element).one(Util.TRANSITION_END, function (event) {
-          return _this2._hideModal(event);
+        $(this._element).one(Util.TRANSITION_END, function (party) {
+          return _this2._hideModal(party);
         }).emulateTransitionEnd(transitionDuration);
       } else {
         this._hideModal();
@@ -2210,12 +2210,12 @@
         return $(htmlElement).off(EVENT_KEY$5);
       });
       /**
-       * `document` has 2 events `Event.FOCUSIN` and `Event.CLICK_DATA_API`
+       * `document` has 2 partys `Party.FOCUSIN` and `Party.CLICK_DATA_API`
        * Do not move `document` in `htmlElements` array
-       * It will remove `Event.CLICK_DATA_API` event that should remain
+       * It will remove `Party.CLICK_DATA_API` party that should remain
        */
 
-      $(document).off(Event$5.FOCUSIN);
+      $(document).off(Party$5.FOCUSIN);
       $.removeData(this._element, DATA_KEY$5);
       this._config = null;
       this._element = null;
@@ -2271,7 +2271,7 @@
         this._enforceFocus();
       }
 
-      var shownEvent = $.Event(Event$5.SHOWN, {
+      var shownParty = $.Party(Party$5.SHOWN, {
         relatedTarget: relatedTarget
       });
 
@@ -2281,7 +2281,7 @@
         }
 
         _this3._isTransitioning = false;
-        $(_this3._element).trigger(shownEvent);
+        $(_this3._element).trigger(shownParty);
       };
 
       if (transition) {
@@ -2295,39 +2295,39 @@
     _proto._enforceFocus = function _enforceFocus() {
       var _this4 = this;
 
-      $(document).off(Event$5.FOCUSIN) // Guard against infinite focus loop
-      .on(Event$5.FOCUSIN, function (event) {
-        if (document !== event.target && _this4._element !== event.target && $(_this4._element).has(event.target).length === 0) {
+      $(document).off(Party$5.FOCUSIN) // Guard against infinite focus loop
+      .on(Party$5.FOCUSIN, function (party) {
+        if (document !== party.target && _this4._element !== party.target && $(_this4._element).has(party.target).length === 0) {
           _this4._element.focus();
         }
       });
     };
 
-    _proto._setEscapeEvent = function _setEscapeEvent() {
+    _proto._setEscapeParty = function _setEscapeParty() {
       var _this5 = this;
 
       if (this._isShown && this._config.keyboard) {
-        $(this._element).on(Event$5.KEYDOWN_DISMISS, function (event) {
-          if (event.which === ESCAPE_KEYCODE$1) {
-            event.preventDefault();
+        $(this._element).on(Party$5.KEYDOWN_DISMISS, function (party) {
+          if (party.which === ESCAPE_KEYCODE$1) {
+            party.prpartyDefault();
 
             _this5.hide();
           }
         });
       } else if (!this._isShown) {
-        $(this._element).off(Event$5.KEYDOWN_DISMISS);
+        $(this._element).off(Party$5.KEYDOWN_DISMISS);
       }
     };
 
-    _proto._setResizeEvent = function _setResizeEvent() {
+    _proto._setResizeParty = function _setResizeParty() {
       var _this6 = this;
 
       if (this._isShown) {
-        $(window).on(Event$5.RESIZE, function (event) {
-          return _this6.handleUpdate(event);
+        $(window).on(Party$5.RESIZE, function (party) {
+          return _this6.handleUpdate(party);
         });
       } else {
-        $(window).off(Event$5.RESIZE);
+        $(window).off(Party$5.RESIZE);
       }
     };
 
@@ -2349,7 +2349,7 @@
 
         _this7._resetScrollbar();
 
-        $(_this7._element).trigger(Event$5.HIDDEN);
+        $(_this7._element).trigger(Party$5.HIDDEN);
       });
     };
 
@@ -2374,13 +2374,13 @@
         }
 
         $(this._backdrop).appendTo(document.body);
-        $(this._element).on(Event$5.CLICK_DISMISS, function (event) {
+        $(this._element).on(Party$5.CLICK_DISMISS, function (party) {
           if (_this8._ignoreBackdropClick) {
             _this8._ignoreBackdropClick = false;
             return;
           }
 
-          if (event.target !== event.currentTarget) {
+          if (party.target !== party.currentTarget) {
             return;
           }
 
@@ -2565,7 +2565,7 @@
    */
 
 
-  $(document).on(Event$5.CLICK_DATA_API, Selector$5.DATA_TOGGLE, function (event) {
+  $(document).on(Party$5.CLICK_DATA_API, Selector$5.DATA_TOGGLE, function (party) {
     var _this10 = this;
 
     var target;
@@ -2578,16 +2578,16 @@
     var config = $(target).data(DATA_KEY$5) ? 'toggle' : _objectSpread({}, $(target).data(), $(this).data());
 
     if (this.tagName === 'A' || this.tagName === 'AREA') {
-      event.preventDefault();
+      party.prpartyDefault();
     }
 
-    var $target = $(target).one(Event$5.SHOW, function (showEvent) {
-      if (showEvent.isDefaultPrevented()) {
+    var $target = $(target).one(Party$5.SHOW, function (showParty) {
+      if (showParty.isDefaultPrpartyed()) {
         // Only register focus restorer if modal will actually get shown
         return;
       }
 
-      $target.one(Event$5.HIDDEN, function () {
+      $target.one(Party$5.HIDDEN, function () {
         if ($(_this10).is(':visible')) {
           _this10.focus();
         }
@@ -2790,7 +2790,7 @@
     SHOW: 'show',
     OUT: 'out'
   };
-  var Event$6 = {
+  var Party$6 = {
     HIDE: "hide" + EVENT_KEY$6,
     HIDDEN: "hidden" + EVENT_KEY$6,
     SHOW: "show" + EVENT_KEY$6,
@@ -2866,18 +2866,18 @@
       this._isEnabled = !this._isEnabled;
     };
 
-    _proto.toggle = function toggle(event) {
+    _proto.toggle = function toggle(party) {
       if (!this._isEnabled) {
         return;
       }
 
-      if (event) {
+      if (party) {
         var dataKey = this.constructor.DATA_KEY;
-        var context = $(event.currentTarget).data(dataKey);
+        var context = $(party.currentTarget).data(dataKey);
 
         if (!context) {
-          context = new this.constructor(event.currentTarget, this._getDelegateConfig());
-          $(event.currentTarget).data(dataKey, context);
+          context = new this.constructor(party.currentTarget, this._getDelegateConfig());
+          $(party.currentTarget).data(dataKey, context);
         }
 
         context._activeTrigger.click = !context._activeTrigger.click;
@@ -2930,14 +2930,14 @@
         throw new Error('Please use show on visible elements');
       }
 
-      var showEvent = $.Event(this.constructor.Event.SHOW);
+      var showParty = $.Party(this.constructor.Party.SHOW);
 
       if (this.isWithContent() && this._isEnabled) {
-        $(this.element).trigger(showEvent);
+        $(this.element).trigger(showParty);
         var shadowRoot = Util.findShadowRoot(this.element);
         var isInTheDom = $.contains(shadowRoot !== null ? shadowRoot : this.element.ownerDocument.documentElement, this.element);
 
-        if (showEvent.isDefaultPrevented() || !isInTheDom) {
+        if (showParty.isDefaultPrpartyed() || !isInTheDom) {
           return;
         }
 
@@ -2965,7 +2965,7 @@
           $(tip).appendTo(container);
         }
 
-        $(this.element).trigger(this.constructor.Event.INSERTED);
+        $(this.element).trigger(this.constructor.Party.INSERTED);
         this._popper = new Popper(this.element, tip, {
           placement: attachment,
           modifiers: {
@@ -2976,7 +2976,7 @@
             arrow: {
               element: Selector$6.ARROW
             },
-            preventOverflow: {
+            prpartyOverflow: {
               boundariesElement: this.config.boundary
             }
           },
@@ -2991,8 +2991,8 @@
         });
         $(tip).addClass(ClassName$6.SHOW); // If this is a touch-enabled device we add extra
         // empty mouseover listeners to the body's immediate children;
-        // only needed because of broken event delegation on iOS
-        // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+        // only needed because of broken party delegation on iOS
+        // https://www.quirksmode.org/blog/archives/2014/02/mouse_party_bub.html
 
         if ('ontouchstart' in document.documentElement) {
           $(document.body).children().on('mouseover', null, $.noop);
@@ -3005,7 +3005,7 @@
 
           var prevHoverState = _this._hoverState;
           _this._hoverState = null;
-          $(_this.element).trigger(_this.constructor.Event.SHOWN);
+          $(_this.element).trigger(_this.constructor.Party.SHOWN);
 
           if (prevHoverState === HoverState.OUT) {
             _this._leave(null, _this);
@@ -3025,7 +3025,7 @@
       var _this2 = this;
 
       var tip = this.getTipElement();
-      var hideEvent = $.Event(this.constructor.Event.HIDE);
+      var hideParty = $.Party(this.constructor.Party.HIDE);
 
       var complete = function complete() {
         if (_this2._hoverState !== HoverState.SHOW && tip.parentNode) {
@@ -3036,7 +3036,7 @@
 
         _this2.element.removeAttribute('aria-describedby');
 
-        $(_this2.element).trigger(_this2.constructor.Event.HIDDEN);
+        $(_this2.element).trigger(_this2.constructor.Party.HIDDEN);
 
         if (_this2._popper !== null) {
           _this2._popper.destroy();
@@ -3047,9 +3047,9 @@
         }
       };
 
-      $(this.element).trigger(hideEvent);
+      $(this.element).trigger(hideParty);
 
-      if (hideEvent.isDefaultPrevented()) {
+      if (hideParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -3175,16 +3175,16 @@
       var triggers = this.config.trigger.split(' ');
       triggers.forEach(function (trigger) {
         if (trigger === 'click') {
-          $(_this4.element).on(_this4.constructor.Event.CLICK, _this4.config.selector, function (event) {
-            return _this4.toggle(event);
+          $(_this4.element).on(_this4.constructor.Party.CLICK, _this4.config.selector, function (party) {
+            return _this4.toggle(party);
           });
         } else if (trigger !== Trigger.MANUAL) {
-          var eventIn = trigger === Trigger.HOVER ? _this4.constructor.Event.MOUSEENTER : _this4.constructor.Event.FOCUSIN;
-          var eventOut = trigger === Trigger.HOVER ? _this4.constructor.Event.MOUSELEAVE : _this4.constructor.Event.FOCUSOUT;
-          $(_this4.element).on(eventIn, _this4.config.selector, function (event) {
-            return _this4._enter(event);
-          }).on(eventOut, _this4.config.selector, function (event) {
-            return _this4._leave(event);
+          var partyIn = trigger === Trigger.HOVER ? _this4.constructor.Party.MOUSEENTER : _this4.constructor.Party.FOCUSIN;
+          var partyOut = trigger === Trigger.HOVER ? _this4.constructor.Party.MOUSELEAVE : _this4.constructor.Party.FOCUSOUT;
+          $(_this4.element).on(partyIn, _this4.config.selector, function (party) {
+            return _this4._enter(party);
+          }).on(partyOut, _this4.config.selector, function (party) {
+            return _this4._leave(party);
           });
         }
       });
@@ -3213,17 +3213,17 @@
       }
     };
 
-    _proto._enter = function _enter(event, context) {
+    _proto._enter = function _enter(party, context) {
       var dataKey = this.constructor.DATA_KEY;
-      context = context || $(event.currentTarget).data(dataKey);
+      context = context || $(party.currentTarget).data(dataKey);
 
       if (!context) {
-        context = new this.constructor(event.currentTarget, this._getDelegateConfig());
-        $(event.currentTarget).data(dataKey, context);
+        context = new this.constructor(party.currentTarget, this._getDelegateConfig());
+        $(party.currentTarget).data(dataKey, context);
       }
 
-      if (event) {
-        context._activeTrigger[event.type === 'focusin' ? Trigger.FOCUS : Trigger.HOVER] = true;
+      if (party) {
+        context._activeTrigger[party.type === 'focusin' ? Trigger.FOCUS : Trigger.HOVER] = true;
       }
 
       if ($(context.getTipElement()).hasClass(ClassName$6.SHOW) || context._hoverState === HoverState.SHOW) {
@@ -3246,17 +3246,17 @@
       }, context.config.delay.show);
     };
 
-    _proto._leave = function _leave(event, context) {
+    _proto._leave = function _leave(party, context) {
       var dataKey = this.constructor.DATA_KEY;
-      context = context || $(event.currentTarget).data(dataKey);
+      context = context || $(party.currentTarget).data(dataKey);
 
       if (!context) {
-        context = new this.constructor(event.currentTarget, this._getDelegateConfig());
-        $(event.currentTarget).data(dataKey, context);
+        context = new this.constructor(party.currentTarget, this._getDelegateConfig());
+        $(party.currentTarget).data(dataKey, context);
       }
 
-      if (event) {
-        context._activeTrigger[event.type === 'focusout' ? Trigger.FOCUS : Trigger.HOVER] = false;
+      if (party) {
+        context._activeTrigger[party.type === 'focusout' ? Trigger.FOCUS : Trigger.HOVER] = false;
       }
 
       if (context._isWithActiveTrigger()) {
@@ -3415,9 +3415,9 @@
         return DATA_KEY$6;
       }
     }, {
-      key: "Event",
+      key: "Party",
       get: function get() {
-        return Event$6;
+        return Party$6;
       }
     }, {
       key: "EVENT_KEY",
@@ -3481,7 +3481,7 @@
     TITLE: '.popover-header',
     CONTENT: '.popover-body'
   };
-  var Event$7 = {
+  var Party$7 = {
     HIDE: "hide" + EVENT_KEY$7,
     HIDDEN: "hidden" + EVENT_KEY$7,
     SHOW: "show" + EVENT_KEY$7,
@@ -3526,7 +3526,7 @@
     };
 
     _proto.setContent = function setContent() {
-      var $tip = $(this.getTipElement()); // We use append for html objects to maintain js events
+      var $tip = $(this.getTipElement()); // We use append for html objects to maintain js partys
 
       this.setElementContent($tip.find(Selector$7.TITLE), this.getTitle());
 
@@ -3602,9 +3602,9 @@
         return DATA_KEY$7;
       }
     }, {
-      key: "Event",
+      key: "Party",
       get: function get() {
-        return Event$7;
+        return Party$7;
       }
     }, {
       key: "EVENT_KEY",
@@ -3657,7 +3657,7 @@
     method: 'string',
     target: '(string|element)'
   };
-  var Event$8 = {
+  var Party$8 = {
     ACTIVATE: "activate" + EVENT_KEY$8,
     SCROLL: "scroll" + EVENT_KEY$8,
     LOAD_DATA_API: "load" + EVENT_KEY$8 + DATA_API_KEY$6
@@ -3703,8 +3703,8 @@
       this._targets = [];
       this._activeTarget = null;
       this._scrollHeight = 0;
-      $(this._scrollElement).on(Event$8.SCROLL, function (event) {
-        return _this._process(event);
+      $(this._scrollElement).on(Party$8.SCROLL, function (party) {
+        return _this._process(party);
       });
       this.refresh();
 
@@ -3862,7 +3862,7 @@
         $link.parents(Selector$8.NAV_LIST_GROUP).prev(Selector$8.NAV_ITEMS).children(Selector$8.NAV_LINKS).addClass(ClassName$8.ACTIVE);
       }
 
-      $(this._scrollElement).trigger(Event$8.ACTIVATE, {
+      $(this._scrollElement).trigger(Party$8.ACTIVATE, {
         relatedTarget: target
       });
     };
@@ -3918,7 +3918,7 @@
    */
 
 
-  $(window).on(Event$8.LOAD_DATA_API, function () {
+  $(window).on(Party$8.LOAD_DATA_API, function () {
     var scrollSpys = [].slice.call(document.querySelectorAll(Selector$8.DATA_SPY));
     var scrollSpysLength = scrollSpys.length;
 
@@ -3954,7 +3954,7 @@
   var EVENT_KEY$9 = "." + DATA_KEY$9;
   var DATA_API_KEY$7 = '.data-api';
   var JQUERY_NO_CONFLICT$9 = $.fn[NAME$9];
-  var Event$9 = {
+  var Party$9 = {
     HIDE: "hide" + EVENT_KEY$9,
     HIDDEN: "hidden" + EVENT_KEY$9,
     SHOW: "show" + EVENT_KEY$9,
@@ -4013,20 +4013,20 @@
         previous = previous[previous.length - 1];
       }
 
-      var hideEvent = $.Event(Event$9.HIDE, {
+      var hideParty = $.Party(Party$9.HIDE, {
         relatedTarget: this._element
       });
-      var showEvent = $.Event(Event$9.SHOW, {
+      var showParty = $.Party(Party$9.SHOW, {
         relatedTarget: previous
       });
 
       if (previous) {
-        $(previous).trigger(hideEvent);
+        $(previous).trigger(hideParty);
       }
 
-      $(this._element).trigger(showEvent);
+      $(this._element).trigger(showParty);
 
-      if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) {
+      if (showParty.isDefaultPrpartyed() || hideParty.isDefaultPrpartyed()) {
         return;
       }
 
@@ -4037,14 +4037,14 @@
       this._activate(this._element, listElement);
 
       var complete = function complete() {
-        var hiddenEvent = $.Event(Event$9.HIDDEN, {
+        var hiddenParty = $.Party(Party$9.HIDDEN, {
           relatedTarget: _this._element
         });
-        var shownEvent = $.Event(Event$9.SHOWN, {
+        var shownParty = $.Party(Party$9.SHOWN, {
           relatedTarget: previous
         });
-        $(previous).trigger(hiddenEvent);
-        $(_this._element).trigger(shownEvent);
+        $(previous).trigger(hiddenParty);
+        $(_this._element).trigger(shownParty);
       };
 
       if (target) {
@@ -4158,8 +4158,8 @@
    */
 
 
-  $(document).on(Event$9.CLICK_DATA_API, Selector$9.DATA_TOGGLE, function (event) {
-    event.preventDefault();
+  $(document).on(Party$9.CLICK_DATA_API, Selector$9.DATA_TOGGLE, function (party) {
+    party.prpartyDefault();
 
     Tab._jQueryInterface.call($(this), 'show');
   });
@@ -4188,7 +4188,7 @@
   var DATA_KEY$a = 'bs.toast';
   var EVENT_KEY$a = "." + DATA_KEY$a;
   var JQUERY_NO_CONFLICT$a = $.fn[NAME$a];
-  var Event$a = {
+  var Party$a = {
     CLICK_DISMISS: "click.dismiss" + EVENT_KEY$a,
     HIDE: "hide" + EVENT_KEY$a,
     HIDDEN: "hidden" + EVENT_KEY$a,
@@ -4239,7 +4239,7 @@
     _proto.show = function show() {
       var _this = this;
 
-      $(this._element).trigger(Event$a.SHOW);
+      $(this._element).trigger(Party$a.SHOW);
 
       if (this._config.animation) {
         this._element.classList.add(ClassName$a.FADE);
@@ -4250,7 +4250,7 @@
 
         _this._element.classList.add(ClassName$a.SHOW);
 
-        $(_this._element).trigger(Event$a.SHOWN);
+        $(_this._element).trigger(Party$a.SHOWN);
 
         if (_this._config.autohide) {
           _this.hide();
@@ -4276,7 +4276,7 @@
         return;
       }
 
-      $(this._element).trigger(Event$a.HIDE);
+      $(this._element).trigger(Party$a.HIDE);
 
       if (withoutTimeout) {
         this._close();
@@ -4295,7 +4295,7 @@
         this._element.classList.remove(ClassName$a.SHOW);
       }
 
-      $(this._element).off(Event$a.CLICK_DISMISS);
+      $(this._element).off(Party$a.CLICK_DISMISS);
       $.removeData(this._element, DATA_KEY$a);
       this._element = null;
       this._config = null;
@@ -4311,7 +4311,7 @@
     _proto._setListeners = function _setListeners() {
       var _this3 = this;
 
-      $(this._element).on(Event$a.CLICK_DISMISS, Selector$a.DATA_DISMISS, function () {
+      $(this._element).on(Party$a.CLICK_DISMISS, Selector$a.DATA_DISMISS, function () {
         return _this3.hide(true);
       });
     };
@@ -4322,7 +4322,7 @@
       var complete = function complete() {
         _this4._element.classList.add(ClassName$a.HIDE);
 
-        $(_this4._element).trigger(Event$a.HIDDEN);
+        $(_this4._element).trigger(Party$a.HIDDEN);
       };
 
       this._element.classList.remove(ClassName$a.SHOW);

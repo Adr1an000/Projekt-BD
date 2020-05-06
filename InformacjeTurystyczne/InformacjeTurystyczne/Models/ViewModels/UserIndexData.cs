@@ -12,6 +12,6 @@ namespace InformacjeTurystyczne.Models.ViewModels
         public IEnumerable<Region> Regions { get; set; }
         public IEnumerable<Shelter> Shelters { get; set; }
         public IEnumerable<Trial> Trials { get; set; }
-        public IEnumerable<Entertainment> Entertainments { get; set; }
+        public IEnumerable<Party> Partys { get; set; }
     }
 }

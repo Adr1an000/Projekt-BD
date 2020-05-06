@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Tabels
 {
-    public class PermissionEntertainment
+    public class PermissionParty
     {
        // [Key]
-       // public int IdPermissionEntertainment { get; set; } // K
+       // public int IdPermissionParty { get; set; } // K
 
-        //[ForeignKey("Entertainment")]
-        public int IdEntertainment { get; set; }
-        public Entertainment Entertainment { get; set; }
+        //[ForeignKey("Party")]
+        public int IdParty { get; set; }
+        public Party Party { get; set; }
 
         // USER ???
         public string IdUser { get; set; }

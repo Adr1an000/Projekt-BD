@@ -16,10 +16,11 @@ namespace InformacjeTurystyczne.Models.Tabels
         public string Name { get; set; }
 
         public ICollection<Message> Message { get; set; }
-        public ICollection<Entertainment> Entertainment { get; set; }
+        public ICollection<Party> Party { get; set; }
         public ICollection<RegionLocation> RegionLocation { get; set; }
         public ICollection<Shelter> Shelter { get; set; }
         public ICollection<PermissionRegion> PermissionRegion {get; set;}
         public ICollection<Subscription> Subscription { get; set; }
+        public ICollection<Attraction> Attraction { get; set; }
     }
 }
