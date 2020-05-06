@@ -2,8 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-<<<<<<< Updated upstream
-=======
+
 /* Navigation bar highlighting*/
 const initNavbar = (controller, action) => {
     console.log(controller);
@@ -23,14 +22,14 @@ const initHomepage = () => {
         var home = document.getElementById("homepage");
         home.style.height = (document.documentElement.clientHeight - home.offsetTop) + "px";
     }
-    window.addPartyListener("load", resizeHomepage);
-    window.addPartyListener("resize", resizeHomepage);
+    window.addEventListener("load", resizeHomepage);
+    window.addEventListener("resize", resizeHomepage);
 }
 
 const initToggleButtons = () => {
     let buttons = document.getElementsByClassName("toggle-button");
     for (let i = 0; i < buttons.length; i++) {
-        buttons[i].addPartyListener("click", toggleButton);
+        buttons[i].addEventListener("click", toggleButton);
     }
 };
 
@@ -124,5 +123,5 @@ InfoPage.renderItems = function (items) {
         fragment.appendChild(info__item);
     }
     document.getElementById("info__list").appendChild(fragment);
+
 };
->>>>>>> Stashed changes

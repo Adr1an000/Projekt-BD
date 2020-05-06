@@ -46,7 +46,7 @@
                 {
                     <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
                           method="post" class="navbar-right">
-                        <a href="javascript:document.getElementById('logoutForm').submit()">
+                        <a class="navbar__link" href="javascript:document.getElementById('logoutForm').submit()">
                             <li class="navbar__item">Wyloguj</li>
                         </a>
                     </form>
@@ -61,20 +61,6 @@
                     </a>
                 }
             </ul>
-            <script>
-                var controller = "@ViewContext.RouteData.Values["Controller"]";
-                var action = "@ViewContext.RouteData.Values["Action"]";
-                console.log(controller);
-                console.log(action);
-                var elem;
-                if (controller === "Home")
-                    elem = document.querySelector(`a.navbar__link[href='/']`);
-                else if (action === "Index")
-                    elem = document.querySelector(`a.navbar__link[href='/${controller}']`);
-                else
-                    elem = document.querySelector(`a.navbar__link[href='/${controller}/${action}']`);
-                elem.classList.add("navbar__link--active");
-            </script>
         </div>
     </header>
     <div>
@@ -84,8 +70,14 @@
     </div>
 
     <footer>
-        
     </footer>
     @RenderSection("Scripts", required: false)
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        window.addEventListener("load",  () => initNavbar(
+            "@ViewContext.RouteData.Values["Controller"]",
+            "@ViewContext.RouteData.Values["Action"]"
+        ));
+    </script>
 </body>
 </html>

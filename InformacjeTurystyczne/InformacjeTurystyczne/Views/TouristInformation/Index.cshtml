@@ -1,8 +1,6 @@
-﻿<h1>Informacje turystyczne</h1>
-<h3>// TODO wyświetlanie informacji i filtrowanie czekboxami</h3>
+﻿@model TouristInformationVM
 
-<<<<<<< Updated upstream
-=======
+
 <div class="page info">
     <div class="sidebar">
         <div class="expand">
@@ -22,7 +20,8 @@
     <div class="info__list" id="info__list">
     </div>
     <script>
-        window.addPartyListener("load", () => {
+
+        window.addEventListener("load", () => {
             initToggleButtons();
 
             let itemArray = [];
@@ -49,4 +48,4 @@
         });
     </script>
 </div>
->>>>>>> Stashed changes
+

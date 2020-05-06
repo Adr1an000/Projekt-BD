@@ -4,6 +4,13 @@
     font-size: 2rem;
 }
 
+:root {
+    --primaryColor: #006107;
+    --secondaryColor: #d7ffa7;
+    --supportColorLight: white;
+    --supportColorDark: black;
+}
+
 html, body {
     font-family: "Comfortaa", sans-serif;
     font-size: 10px;
@@ -12,26 +19,42 @@ html, body {
 }
 
 .page {
-    margin-top: 0.5rem;
+    margin-top: 5px;
+}
+
+button:focus {
+    outline: none;
+}
+
+button {
+    color: var(--primaryColor);
+    background-color: var(--secondaryColor);
+    border: 3px solid var(--primaryColor);
+    border-radius: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 /* || Main Navigation */
 
 .navbar__list {
     width: 100%;
-    padding: 20px;
+    padding: 20px 0;
     display: flex;
     align-content: center;
     justify-content: space-around;
     background-color: #d7ffa7;
     box-shadow: 0px 5px 5px black;
     margin-bottom: 5px;
-    z-index: 1;
 }
 
 .navbar__link {
     padding: 0.5rem;
-    color: #006107;
+    color: var(--primaryColor);
     text-decoration: none;
     text-align: center;
     font-size: 2rem;
@@ -39,19 +62,17 @@ html, body {
     transition: all 0.3s;
     flex-basis: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .navbar__link:hover {
-    color: white;
-    background-color: #006107;
+    color: var(--supportColorLight);
+    background-color: var(--primaryColor);
 }
 .navbar__link--active {
-    color: white;
-    background-color: #006107;
+    color: var(--supportColorLight);
+    background-color: var(--primaryColor);
 }
 .navbar__item {
-    display: inline-block;
+    margin: auto;
 }
 
 /* || Home page */
@@ -82,4 +103,77 @@ html, body {
     border-radius: 1rem;
     padding: 4rem 10rem;
     box-shadow: 0px 5px 5px black, 0px -1px 5px black, 5px 0px 5px black, -1px 0px 5px black;
+}
+
+/* || tourist info*/
+
+.info {
+    display: flex;
+}
+
+.sidebar {
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+    border-right: 5px solid var(--secondaryColor);
+    padding: 20px;
+}
+
+.info__list {
+    flex: 3;
+    border: 5px solid pink;
+}
+
+.expand {
+    width: 100%;
+    align-self: center;
+}
+
+.toggle-button--active {
+    background-color: var(--primaryColor);
+    color: var(--supportColorLight);
+}
+
+.toggle-button--active.expand__button {
+    border-radius: 5px 5px 0 0;
+}
+
+.expand__content {
+    display: none;
+    position: relative;
+    border: 5px solid var(--primaryColor);
+    padding: 10px;
+    border-radius: 0 0 5px 5px;
+}
+
+.show {
+    display: block;
+}
+
+/* || tables*/
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td, tables th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgba(215, 255, 167, 0.5);
+    color: #006107;
 }
