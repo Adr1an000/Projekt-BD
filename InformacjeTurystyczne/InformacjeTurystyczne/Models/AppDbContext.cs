@@ -159,6 +159,11 @@ namespace InformacjeTurystyczne.Models
             // TRIAL ??? chyba też załatwiony przez funkcje WithMany w pozostałych wywołaniach
 
             modelBuilder.Entity<AppUser>()
+                .HasMany(i => i.Subscriptions)
+                .WithOne(i => i.User)
+                .HasForeignKey(i => i.IdUser);
+
+            modelBuilder.Entity<AppUser>()
                 .HasMany(i => i.PermissionPartys)
                 .WithOne(i => i.User)
                 .HasForeignKey(i => i.IdUser);

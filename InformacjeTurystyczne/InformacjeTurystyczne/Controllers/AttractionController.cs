@@ -53,7 +53,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdAttraction,Name,PlaceDescription,Description,UpToDate,IdRegion")] Attraction attraction)
+        public async Task<IActionResult> Create([Bind("IdAttraction, AttractionType, Name, Description, IdRegion")] Attraction attraction)
         {
             if (ModelState.IsValid)
             {

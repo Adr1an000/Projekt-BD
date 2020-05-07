@@ -51,7 +51,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdSubscription,Name,PlaceDescription,Description,UpToDate,IdRegion")] Subscription subscription)
+        public async Task<IActionResult> Create([Bind("IdSubscription, IsSubscribed, IdUser, IdRegion")] Subscription subscription)
         {
             if (ModelState.IsValid)
             {
