@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Controllers.TabelsController
 {
+    [System.Runtime.InteropServices.Guid("28B2BD28-2FAF-47D2-A4DD-AB28DADED1F0")]
     public class ShelterController : Controller
     {
         private readonly IShelterRepository _shelterRepository;

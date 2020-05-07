@@ -19,50 +19,52 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+            <table class="table">
+                <tr>
+                    @{
+                        int cnt = 0;
+                        List<InformacjeTurystyczne.Models.ViewModels.PermissionTrialData> trials = ViewBag.Trials;
+
+                    @: </tr>Szlaki<tr>
 
 
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <table>
-            <tr>
-                @{
-                    int cnt = 0;
-                    List<InformacjeTurystyczne.Models.ViewModels.PermissionTrialData> trials = ViewBag.Trials;
 
-                @: </tr>Szlaki<tr>
 
-                    foreach (var trial in trials)
-                    {
-                        if (cnt++ % 3 == 0)
+
+
+
+
+                        foreach (var trial in trials)
                         {
-                        @:</tr><tr>
+                            if (cnt++ % 3 == 0)
+                            {
+                            @:</tr><tr>
+                            }
+                            @:<td>
+                                <input type="checkbox"
+                                       name="selectedTrials"
+                                       value="@trial.IdTrial"
+                                       @(Html.Raw(trial.Assigned ? "checked=\"checked\"" : "")) />
+                                @trial.IdTrial @:  @trial.Name
+                            @:</td>
                         }
-                        @:<td>
-                            <input type="checkbox"
-                                   name="selectedTrials"
-                                   value="@trial.IdTrial"
-                                   @(Html.Raw(trial.Assigned ? "checked=\"checked\"" : "")) />
-                            @trial.IdTrial @:  @trial.Name
-                        @:</td>
-                    }
 
-                @:</tr>
-                }
-            </table>
+                    @:</tr>
+                    }
+                </table>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+
+            </form>
         </div>
     </div>
-    <div class="form-group">
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-        @section Scripts {
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        }
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

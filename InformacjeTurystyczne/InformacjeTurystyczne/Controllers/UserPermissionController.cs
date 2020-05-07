@@ -253,13 +253,13 @@ namespace InformacjeTurystyczne.Controllers
             ViewData["Trials"] = viewModelTrial;
         }
 
-        private void UpdateUser(string[] selectedEntertinments, string[] selectedRegions,
+        private void UpdateUser(string[] selectedPartys, string[] selectedRegions,
             string[] selectedShelters, string[] selectedTrials, AppUser userToUpdate)
         {
-            if (selectedEntertinments == null || selectedRegions == null ||
+            if (selectedPartys == null || selectedRegions == null ||
                 selectedShelters == null || selectedTrials == null)
             {
-                if(selectedEntertinments == null)
+                if(selectedPartys == null)
                 {
                     userToUpdate.PermissionPartys = new List<PermissionParty>();
                 }
@@ -279,7 +279,7 @@ namespace InformacjeTurystyczne.Controllers
                 return;
             }
 
-            var selectedPartysHS = new HashSet<string>(selectedEntertinments);
+            var selectedPartysHS = new HashSet<string>(selectedPartys);
             var userPartys = new HashSet<int>
                 (userToUpdate.PermissionPartys.Select(c => c.Party.IdParty));
 
