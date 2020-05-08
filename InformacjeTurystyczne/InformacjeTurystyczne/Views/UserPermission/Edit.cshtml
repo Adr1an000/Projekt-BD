@@ -18,7 +18,7 @@
                 List<InformacjeTurystyczne.Models.ViewModels.PermissionPartyData> partys = ViewBag.Partys;
                 List<InformacjeTurystyczne.Models.ViewModels.PermissionRegionData> regions = ViewBag.Regions;
                 List<InformacjeTurystyczne.Models.ViewModels.PermissionShelterData> shelters = ViewBag.Shelters;
-                List<InformacjeTurystyczne.Models.ViewModels.PermissionTrialData> trials = ViewBag.Trials;
+                List<InformacjeTurystyczne.Models.ViewModels.PermissionTrailData> trails = ViewBag.Trails;
             }
 
             <table class="table">
@@ -81,15 +81,15 @@
                 </td>
                 <td>
                     @{
-                        foreach (var trial in trials)
+                        foreach (var trail in trails)
                         {
 
 
                             <input type="checkbox"
-                                   name="selectedTrials"
-                                   value="@trial.IdTrial"
-                                   @(Html.Raw(trial.Assigned ? "checked=\"checked\"" : "")) />
-                            @trial.IdTrial @trial.Name
+                                   name="selectedTrails"
+                                   value="@trail.IdTrail"
+                                   @(Html.Raw(trail.Assigned ? "checked=\"checked\"" : "")) />
+                            @trail.IdTrail @trail.Name
                             <br>
                         }
                     }

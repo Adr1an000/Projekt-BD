@@ -22,7 +22,7 @@ namespace InformacjeTurystyczne.Models.Repository
         {
             return await _appDbContext.Regions
                 .Include(i=>i.RegionLocation)
-                .ThenInclude(i=>i.Trial)
+                .ThenInclude(i=>i.Trail)
                 .AsNoTracking().ToListAsync();
         }
 
@@ -30,7 +30,7 @@ namespace InformacjeTurystyczne.Models.Repository
         {
             return await _appDbContext.Regions
                 .Include(i=>i.RegionLocation)
-                .ThenInclude(i=>i.Trial)
+                .ThenInclude(i=>i.Trail)
                 .FirstOrDefaultAsync(s => s.IdRegion == regionID);
         }
 
@@ -72,12 +72,12 @@ namespace InformacjeTurystyczne.Models.Repository
             return _appDbContext.Regions.AsNoTracking();
         }
 
-        public IEnumerable<Trial> GetAllTrials()
+        public IEnumerable<Trail> GetAllTrails()
         {
-            return _appDbContext.Trials;
+            return _appDbContext.Trails;
         }
 
-        void IRegionRepository.RemoveTrial(RegionLocation regionLocation)
+        void IRegionRepository.RemoveTrail(RegionLocation regionLocation)
         {
             _appDbContext.Remove(regionLocation);
         }

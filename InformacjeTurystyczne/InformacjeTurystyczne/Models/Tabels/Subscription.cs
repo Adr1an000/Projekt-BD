@@ -17,9 +17,9 @@ namespace InformacjeTurystyczne.Models.Tabels
 
       //  [ForeignKey("Region")]
         public int IdRegion { get; set; }
-        public Region Region { get; set; }
+        public virtual Region Region { get; set; }
 
         public string IdUser { get; set; }
-        public AppUser User { get; set; }
+        public virtual AppUser User { get; set; }
     }
 }

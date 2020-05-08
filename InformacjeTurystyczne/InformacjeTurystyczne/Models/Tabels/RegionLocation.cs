@@ -12,9 +12,9 @@ namespace InformacjeTurystyczne.Models.Tabels
        // [Key]
        // public int IdRegionLocation { get; set; } // K
 
-       // [ForeignKey("Trial")]
-        public int? IdTrial { get; set; }
-        public Trial Trial { get; set; }
+       // [ForeignKey("Trail")]
+        public int? IdTrail { get; set; }
+        public Trail Trail { get; set; }
 
       //  [ForeignKey("Region")]
         public int? IdRegion { get; set; }

@@ -23,6 +23,6 @@ namespace InformacjeTurystyczne.Models.Tabels
         public int IdRegion { get; set; }
 
         [Display(Name = "Region")]
-        public Region Region { get; set; }
+        public virtual Region Region { get; set; }
     }
 }

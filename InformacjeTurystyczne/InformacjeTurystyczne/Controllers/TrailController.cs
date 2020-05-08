@@ -9,20 +9,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Controllers.TabelsController
 {
-    public class TrialController : Controller
+    public class TrailController : Controller
     {
-        private readonly ITrialRepository _trialRepository;
+        private readonly ITrailRepository _trailRepository;
 
-        public TrialController(ITrialRepository trialRepository)
+        public TrailController(ITrailRepository trailRepository)
         {
-            _trialRepository = trialRepository;
+            _trailRepository = trailRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var trials = _trialRepository.GetAllTrial();
+            var trails = _trailRepository.GetAllTrail();
 
-            return View(await trials);
+            return View(await trails);
         }
 
         public async Task<IActionResult> Details(int? id)
@@ -32,13 +32,13 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var trials = await _trialRepository.GetTrialByID(id);
-            if (trials == null)
+            var trails = await _trailRepository.GetTrailByID(id);
+            if (trails == null)
             {
                 return NotFound();
             }
 
-            return View(trials);
+            return View(trails);
         }
 
         public IActionResult Create()
@@ -49,18 +49,18 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdTrial, Name, Colour, Open, Feedback, Length, Difficulty, Description")] Trial trial)
+        public async Task<IActionResult> Create([Bind("IdTrail, Name, Colour, Open, Feedback, Length, Difficulty, Description")] Trail trail)
         {
             if (ModelState.IsValid)
             {
-                await _trialRepository.AddTrialAsync(trial);
+                await _trailRepository.AddTrailAsync(trail);
 
                 return RedirectToAction(nameof(Index));
             }
 
            
 
-            return View(trial);
+            return View(trail);
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -70,16 +70,16 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var trial = await _trialRepository.GetTrialByIDWithoutInclude(id);
+            var trail = await _trailRepository.GetTrailByIDWithoutInclude(id);
 
-            if (trial == null)
+            if (trail == null)
             {
                 return NotFound();
             }
 
            
 
-            return View(trial);
+            return View(trail);
         }
 
         [HttpPost, ActionName("Edit")]
@@ -91,15 +91,15 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var trialToUpdate = await _trialRepository.GetTrialByIDWithoutIncludeAndAsNoTracking(id);
+            var trailToUpdate = await _trailRepository.GetTrailByIDWithoutIncludeAndAsNoTracking(id);
 
-            if (await TryUpdateModelAsync<Trial>(trialToUpdate,
+            if (await TryUpdateModelAsync<Trail>(trailToUpdate,
                     "",
                     c=>c.Name, c => c.Colour, c=>c.Open, c=>c.Feedback, c=>c.Length, c=>c.Difficulty, c=>c.Description))
             {
                 try
                 {
-                    await _trialRepository.SaveChangesAsync();
+                    await _trailRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateException ex)
                 {
@@ -110,7 +110,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
             }
 
 
-            return View(trialToUpdate);
+            return View(trailToUpdate);
         }
 
        
@@ -121,22 +121,22 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return NotFound();
             }
 
-            var trial = await _trialRepository.GetTrialByID(id);
+            var trail = await _trailRepository.GetTrailByID(id);
 
-            if (trial == null)
+            if (trail == null)
             {
                 return NotFound();
             }
 
-            return View(trial);
+            return View(trail);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var trial = await _trialRepository.GetTrialByIDWithoutIncludeAndAsNoTracking(id);
-            await _trialRepository.DeleteTrialAsync(trial);
+            var trail = await _trailRepository.GetTrailByIDWithoutIncludeAndAsNoTracking(id);
+            await _trailRepository.DeleteTrailAsync(trail);
 
             return RedirectToAction(nameof(Index));
         }

@@ -73,10 +73,10 @@ namespace InformacjeTurystyczne.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trial",
+                name: "Trail",
                 columns: table => new
                 {
-                    IdTrial = table.Column<int>(nullable: false)
+                    IdTrail = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Colour = table.Column<string>(nullable: true),
@@ -88,7 +88,7 @@ namespace InformacjeTurystyczne.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trial", x => x.IdTrial);
+                    table.PrimaryKey("PK_Trail", x => x.IdTrail);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,6 +203,7 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     IdAttraction = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AttractionType = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     IdRegion = table.Column<int>(nullable: false)
@@ -347,23 +348,23 @@ namespace InformacjeTurystyczne.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PermissionTrial",
+                name: "PermissionTrail",
                 columns: table => new
                 {
-                    IdTrial = table.Column<int>(nullable: false),
+                    IdTrail = table.Column<int>(nullable: false),
                     IdUser = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PermissionTrial", x => new { x.IdTrial, x.IdUser });
+                    table.PrimaryKey("PK_PermissionTrail", x => new { x.IdTrail, x.IdUser });
                     table.ForeignKey(
-                        name: "FK_PermissionTrial_Trial_IdTrial",
-                        column: x => x.IdTrial,
-                        principalTable: "Trial",
-                        principalColumn: "IdTrial",
+                        name: "FK_PermissionTrail_Trail_IdTrail",
+                        column: x => x.IdTrail,
+                        principalTable: "Trail",
+                        principalColumn: "IdTrail",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PermissionTrial_AspNetUsers_IdUser",
+                        name: "FK_PermissionTrail_AspNetUsers_IdUser",
                         column: x => x.IdUser,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -374,12 +375,12 @@ namespace InformacjeTurystyczne.Migrations
                 name: "RegionLocation",
                 columns: table => new
                 {
-                    IdTrial = table.Column<int>(nullable: false),
+                    IdTrail = table.Column<int>(nullable: false),
                     IdRegion = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RegionLocation", x => new { x.IdRegion, x.IdTrial });
+                    table.PrimaryKey("PK_RegionLocation", x => new { x.IdRegion, x.IdTrail });
                     table.ForeignKey(
                         name: "FK_RegionLocation_Region_IdRegion",
                         column: x => x.IdRegion,
@@ -387,10 +388,10 @@ namespace InformacjeTurystyczne.Migrations
                         principalColumn: "IdRegion",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RegionLocation_Trial_IdTrial",
-                        column: x => x.IdTrial,
-                        principalTable: "Trial",
-                        principalColumn: "IdTrial",
+                        name: "FK_RegionLocation_Trail_IdTrail",
+                        column: x => x.IdTrail,
+                        principalTable: "Trail",
+                        principalColumn: "IdTrail",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -517,14 +518,14 @@ namespace InformacjeTurystyczne.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PermissionTrial_IdUser",
-                table: "PermissionTrial",
+                name: "IX_PermissionTrail_IdUser",
+                table: "PermissionTrail",
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RegionLocation_IdTrial",
+                name: "IX_RegionLocation_IdTrail",
                 table: "RegionLocation",
-                column: "IdTrial");
+                column: "IdTrail");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shelter_IdRegion",
@@ -575,7 +576,7 @@ namespace InformacjeTurystyczne.Migrations
                 name: "PermissionShelter");
 
             migrationBuilder.DropTable(
-                name: "PermissionTrial");
+                name: "PermissionTrail");
 
             migrationBuilder.DropTable(
                 name: "RegionLocation");
@@ -596,7 +597,7 @@ namespace InformacjeTurystyczne.Migrations
                 name: "Shelter");
 
             migrationBuilder.DropTable(
-                name: "Trial");
+                name: "Trail");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

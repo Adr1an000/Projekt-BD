@@ -55,15 +55,15 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRegion,Name")] Region region, string[] selectedTrials)
+        public async Task<IActionResult> Create([Bind("IdRegion,Name")] Region region, string[] selectedTrails)
         {
-            if (selectedTrials != null)
+            if (selectedTrails != null)
             {
                 region.RegionLocation = new List<RegionLocation>();
-                foreach(var trial in selectedTrials)
+                foreach(var trail in selectedTrails)
                 {
-                    var trialToAdd = new RegionLocation { IdRegion = region.IdRegion, IdTrial = int.Parse(trial) };
-                    region.RegionLocation.Add(trialToAdd);
+                    var trailToAdd = new RegionLocation { IdRegion = region.IdRegion, IdTrail = int.Parse(trail) };
+                    region.RegionLocation.Add(trailToAdd);
                 }
             }
 
@@ -100,7 +100,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(int? id, string[] selectedTrials)
+        public async Task<IActionResult> EditPost(int? id, string[] selectedTrails)
         {
             if (id == null)
             {
@@ -113,7 +113,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                     "",
                     c => c.Name))
             {
-                UpdateRegion(selectedTrials, regionToUpdate);
+                UpdateRegion(selectedTrails, regionToUpdate);
 
                 try
                 {
@@ -127,7 +127,7 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return RedirectToAction(nameof(Index));
             }
 
-            UpdateRegion(selectedTrials, regionToUpdate);
+            UpdateRegion(selectedTrails, regionToUpdate);
 
             return View(regionToUpdate);
         }
@@ -151,53 +151,53 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
 
         private void PopulateRegion(Region regionToUpdate)
         {
-            var allTrials = _regionRepository.GetAllTrials();
+            var allTrails = _regionRepository.GetAllTrails();
 
-            var regionTrial = new HashSet<int?>(regionToUpdate.RegionLocation.Select(c => c.IdTrial));
+            var regionTrail = new HashSet<int?>(regionToUpdate.RegionLocation.Select(c => c.IdTrail));
 
-            var viewModelTrial = new List<PermissionTrialData>();
+            var viewModelTrail = new List<PermissionTrailData>();
 
-            foreach(var trial in allTrials)
+            foreach(var trail in allTrails)
             {
-                viewModelTrial.Add(new PermissionTrialData
+                viewModelTrail.Add(new PermissionTrailData
                 {
-                    IdTrial = trial.IdTrial,
-                    Name = trial.Name,
-                    Assigned = regionTrial.Contains(trial.IdTrial)
+                    IdTrail = trail.IdTrail,
+                    Name = trail.Name,
+                    Assigned = regionTrail.Contains(trail.IdTrail)
                 });
             }
 
-            ViewData["Trials"] = viewModelTrial;
+            ViewData["Trails"] = viewModelTrail;
         }
 
-        private void UpdateRegion(string[] selectedTrials, Region regionToUpdate)
+        private void UpdateRegion(string[] selectedTrails, Region regionToUpdate)
         {
-            if(selectedTrials == null)
+            if(selectedTrails == null)
             {
                 regionToUpdate.RegionLocation = new List<RegionLocation>();
 
                 return;
             }
 
-            var selectedTrialsHS = new HashSet<string>(selectedTrials);
-            var regionTrials = new HashSet<int>
-                (regionToUpdate.RegionLocation.Select(c => c.Trial.IdTrial));
+            var selectedTrailsHS = new HashSet<string>(selectedTrails);
+            var regionTrails = new HashSet<int>
+                (regionToUpdate.RegionLocation.Select(c => c.Trail.IdTrail));
 
-            foreach(var trial in _regionRepository.GetAllTrials())
+            foreach(var trail in _regionRepository.GetAllTrails())
             {
-                if(selectedTrialsHS.Contains(trial.IdTrial.ToString()))
+                if(selectedTrailsHS.Contains(trail.IdTrail.ToString()))
                 {
-                    if(!regionTrials.Contains(trial.IdTrial))
+                    if(!regionTrails.Contains(trail.IdTrail))
                     {
-                        regionToUpdate.RegionLocation.Add(new RegionLocation { IdRegion = regionToUpdate.IdRegion, IdTrial = trial.IdTrial });
+                        regionToUpdate.RegionLocation.Add(new RegionLocation { IdRegion = regionToUpdate.IdRegion, IdTrail = trail.IdTrail });
                     }
                 }
                 else
                 {
-                    if(regionTrials.Contains(trial.IdTrial))
+                    if(regionTrails.Contains(trail.IdTrail))
                     {
-                        RegionLocation trialToRemove = regionToUpdate.RegionLocation.FirstOrDefault(i => i.IdTrial == trial.IdTrial);
-                        _regionRepository.RemoveTrial(trialToRemove);
+                        RegionLocation trailToRemove = regionToUpdate.RegionLocation.FirstOrDefault(i => i.IdTrail == trail.IdTrail);
+                        _regionRepository.RemoveTrail(trailToRemove);
                     }
                 }
             }

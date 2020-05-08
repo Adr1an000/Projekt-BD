@@ -1,6 +1,6 @@
-﻿@model IEnumerable<InformacjeTurystyczne.Models.Tabels.Trial>
+﻿@model IEnumerable<InformacjeTurystyczne.Models.Tabels.Trail>
 
-<h1>Trial</h1>
+<h1>Trail</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -9,7 +9,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdTrial)
+                @Html.DisplayNameFor(model => model.IdTrail)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -41,7 +41,7 @@
         {
         <tr>
             <th>
-                @Html.DisplayFor(modelItem => item.IdTrial)
+                @Html.DisplayFor(modelItem => item.IdTrail)
             </th>
             <th>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -66,9 +66,9 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </th>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTrial">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdTrial">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdTrial">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdTrail">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdTrail">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdTrail">Delete</a>
             </td>
         </tr>
         }
