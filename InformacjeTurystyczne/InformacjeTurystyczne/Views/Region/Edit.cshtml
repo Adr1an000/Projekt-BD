@@ -23,7 +23,7 @@
                 <tr>
                     @{
                         int cnt = 0;
-                        List<InformacjeTurystyczne.Models.ViewModels.PermissionTrialData> trials = ViewBag.Trials;
+                        List<InformacjeTurystyczne.Models.ViewModels.PermissionTrailData> trails = ViewBag.Trails;
 
                     @: </tr>Szlaki<tr>
 
@@ -34,7 +34,7 @@
 
 
 
-                        foreach (var trial in trials)
+                        foreach (var trail in trails)
                         {
                             if (cnt++ % 3 == 0)
                             {
@@ -42,10 +42,10 @@
                             }
                             @:<td>
                                 <input type="checkbox"
-                                       name="selectedTrials"
-                                       value="@trial.IdTrial"
-                                       @(Html.Raw(trial.Assigned ? "checked=\"checked\"" : "")) />
-                                @trial.IdTrial @:  @trial.Name
+                                       name="selectedTrails"
+                                       value="@trail.IdTrail"
+                                       @(Html.Raw(trail.Assigned ? "checked=\"checked\"" : "")) />
+                                @trail.IdTrail @:  @trail.Name
                             @:</td>
                         }
 

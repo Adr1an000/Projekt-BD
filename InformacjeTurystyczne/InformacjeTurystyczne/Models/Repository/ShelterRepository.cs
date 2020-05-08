@@ -70,5 +70,10 @@ namespace InformacjeTurystyczne.Models.Repository
         {
             return _appDbContext.Regions.AsNoTracking();
         }
+
+        public IEnumerable<Shelter> GetAllShelterToUser()
+        {
+            return _appDbContext.Shelters.Include(c => c.Region).AsNoTracking().ToList();
+        }
     }
 }

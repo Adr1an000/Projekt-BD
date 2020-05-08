@@ -15,12 +15,12 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Display(Name = "Nazwa regionu")]
         public string Name { get; set; }
 
-        public ICollection<Message> Message { get; set; }
-        public ICollection<Party> Party { get; set; }
-        public ICollection<RegionLocation> RegionLocation { get; set; }
-        public ICollection<Shelter> Shelter { get; set; }
-        public ICollection<PermissionRegion> PermissionRegion {get; set;}
-        public ICollection<Subscription> Subscription { get; set; }
-        public ICollection<Attraction> Attraction { get; set; }
+        public virtual ICollection<Message> Message { get; set; }
+        public virtual ICollection<Party> Party { get; set; }
+        public virtual ICollection<RegionLocation> RegionLocation { get; set; }
+        public virtual ICollection<Shelter> Shelter { get; set; }
+        public virtual ICollection<PermissionRegion> PermissionRegion {get; set;}
+        public virtual ICollection<Subscription> Subscription { get; set; }
+        public virtual ICollection<Attraction> Attraction { get; set; }
     }
 }

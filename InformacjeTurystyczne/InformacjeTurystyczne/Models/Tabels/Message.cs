@@ -28,6 +28,6 @@ namespace InformacjeTurystyczne.Models.Tabels
 
         //[ForeignKey("Region")]
         public int? IdRegion { get; set; }
-        public Region Region { get; set; }
+        public virtual Region Region { get; set; }
     }
 }

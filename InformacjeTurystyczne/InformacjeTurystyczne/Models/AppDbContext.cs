@@ -18,12 +18,12 @@ namespace InformacjeTurystyczne.Models
         public DbSet<PermissionParty> PermissionPartys { get; set; }
         public DbSet<PermissionRegion> PermissionRegions { get; set; }
         public DbSet<PermissionShelter> PermissionShelters { get; set; }
-        public DbSet<PermissionTrial> PermissionTrials { get; set; }
+        public DbSet<PermissionTrail> PermissionTrails { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<Shelter> Shelters { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
         public DbSet<RegionLocation> RegionLocations { get; set; }
-        public DbSet<Trial> Trials { get; set; }
+        public DbSet<Trail> Trails { get; set; }
         public DbSet<Attraction> Attractions { get; set; }
         public override DbSet<AppUser> Users { get; set; }
 
@@ -37,12 +37,12 @@ namespace InformacjeTurystyczne.Models
             modelBuilder.Entity<PermissionParty>().ToTable("PermissionParty");
             modelBuilder.Entity<PermissionRegion>().ToTable("PermissionRegion");
             modelBuilder.Entity<PermissionShelter>().ToTable("PermissionShelter");
-            modelBuilder.Entity<PermissionTrial>().ToTable("PermissionTrial");
+            modelBuilder.Entity<PermissionTrail>().ToTable("PermissionTrail");
             modelBuilder.Entity<Region>().ToTable("Region");
             modelBuilder.Entity<Shelter>().ToTable("Shelter");
             modelBuilder.Entity<Subscription>().ToTable("Subscription");
             modelBuilder.Entity<RegionLocation>().ToTable("RegionLocation");
-            modelBuilder.Entity<Trial>().ToTable("Trial");
+            modelBuilder.Entity<Trail>().ToTable("Trail");
             modelBuilder.Entity<Attraction>().ToTable("Attraction");
             modelBuilder.Entity<AppUser>().ToTable("AspNetUsers");
 
@@ -103,14 +103,14 @@ namespace InformacjeTurystyczne.Models
                 .HasForeignKey(s => s.IdUser);
 
             
-            modelBuilder.Entity<PermissionTrial>()
-                .HasOne<Trial>(bc => bc.Trial)
-                .WithMany(c => c.PermissionTrial)
-                .HasForeignKey(s => s.IdTrial);
+            modelBuilder.Entity<PermissionTrail>()
+                .HasOne<Trail>(bc => bc.Trail)
+                .WithMany(c => c.PermissionTrail)
+                .HasForeignKey(s => s.IdTrail);
 
-            modelBuilder.Entity<PermissionTrial>()
+            modelBuilder.Entity<PermissionTrail>()
                 .HasOne<AppUser>(bc => bc.User)
-                .WithMany(c => c.PermissionTrials)
+                .WithMany(c => c.PermissionTrails)
                 .HasForeignKey(s => s.IdUser);
                 */
 
@@ -123,18 +123,18 @@ namespace InformacjeTurystyczne.Models
             modelBuilder.Entity<PermissionShelter>()
                 .HasKey(c => new { c.IdShelter, c.IdUser });
 
-            modelBuilder.Entity<PermissionTrial>()
-                .HasKey(c => new { c.IdTrial, c.IdUser });
+            modelBuilder.Entity<PermissionTrail>()
+                .HasKey(c => new { c.IdTrail, c.IdUser });
 
             modelBuilder.Entity<RegionLocation>()
-                .HasKey(c => new { c.IdRegion, c.IdTrial });
+                .HasKey(c => new { c.IdRegion, c.IdTrail });
 
             //REGION??? chyba pozostałe funkcje WithMany() to załatwią (?)
 
             modelBuilder.Entity<RegionLocation>()
-                .HasOne<Trial>(bc => bc.Trial)
+                .HasOne<Trail>(bc => bc.Trail)
                 .WithMany(c => c.RegionLocation)
-                .HasForeignKey(s => s.IdTrial);
+                .HasForeignKey(s => s.IdTrail);
 
             modelBuilder.Entity<RegionLocation>()
                 .HasOne<Region>(bc => bc.Region)
@@ -174,7 +174,7 @@ namespace InformacjeTurystyczne.Models
                 .HasForeignKey(i => i.IdUser);
 
             modelBuilder.Entity<AppUser>()
-                .HasMany(i => i.PermissionTrials)
+                .HasMany(i => i.PermissionTrails)
                 .WithOne(i => i.User)
                 .HasForeignKey(i => i.IdUser);
 

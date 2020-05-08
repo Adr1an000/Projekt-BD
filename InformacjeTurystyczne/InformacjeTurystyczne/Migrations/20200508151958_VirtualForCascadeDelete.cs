@@ -2,7 +2,7 @@
 
 namespace InformacjeTurystyczne.Migrations
 {
-    public partial class PartyFix : Migration
+    public partial class VirtualForCascadeDelete : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

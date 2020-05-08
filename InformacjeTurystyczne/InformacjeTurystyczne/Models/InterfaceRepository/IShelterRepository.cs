@@ -20,5 +20,6 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
         Task SaveChangesAsync();
         IEnumerable<Shelter> GetAllShelterAsNoTracking();
         IEnumerable<Region> GetAllRegionAsNoTracking();
+        IEnumerable<Shelter> GetAllShelterToUser();
     }
 }

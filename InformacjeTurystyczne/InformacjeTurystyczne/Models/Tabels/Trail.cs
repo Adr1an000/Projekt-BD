@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.Tabels
 {
-    public class Trial
+    public class Trail
     {
         [Key]
-        public int IdTrial { get; set; } // K
+        public int IdTrail { get; set; } // K
 
         [Display(Name = "Nazwa szlaku")]
         public string Name { get; set; }
@@ -32,7 +32,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
-        public ICollection<RegionLocation> RegionLocation { get; set; }
-        public ICollection<PermissionTrial> PermissionTrial { get; set; }
+        public virtual ICollection<RegionLocation> RegionLocation { get; set; }
+        public virtual ICollection<PermissionTrail> PermissionTrail { get; set; }
     }
 }

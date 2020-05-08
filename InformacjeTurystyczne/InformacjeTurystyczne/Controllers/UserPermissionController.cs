@@ -21,14 +21,14 @@ namespace InformacjeTurystyczne.Controllers
             _appDbContext = appDbContext;
         }
 
-        public async Task<IActionResult> Index(string id, int? IdRegion, int? IdTrial, int? IdShelter, int? IdParty)
+        public async Task<IActionResult> Index(string id, int? IdRegion, int? IdTrail, int? IdShelter, int? IdParty)
         {
             var viewModel = new UserIndexData();
             viewModel.Users = await _appDbContext.Users
                 .Include(i => i.PermissionRegions)
                 .ThenInclude(i => i.Region)
-                .Include(i => i.PermissionTrials)
-                .ThenInclude(i => i.Trial)
+                .Include(i => i.PermissionTrails)
+                .ThenInclude(i => i.Trail)
                 .Include(i => i.PermissionShelters)
                 .ThenInclude(i => i.Shelter)
                 .Include(i => i.PermissionPartys)
@@ -45,7 +45,7 @@ namespace InformacjeTurystyczne.Controllers
                 viewModel.Partys = user.PermissionPartys.Select(s => s.Party);
                 viewModel.Regions = user.PermissionRegions.Select(s => s.Region);
                 viewModel.Shelters = user.PermissionShelters.Select(s => s.Shelter);
-                viewModel.Trials = user.PermissionTrials.Select(s => s.Trial);
+                viewModel.Trails = user.PermissionTrails.Select(s => s.Trail);
             }
 
             /*
@@ -95,7 +95,7 @@ namespace InformacjeTurystyczne.Controllers
             user.PermissionPartys = new List<PermissionParty>();
             user.PermissionRegions = new List<PermissionRegion>();
             user.PermissionShelters = new List<PermissionShelter>();
-            user.PermissionTrials = new List<PermissionTrial>();
+            user.PermissionTrails = new List<PermissionTrail>();
 
             PopulateUser(user);
 
@@ -104,7 +104,7 @@ namespace InformacjeTurystyczne.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AppUser user, string[] selectedPartys, string[] selectedRegions, string[] selectedShelters, string[] selectedTrials)
+        public async Task<IActionResult> Create(AppUser user, string[] selectedPartys, string[] selectedRegions, string[] selectedShelters, string[] selectedTrails)
         {
             if (selectedPartys != null)
             {
@@ -136,13 +136,13 @@ namespace InformacjeTurystyczne.Controllers
                 }
             }
 
-            if (selectedTrials != null)
+            if (selectedTrails != null)
             {
-                user.PermissionTrials = new List<PermissionTrial>();
-                foreach (var trial in selectedTrials)
+                user.PermissionTrails = new List<PermissionTrail>();
+                foreach (var trail in selectedTrails)
                 {
-                    var trialToAdd = new PermissionTrial { IdUser = user.Id, IdTrial = int.Parse(trial) };
-                    user.PermissionTrials.Add(trialToAdd);
+                    var trailToAdd = new PermissionTrail { IdUser = user.Id, IdTrail = int.Parse(trail) };
+                    user.PermissionTrails.Add(trailToAdd);
                 }
             }
 
@@ -168,8 +168,8 @@ namespace InformacjeTurystyczne.Controllers
             var user = await _appDbContext.Users
                 .Include(i => i.PermissionRegions)
                 .ThenInclude(i => i.Region)
-                .Include(i => i.PermissionTrials)
-                .ThenInclude(i => i.Trial)
+                .Include(i => i.PermissionTrails)
+                .ThenInclude(i => i.Trail)
                 .Include(i => i.PermissionShelters)
                 .ThenInclude(i => i.Shelter)
                 .Include(i => i.PermissionPartys)
@@ -192,17 +192,17 @@ namespace InformacjeTurystyczne.Controllers
             var allPartys = _appDbContext.Partys;
             var allRegions = _appDbContext.Regions;
             var allShelters = _appDbContext.Shelters;
-            var allTrials = _appDbContext.Trials;
+            var allTrails = _appDbContext.Trails;
 
             var userParty = new HashSet<int>(userToUpdate.PermissionPartys.Select(c => c.IdParty));
             var userRegion = new HashSet<int?>(userToUpdate.PermissionRegions.Select(c => c.IdRegion));
             var userShelter = new HashSet<int?>(userToUpdate.PermissionShelters.Select(c => c.IdShelter));
-            var userTrial = new HashSet<int?>(userToUpdate.PermissionTrials.Select(c => c.IdTrial));
+            var userTrail = new HashSet<int?>(userToUpdate.PermissionTrails.Select(c => c.IdTrail));
 
             var viewModelParty = new List<PermissionPartyData>();
             var viewModelRegion = new List<PermissionRegionData>();
             var viewModelShelter = new List<PermissionShelterData>();
-            var viewModelTrial = new List<PermissionTrialData>();
+            var viewModelTrail = new List<PermissionTrailData>();
 
             foreach (var party in allPartys)
             {
@@ -240,24 +240,24 @@ namespace InformacjeTurystyczne.Controllers
 
             ViewData["Shelters"] = viewModelShelter;
 
-            foreach (var trial in allTrials)
+            foreach (var trail in allTrails)
             {
-                viewModelTrial.Add(new PermissionTrialData
+                viewModelTrail.Add(new PermissionTrailData
                 {
-                    IdTrial = trial.IdTrial,
-                    Name = trial.Name,
-                    Assigned = userShelter.Contains(trial.IdTrial)
+                    IdTrail = trail.IdTrail,
+                    Name = trail.Name,
+                    Assigned = userShelter.Contains(trail.IdTrail)
                 });
             }
 
-            ViewData["Trials"] = viewModelTrial;
+            ViewData["Trails"] = viewModelTrail;
         }
 
         private void UpdateUser(string[] selectedPartys, string[] selectedRegions,
-            string[] selectedShelters, string[] selectedTrials, AppUser userToUpdate)
+            string[] selectedShelters, string[] selectedTrails, AppUser userToUpdate)
         {
             if (selectedPartys == null || selectedRegions == null ||
-                selectedShelters == null || selectedTrials == null)
+                selectedShelters == null || selectedTrails == null)
             {
                 if(selectedPartys == null)
                 {
@@ -271,9 +271,9 @@ namespace InformacjeTurystyczne.Controllers
                 {
                     userToUpdate.PermissionShelters = new List<PermissionShelter>();
                 }
-                if(selectedTrials == null)
+                if(selectedTrails == null)
                 {
-                    userToUpdate.PermissionTrials = new List<PermissionTrial>();
+                    userToUpdate.PermissionTrails = new List<PermissionTrail>();
                 }
                 
                 return;
@@ -351,26 +351,26 @@ namespace InformacjeTurystyczne.Controllers
                 }
             }
 
-            var selectedTrialsHS = new HashSet<string>(selectedTrials);
-            var userTrials = new HashSet<int>
-                (userToUpdate.PermissionTrials.Select(c => c.Trial.IdTrial));
+            var selectedTrailsHS = new HashSet<string>(selectedTrails);
+            var userTrails = new HashSet<int>
+                (userToUpdate.PermissionTrails.Select(c => c.Trail.IdTrail));
 
-            foreach (var trial in _appDbContext.Trials)
+            foreach (var trail in _appDbContext.Trails)
             {
-                if (selectedTrialsHS.Contains(trial.IdTrial.ToString()))
+                if (selectedTrailsHS.Contains(trail.IdTrail.ToString()))
                 {
-                    if (!userTrials.Contains(trial.IdTrial))
+                    if (!userTrails.Contains(trail.IdTrail))
                     {
-                        userToUpdate.PermissionTrials.Add(new PermissionTrial { IdUser = userToUpdate.Id, IdTrial = trial.IdTrial });
+                        userToUpdate.PermissionTrails.Add(new PermissionTrail { IdUser = userToUpdate.Id, IdTrail = trail.IdTrail });
 
                     }
                 }
                 else
                 {
-                    if (userTrials.Contains(trial.IdTrial))
+                    if (userTrails.Contains(trail.IdTrail))
                     {
-                        PermissionTrial trialToRemove = userToUpdate.PermissionTrials.FirstOrDefault(i => i.IdTrial == trial.IdTrial);
-                        _appDbContext.Remove(trialToRemove);
+                        PermissionTrail trailToRemove = userToUpdate.PermissionTrails.FirstOrDefault(i => i.IdTrail == trail.IdTrail);
+                        _appDbContext.Remove(trailToRemove);
                     }
                 }
             }
@@ -380,7 +380,7 @@ namespace InformacjeTurystyczne.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, string[] selectedPartys, string[] selectedRegions, 
-            string[] selectedShelters, string[] selectedTrials)
+            string[] selectedShelters, string[] selectedTrails)
         {
             if (id == null)
             {
@@ -390,8 +390,8 @@ namespace InformacjeTurystyczne.Controllers
             var userToUpdate = await _appDbContext.Users
                 .Include(i => i.PermissionRegions)
                 .ThenInclude(i => i.Region)
-                .Include(i => i.PermissionTrials)
-                .ThenInclude(i => i.Trial)
+                .Include(i => i.PermissionTrails)
+                .ThenInclude(i => i.Trail)
                 .Include(i => i.PermissionShelters)
                 .ThenInclude(i => i.Shelter)
                 .Include(i => i.PermissionPartys)
@@ -402,7 +402,7 @@ namespace InformacjeTurystyczne.Controllers
             if (userToUpdate != null)
             {
                 UpdateUser(selectedPartys, selectedRegions, 
-                    selectedShelters, selectedTrials, userToUpdate);
+                    selectedShelters, selectedTrails, userToUpdate);
 
                 try
                 {
@@ -417,7 +417,7 @@ namespace InformacjeTurystyczne.Controllers
             }
 
             UpdateUser(selectedPartys, selectedRegions,
-                    selectedShelters, selectedTrials, userToUpdate);
+                    selectedShelters, selectedTrails, userToUpdate);
 
             return View(userToUpdate);
         }

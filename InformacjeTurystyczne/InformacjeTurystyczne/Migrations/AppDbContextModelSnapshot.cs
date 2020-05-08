@@ -230,19 +230,19 @@ namespace InformacjeTurystyczne.Migrations
                     b.ToTable("PermissionShelter");
                 });
 
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionTrial", b =>
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionTrail", b =>
                 {
-                    b.Property<int?>("IdTrial")
+                    b.Property<int?>("IdTrail")
                         .HasColumnType("int");
 
                     b.Property<string>("IdUser")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("IdTrial", "IdUser");
+                    b.HasKey("IdTrail", "IdUser");
 
                     b.HasIndex("IdUser");
 
-                    b.ToTable("PermissionTrial");
+                    b.ToTable("PermissionTrail");
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Region", b =>
@@ -265,12 +265,12 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<int?>("IdRegion")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IdTrial")
+                    b.Property<int?>("IdTrail")
                         .HasColumnType("int");
 
-                    b.HasKey("IdRegion", "IdTrial");
+                    b.HasKey("IdRegion", "IdTrail");
 
-                    b.HasIndex("IdTrial");
+                    b.HasIndex("IdTrail");
 
                     b.ToTable("RegionLocation");
                 });
@@ -335,9 +335,9 @@ namespace InformacjeTurystyczne.Migrations
                     b.ToTable("Subscription");
                 });
 
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Trial", b =>
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Trail", b =>
                 {
-                    b.Property<int>("IdTrial")
+                    b.Property<int>("IdTrail")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -363,9 +363,9 @@ namespace InformacjeTurystyczne.Migrations
                     b.Property<bool>("Open")
                         .HasColumnType("bit");
 
-                    b.HasKey("IdTrial");
+                    b.HasKey("IdTrail");
 
-                    b.ToTable("Trial");
+                    b.ToTable("Trail");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -573,16 +573,16 @@ namespace InformacjeTurystyczne.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionTrial", b =>
+            modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.PermissionTrail", b =>
                 {
-                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Trial", "Trial")
-                        .WithMany("PermissionTrial")
-                        .HasForeignKey("IdTrial")
+                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Trail", "Trail")
+                        .WithMany("PermissionTrail")
+                        .HasForeignKey("IdTrail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("InformacjeTurystyczne.Models.AppUser", "User")
-                        .WithMany("PermissionTrials")
+                        .WithMany("PermissionTrails")
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -596,9 +596,9 @@ namespace InformacjeTurystyczne.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Trial", "Trial")
+                    b.HasOne("InformacjeTurystyczne.Models.Tabels.Trail", "Trail")
                         .WithMany("RegionLocation")
-                        .HasForeignKey("IdTrial")
+                        .HasForeignKey("IdTrail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

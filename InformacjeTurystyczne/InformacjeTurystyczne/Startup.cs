@@ -75,7 +75,7 @@ namespace InformacjeTurystyczne
             services.AddTransient<IRegionRepository, RegionRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<ISubscriptionRepository, SubscriptionRepository>();
-            services.AddTransient<ITrialRepository, TrialRepository>();
+            services.AddTransient<ITrailRepository, TrailRepository>();
             services.AddTransient<IShelterRepository, ShelterRepository>();
             services.AddTransient<IAttractionRepository, AttractionRepository>();
 

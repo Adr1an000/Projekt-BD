@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace InformacjeTurystyczne.Models.ViewModels
 {
-    public class PermissionTrialData
+    public class PermissionTrailData
     {
-        public int IdTrial { get; set; }
+        public int IdTrail { get; set; }
         public string Name { get; set; }
         public bool Assigned { get; set; }
     }
