@@ -152,8 +152,8 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var course = await _messageRepository.GetMessageByIDWithoutIncludeAndAsNoTracking(id);
-            await _messageRepository.DeleteMessageAsync(course);
+            var message = await _messageRepository.GetMessageByIDWithoutIncludeAndAsNoTracking(id);
+            await _messageRepository.DeleteMessageAsync(message);
 
             return RedirectToAction(nameof(Index));
         }

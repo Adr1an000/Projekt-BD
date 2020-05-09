@@ -24,7 +24,7 @@ namespace InformacjeTurystyczne.Models.Tabels
 
         //[ForeignKey("Category")]
         public int? IdCategory { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
 
         //[ForeignKey("Region")]
         public int? IdRegion { get; set; }

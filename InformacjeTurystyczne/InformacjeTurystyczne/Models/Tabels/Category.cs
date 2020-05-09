@@ -12,6 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdCategory { get; set; } // K
 
+        [Display(Name = "Nazwa kategorii")]
         public string Name { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }

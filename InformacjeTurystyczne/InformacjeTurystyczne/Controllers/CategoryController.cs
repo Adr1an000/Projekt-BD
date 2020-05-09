@@ -15,9 +15,12 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController(ICategoryRepository categoryRepository)
+        private readonly IMessageRepository _messageRepository;
+
+        public CategoryController(ICategoryRepository categoryRepository, IMessageRepository messageRepository)
         {
             _categoryRepository = categoryRepository;
+            _messageRepository = messageRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -131,8 +134,8 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var course = await _categoryRepository.GetCategoryByIDWithoutIncludeAndAsNoTracking(id);
-            await _categoryRepository.DeleteCategoryAsync(course);
+            var category = await _categoryRepository.GetCategoryByIDWithoutIncludeAndAsNoTracking(id);
+            await _categoryRepository.DeleteCategoryAsync(category);
 
             return RedirectToAction(nameof(Index));
         }

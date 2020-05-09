@@ -12,7 +12,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Key]
         public int IdShelter { get; set; }
 
-        [Display(Name = "Nazwa")]
+        [Display(Name = "Nazwa schroniska")]
         public string Name { get; set; }
 
         [Display(Name = "Max il. miejsc")]
