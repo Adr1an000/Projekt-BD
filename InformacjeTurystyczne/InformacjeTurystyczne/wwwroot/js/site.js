@@ -113,9 +113,9 @@ InfoPage.renderItems = function (items) {
         let info__item = document.createElement("div");
         info__item.classList.add("info__item");
 
-        info__item.appendChild(createElement("h1", { withText: infoItem.name.displayValue }));
+        info__item.appendChild(createElement("h1", { withText: infoItem.nazwa.displayValue }));
         for (let key in infoItem) {
-            if (infoItem.hasOwnProperty(key) && key !== "name") {
+            if (infoItem.hasOwnProperty(key) && key !== "nazwa") {
                 info__item.appendChild(createElement("p", { withText: infoItem[key].displayName }));
                 info__item.appendChild(createElement("p", { withText: infoItem[key].displayValue }));
             }

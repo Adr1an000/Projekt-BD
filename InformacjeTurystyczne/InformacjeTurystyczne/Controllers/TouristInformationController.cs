@@ -47,7 +47,7 @@ namespace InformacjeTurystyczne.Controllers
         {
             var viewModel = new TouristInformationVM();
             InfoRecordVM record;
-            
+
             foreach (var attraction in _attractionRepository.GetAllAttractionToUser())
             {
                 record = new InfoRecordVM();
