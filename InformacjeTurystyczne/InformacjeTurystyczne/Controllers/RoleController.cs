@@ -21,8 +21,32 @@ namespace InformacjeTurystyczne.Controllers
             _userManager = userManager;
         }
 
-        public ViewResult Index()
+        public async Task<ViewResult> Index()
         {
+            var adminRole = await  _roleManager.FindByNameAsync("Admin");
+
+            if(adminRole == null)
+            {
+                var identityRole = new IdentityRole
+                {
+                    Name = "Admin"
+                };
+
+                await _roleManager.CreateAsync(identityRole);
+            }
+
+            var moderatorRole = await _roleManager.FindByNameAsync("Moderator");
+
+            if (moderatorRole == null)
+            {
+                var identityRole = new IdentityRole
+                {
+                    Name = "Moderator"
+                };
+
+                await _roleManager.CreateAsync(identityRole);
+            }
+
             return View(_roleManager.Roles);
         }
 
