@@ -10,6 +10,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Party
     {
         [Key]
+        [Display(Name = "Klucz impreza")]
         public int IdParty { get; set; } // K
 
         [Display(Name = "Nazwa imprezy")]
@@ -24,7 +25,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Display(Name = "Aktualna")]
         public bool UpToDate { get; set; }
 
-        //[ForeignKey("Region")]
+        [Display(Name = "Klucz obcy region")]
         public int IdRegion { get; set; }
 
         [Display(Name = "Region")]

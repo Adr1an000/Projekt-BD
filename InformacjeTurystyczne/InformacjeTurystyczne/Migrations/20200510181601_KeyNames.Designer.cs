@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InformacjeTurystyczne.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200508151958_VirtualForCascadeDelete")]
-    partial class VirtualForCascadeDelete
+    [Migration("20200510181601_KeyNames")]
+    partial class KeyNames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -514,11 +514,13 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Category", "Category")
                         .WithMany("Messages")
-                        .HasForeignKey("IdCategory");
+                        .HasForeignKey("IdCategory")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("Message")
-                        .HasForeignKey("IdRegion");
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Party", b =>

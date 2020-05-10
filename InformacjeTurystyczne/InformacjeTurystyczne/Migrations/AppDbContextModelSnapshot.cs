@@ -512,11 +512,13 @@ namespace InformacjeTurystyczne.Migrations
                 {
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Category", "Category")
                         .WithMany("Messages")
-                        .HasForeignKey("IdCategory");
+                        .HasForeignKey("IdCategory")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("InformacjeTurystyczne.Models.Tabels.Region", "Region")
                         .WithMany("Message")
-                        .HasForeignKey("IdRegion");
+                        .HasForeignKey("IdRegion")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("InformacjeTurystyczne.Models.Tabels.Party", b =>

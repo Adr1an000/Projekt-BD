@@ -2,7 +2,7 @@
 
 namespace InformacjeTurystyczne.Migrations
 {
-    public partial class VirtualForCascadeDelete : Migration
+    public partial class KeyNames : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
