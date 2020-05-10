@@ -10,6 +10,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Message
     {
         [Key]
+        [Display(Name = "Klucz wiadomość")]
         public int IdMessage { get; set; } // K
 
         [Display(Name = "Nazwa")]
@@ -22,12 +23,16 @@ namespace InformacjeTurystyczne.Models.Tabels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime PostingDate1 { get; set; }
 
-        //[ForeignKey("Category")]
+        [Display(Name = "Klucz obcy kategoria")]
         public int? IdCategory { get; set; }
+
+        [Display(Name = "Kategoria")]
         public virtual Category Category { get; set; }
 
-        //[ForeignKey("Region")]
+        [Display(Name = "Klucz obcy region")]
         public int? IdRegion { get; set; }
+
+        [Display(Name = "Region")]
         public virtual Region Region { get; set; }
     }
 }

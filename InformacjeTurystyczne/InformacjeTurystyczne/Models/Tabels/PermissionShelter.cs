@@ -9,14 +9,9 @@ namespace InformacjeTurystyczne.Models.Tabels
 {
     public class PermissionShelter
     {
-        //[Key]
-        //public int IdPermissionShelter { get; set; }
-
-        //[ForeignKey("Shelter")]
         public int? IdShelter { get; set; }
         public Shelter Shelter { get; set; }
 
-        // USER ???
         public string IdUser { get; set; }
         public AppUser User { get; set; }
     }

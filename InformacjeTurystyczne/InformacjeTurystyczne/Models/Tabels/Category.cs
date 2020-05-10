@@ -10,6 +10,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Category
     {
         [Key]
+        [Display(Name = "Klucz kategoria")]
         public int IdCategory { get; set; } // K
 
         [Display(Name = "Nazwa kategorii")]

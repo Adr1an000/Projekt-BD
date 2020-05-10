@@ -9,6 +9,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Trail
     {
         [Key]
+        [Display(Name = "Klucz szlak")]
         public int IdTrail { get; set; } // K
 
         [Display(Name = "Nazwa szlaku")]

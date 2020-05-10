@@ -9,6 +9,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Attraction
     {
         [Key]
+        [Display(Name = "Klucz atrakcje")]
         public int IdAttraction { get; set; } // K
 
         [Display(Name = "Typ atrakcji")]
@@ -20,6 +21,7 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Display(Name = "Opis atrakcji")]
         public string Description { get; set; }
 
+        [Display(Name = "Klucz obcy region")]
         public int IdRegion { get; set; }
 
         [Display(Name = "Region")]

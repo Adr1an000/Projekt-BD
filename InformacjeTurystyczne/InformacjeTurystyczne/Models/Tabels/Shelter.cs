@@ -10,6 +10,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Shelter
     {
         [Key]
+        [Display(Name = "Klucz schronisko")]
         public int IdShelter { get; set; }
 
         [Display(Name = "Nazwa schroniska")]
@@ -30,8 +31,9 @@ namespace InformacjeTurystyczne.Models.Tabels
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
-       // [ForeignKey("Region")]
+        [Display(Name = "Klucz obcy region")]
         public int IdRegion { get; set; }
+
         [Display(Name = "Region")]
         public virtual Region Region { get; set; }
 
