@@ -2,24 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InformacjeTurystyczne.Models.InterfaceRepository;
+using InformacjeTurystyczne.Models.Repository;
 
 namespace InformacjeTurystyczne.Models.ViewModels
 {
     public class TouristInformationVM
     {
-        //Lista nazw regionów
-        public List<string> Regions { get; set; }
-        //Lista rodzajów rozrywek: szlak, schronisko, impreza, muzeum itp.
-        public List<string> Types { get; set; }
-        //Lista Rozrywek (InfoRecord)
-        //InfoRecord to lista właściwości danego obiektu
-        public List<InfoRecordVM> Records { get; set; }
-
-        public TouristInformationVM()
-        {
-            Regions = new List<string>();
-            Types = new List<string>();
-            Records = new List<InfoRecordVM>();
-        }
+        public IAttractionRepository attractionRepository { get; set; }
+        public IPartyRepository partyRepository { get; set; }
+        public IShelterRepository shelterRepository { get; set; }
+        public ITrailRepository trailRepository { get; set; }
+        public ICategoryRepository categoryRepository { get; set; }
+        public IRegionRepository regionRepository { get; set; }
     }
 }

@@ -8,45 +8,49 @@ using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.ViewModels;
 using InformacjeTurystyczne.Models.InterfaceRepository;
 using InformacjeTurystyczne.Models.Repository;
+using System.Dynamic;
 
 namespace InformacjeTurystyczne.Controllers
 {
     public class TouristInformationController : Controller
     {
         private readonly IAttractionRepository _attractionRepository;
-    //    private readonly ICategoryRepository _categoryRepository;
-    //    private readonly IMessageRepository _messageRepository;
         private readonly IPartyRepository _partyRepository;
-     //   private readonly IRegionRepository _regionRepository;
         private readonly IShelterRepository _shelterRepository;
-    //    private readonly ISubscriptionRepository _subscriptionRepository;
         private readonly ITrailRepository _trailRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IRegionRepository _regionRepository;
 
-        
+
         public TouristInformationController(
             IAttractionRepository attractionRepository,
-        //    ICategoryRepository categoryRepository,
-        //    IMessageRepository messageRepository,
             IPartyRepository partyRepository,
-        //    IRegionRepository regionRepository,
             IShelterRepository shelterRepository,
-        //    ISubscriptionRepository subscriptionRepository,
-            ITrailRepository trailRepository)
+            ITrailRepository trailRepository,
+            ICategoryRepository categoryRepository,
+            IRegionRepository regionRepository
+            )
         {
             _attractionRepository = attractionRepository;
-        //    _categoryRepository = categoryRepository;
-        //    _messageRepository = messageRepository;
+            _categoryRepository = categoryRepository;
             _partyRepository = partyRepository;
-        //    _regionRepository = regionRepository;
+            _regionRepository = regionRepository;
             _shelterRepository = shelterRepository;
-        //    _subscriptionRepository = subscriptionRepository;
             _trailRepository = trailRepository;
+        }
+
+        public class TouristInfoVM
+        {
+            
         }
         
         public IActionResult Index()
         {
-            var viewModel = new TouristInformationVM();
+            //var viewModel = new TouristInformationVM();
             InfoRecordVM record;
+            dynamic viewModel = new ExpandoObject();
+            viewModel.attractions = _attractionRepository;
+            viewModel.
 
             foreach (var attraction in _attractionRepository.GetAllAttractionToUser())
             {
