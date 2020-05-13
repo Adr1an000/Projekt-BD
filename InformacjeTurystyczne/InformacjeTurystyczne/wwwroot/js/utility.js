@@ -19,7 +19,7 @@ Utility.createElement = function (tag, options)
 Utility.createRow = function (...texts) {
     let rowDiv = Utility.createElement("div", { withClass: "row" });
     for (let text of texts) {
-        rowDiv.appendChild(Utility.createElement("p", { withText: text }));
+        rowDiv.appendChild(Utility.createElement("span", { withText: text }));
     }
     return rowDiv;
 }
