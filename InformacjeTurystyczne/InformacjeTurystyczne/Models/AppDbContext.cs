@@ -58,18 +58,20 @@ namespace InformacjeTurystyczne.Models
 
             modelBuilder.Entity<Category>()
                 .HasMany<Message>(bc => bc.Messages)
-                .WithOne(c=>c.Category)
+                .WithOne(c => c.Category)
                 .HasForeignKey(s => s.IdCategory);
-
+                
             modelBuilder.Entity<Message>()
                 .HasOne<Region>(bc => bc.Region)
                 .WithMany(c => c.Message)
-                .HasForeignKey(s => s.IdRegion);
+                .HasForeignKey(s => s.IdRegion)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Message>()
                 .HasOne<Category>(bc => bc.Category)
                 .WithMany(c => c.Messages)
-                .HasForeignKey(s => s.IdCategory);
+                .HasForeignKey(s => s.IdCategory)
+                .OnDelete(DeleteBehavior.SetNull);
 
             /*
             modelBuilder.Entity<PermissionParty>()

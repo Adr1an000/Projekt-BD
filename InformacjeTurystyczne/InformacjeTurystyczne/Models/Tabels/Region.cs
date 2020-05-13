@@ -10,6 +10,7 @@ namespace InformacjeTurystyczne.Models.Tabels
     public class Region
     {
         [Key]
+        [Display(Name = "Klucz region")]
         public int IdRegion { get; set; }
 
         [Display(Name = "Nazwa regionu")]
