@@ -1,5 +1,0 @@
-﻿
-
-const FilterItem = function (name) {
-
-}

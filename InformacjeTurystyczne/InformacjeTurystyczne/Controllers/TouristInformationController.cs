@@ -18,7 +18,6 @@ namespace InformacjeTurystyczne.Controllers
         private readonly IPartyRepository _partyRepository;
         private readonly IShelterRepository _shelterRepository;
         private readonly ITrailRepository _trailRepository;
-        private readonly ICategoryRepository _categoryRepository;
         private readonly IRegionRepository _regionRepository;
 
 
@@ -27,88 +26,24 @@ namespace InformacjeTurystyczne.Controllers
             IPartyRepository partyRepository,
             IShelterRepository shelterRepository,
             ITrailRepository trailRepository,
-            ICategoryRepository categoryRepository,
             IRegionRepository regionRepository
             )
         {
             _attractionRepository = attractionRepository;
-            _categoryRepository = categoryRepository;
             _partyRepository = partyRepository;
             _regionRepository = regionRepository;
             _shelterRepository = shelterRepository;
             _trailRepository = trailRepository;
         }
-
-        public class TouristInfoVM
-        {
-            
-        }
         
         public IActionResult Index()
         {
-            //var viewModel = new TouristInformationVM();
-            InfoRecordVM record;
-            dynamic viewModel = new ExpandoObject();
+            var viewModel = new TouristInformationVM();
             viewModel.attractions = _attractionRepository;
-            viewModel.
-
-            foreach (var attraction in _attractionRepository.GetAllAttractionToUser())
-            {
-                record = new InfoRecordVM();
-
-                record.AddProperty("atrakcja", attraction.AttractionType, "Atrakcja", attraction.AttractionType);
-                record.AddProperty("nazwa", "", "Temat atrakcji", attraction.Name);
-                record.AddProperty("opis", "", "Opis", attraction.Description);
-
-                record.AddProperty("region", "region", "", attraction.Region.Name ?? "");
-
-                viewModel.Records.Add(record);
-            }
-            
-            foreach(var party in _partyRepository.GetAllPartyToUser())
-            {
-                record = new InfoRecordVM();
-
-                record.AddProperty("impreza", "", "Impreza", party.Name);
-                record.AddProperty("lokalizacja", "", "Lokalizacja", party.PlaceDescription);
-                record.AddProperty("opis imprezy", "", "Szczegóły", party.Description);
-                record.AddProperty("aktualność", "aktualne", "Aktualność", party.UpToDate ? "aktualna" : "nieaktualna");
-
-                record.AddProperty("region", "region", "", party.Region.Name ?? "");
-
-                viewModel.Records.Add(record);
-            }
-
-            foreach(var shelter in _shelterRepository.GetAllShelterToUser())
-            {
-                record = new InfoRecordVM();
-
-                record.AddProperty("schronisko", "", "Schronisko", shelter.Name);
-                record.AddProperty("max miejsc", "", "Pojemność", shelter.MaxPlaces.ToString());
-                record.AddProperty("ilosc miejsc", "", "Zajęte miejsca", shelter.Places.ToString());
-                record.AddProperty("otwartość", "otwarte", "", shelter.IsOpen ? "otwarte" : "zamknięte");
-                record.AddProperty("opis schroniska", "", "Opis", shelter.Description);
-                record.AddProperty("telefon", "", "Numer telefonu", shelter.PhoneNumber);
-
-                record.AddProperty("region", "region", "", shelter.Region.Name ?? "");
-
-                viewModel.Records.Add(record);
-            }
-
-            foreach(var trail in _trailRepository.GetAllTrailToUser())
-            {
-                record = new InfoRecordVM();
-
-                record.AddProperty("szlak", "", "Szlak", trail.Name);
-                record.AddProperty("kolor", "kolor", "Kolor", trail.Colour);
-                record.AddProperty("otwartość", "otwarte", "", trail.Open ? "otwarty" : "zamknięty");
-                record.AddProperty("przyczyna", "", "Przyczyna zamknięcia", trail.Feedback);
-                record.AddProperty("długość", "", "Długość szlaku", trail.Length.ToString() + "m");
-                record.AddProperty("trudność", "trudność", "Poziom trudności", trail.Difficulty.ToString());
-                record.AddProperty("opis", "", "Opis szlaku", trail.Description);
-
-                viewModel.Records.Add(record);
-            }
+            viewModel.parties = _partyRepository;
+            viewModel.shelters = _shelterRepository;
+            viewModel.trails = _trailRepository;
+            viewModel.regions = _regionRepository;
 
             return View(viewModel);
         }

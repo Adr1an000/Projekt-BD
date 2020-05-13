@@ -9,11 +9,10 @@ namespace InformacjeTurystyczne.Models.ViewModels
 {
     public class TouristInformationVM
     {
-        public IAttractionRepository attractionRepository { get; set; }
-        public IPartyRepository partyRepository { get; set; }
-        public IShelterRepository shelterRepository { get; set; }
-        public ITrailRepository trailRepository { get; set; }
-        public ICategoryRepository categoryRepository { get; set; }
-        public IRegionRepository regionRepository { get; set; }
+        public IAttractionRepository attractions { get; set; }
+        public IPartyRepository parties { get; set; }
+        public IShelterRepository shelters { get; set; }
+        public ITrailRepository trails { get; set; }
+        public IRegionRepository regions { get; set; }
     }
 }

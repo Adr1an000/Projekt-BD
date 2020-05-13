@@ -1,7 +1,7 @@
 ﻿
 const Utility = {};
 
-Utility.createElement(tag, options)
+Utility.createElement = function (tag, options)
 {
     const { withText, withClass } = options;
 
@@ -14,6 +14,14 @@ Utility.createElement(tag, options)
         element.classList.add(withClass);
     }
     return element;
+}
+
+Utility.createRow = function (...texts) {
+    let rowDiv = Utility.createElement("div", { withClass: "row" });
+    for (let text of texts) {
+        rowDiv.appendChild(Utility.createElement("p", { withText: text }));
+    }
+    return rowDiv;
 }
 
 export default Utility;
