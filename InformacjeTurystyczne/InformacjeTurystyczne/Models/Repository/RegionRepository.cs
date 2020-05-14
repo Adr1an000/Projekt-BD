@@ -81,5 +81,10 @@ namespace InformacjeTurystyczne.Models.Repository
         {
             _appDbContext.Remove(regionLocation);
         }
+
+        public IEnumerable<Region> GetAllRegionToUser()
+        {
+            return _appDbContext.Regions.AsNoTracking().ToList();
+        }
     }
 }
