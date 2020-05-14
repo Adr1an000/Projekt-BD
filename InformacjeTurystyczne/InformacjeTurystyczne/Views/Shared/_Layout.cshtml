@@ -27,18 +27,27 @@
                 <a class="navbar__link" asp-area="" asp-controller="Notifications" asp-action="Index">
                     <li class="navbar__item">Powiadomienia</li>
                 </a>
-                <a class="navbar__link" asp-area="" asp-controller="User" asp-action="Index">
-                    <li class="navbar__item">Użytkownicy</li>
-                </a>
-                <a class="navbar__link" asp-area="" asp-controller="Mail" asp-action="Index">
-                    <li class="navbar__item">Wiadomości</li>
-                </a>
-                <a class="navbar__link" asp-area="" asp-controller="Admin" asp-action="Index">
-                    <li class="navbar__item">Panel administracyjny</li>
-                </a>
-                <a class="navbar__link" asp-area="" asp-controller="Role" asp-action="Index">
-                    <li class="navbar__item">Zarządzanie rolami</li>
-                </a>
+                @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                {
+                    <a class="navbar__link" asp-area="" asp-controller="User" asp-action="Index">
+                        <li class="navbar__item">Użytkownicy</li>
+                    </a>
+                    <a class="navbar__link" asp-area="" asp-controller="Mail" asp-action="Index">
+                        <li class="navbar__item">Wiadomości</li>
+                    </a>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <a class="navbar__link" asp-area="" asp-controller="Admin" asp-action="Index">
+                        <li class="navbar__item">Panel administracyjny</li>
+                    </a>
+                }
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <a class="navbar__link" asp-area="" asp-controller="Role" asp-action="Index">
+                        <li class="navbar__item">Zarządzanie rolami</li>
+                    </a>
+                }
                 <a class="navbar__link" asp-area="" asp-controller="Map" asp-action="Index">
                     <li class="navbar__item">Mapa</li>
                 </a>

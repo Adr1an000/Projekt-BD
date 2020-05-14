@@ -176,7 +176,42 @@ button:hover {
     text-align: left;
 }
 
+/*|| login*/
 
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login .panel {
+    margin: 20px;
+    padding: 50px;
+    background-color: var(--secondaryColor);
+}
+.login h1 {
+    font-size: 120%;
+    margin-bottom: 10px;
+}
+.login .panel h2 {
+    margin-bottom: 10px;
+}
+.login div{
+    margin: 10px 0;
+}
+
+.login button {
+    width: 100px;
+    margin: 10px 0;
+}
+.login form {
+    display: block;
+    margin: 0 auto;
+}
+.login form label {
+    display: block;
+    font-size: 0.75em;
+}
 
 /* || tables*/
 
