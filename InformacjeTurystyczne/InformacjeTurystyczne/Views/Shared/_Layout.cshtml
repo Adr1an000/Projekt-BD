@@ -53,12 +53,9 @@
                 </a>
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
-                          method="post" class="navbar-right">
-                        <a class="navbar__link" href="javascript:document.getElementById('logoutForm').submit()">
-                            <li class="navbar__item">Wyloguj</li>
-                        </a>
-                    </form>
+                    <a class="navbar__link" href="javascript:document.getElementById('logoutForm').submit()">
+                        <li class="navbar__item">Wyloguj</li>
+                    </a>
                 }
                 else
                 {
@@ -80,6 +77,10 @@
 
     <footer>
     </footer>
+
+    <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
+          method="post" class="navbar-right">
+    </form>
     @RenderSection("Scripts", required: false)
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
