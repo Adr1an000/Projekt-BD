@@ -1,3 +1,45 @@
-﻿<h1>Powiadomienia</h1>
-<h3>// TODO filtrowanie po subskrypcjach i później wyświetlenie wszystkich nowych informacji</h3>
+﻿@model NotificationsVM
 
+<div class="page info">
+    <div class="sidebar">
+        <div class="expand">
+            <button type="button" class="toggle-button expand__button" data-show="expand-region">
+                <p>Region</p>
+            </button>
+            <div class="expand__content" id="expand-region">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="region1" name="region1" value="region1">
+                    <label for="region1"> Region 1</label><br>
+                    <input type="checkbox" id="region2" name="region1" value="region1">
+                    <label for="region2"> Region 2</label><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info__list" id="info__list">
+    </div>
+    <script type="module">
+        import Message from "./js/message.js";
+        window.addEventListener("load", () => {
+            initToggleButtons();
+
+            let itemArray = [];
+            let message = {};
+            @foreach(var message in Model.messages.GetAllMessage().Result)
+            {
+            <text>
+            message = new Message();
+            message.name = "@Html.Raw(message.Name)";
+            message.region = "@Html.Raw(message.Region.Name)";
+            message.description = "@Html.Raw(message.Description)";
+            message.date = "@Html.Raw(message.PostingDate1)";
+            message.category = "@Html.Raw(message.Category.Name)";
+            itemArray.push(message);
+            </text>
+            }
+
+            let infoPage = new InfoPage(itemArray);
+            infoPage.renderItems();
+        });
+    </script>
+</div>
