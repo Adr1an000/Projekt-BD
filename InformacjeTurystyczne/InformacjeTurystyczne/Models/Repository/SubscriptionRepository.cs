@@ -75,5 +75,10 @@ namespace InformacjeTurystyczne.Models.Repository
         {
             return _appDbContext.Users.AsNoTracking();
         }
+
+        public IEnumerable<Subscription> GetAllSubscriptionToUser()
+        {
+            return _appDbContext.Subscriptions.Include(s => s.Region).Include(s => s.User).AsNoTracking().ToList();
+        }
     }
 }

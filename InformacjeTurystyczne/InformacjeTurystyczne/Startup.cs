@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using InformacjeTurystyczne.IdentityPolicy;
 using InformacjeTurystyczne.Models;
 using InformacjeTurystyczne.Models.Email;
@@ -91,6 +94,10 @@ namespace InformacjeTurystyczne
                 config.SignIn.RequireConfirmedEmail = true; // email confirm!
             }).AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders();
+
+            var context = new CustomAssemblyLoadContext();
+            context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             services.Configure<DataProtectionTokenProviderOptions>(options =>
             options.TokenLifespan = TimeSpan.FromHours(24));

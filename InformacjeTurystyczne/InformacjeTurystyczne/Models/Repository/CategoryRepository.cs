@@ -63,5 +63,10 @@ namespace InformacjeTurystyczne.Models.Repository
         {
             return _appDbContext.Categories.AsNoTracking();
         }
+
+        public IEnumerable<Category> GetAllCategoryToUser()
+        {
+            return _appDbContext.Categories.AsNoTracking().ToList();
+        }
     }
 }

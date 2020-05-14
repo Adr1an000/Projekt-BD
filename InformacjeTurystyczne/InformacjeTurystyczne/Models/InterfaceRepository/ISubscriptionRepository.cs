@@ -21,5 +21,6 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
         IEnumerable<Subscription> GetAllSubscriptionAsNoTracking();
         IEnumerable<Region> GetAllRegionAsNoTracking();
         IEnumerable<AppUser> GetAllAppUserAsNoTracking();
+        IEnumerable<Subscription> GetAllSubscriptionToUser();
     }
 }

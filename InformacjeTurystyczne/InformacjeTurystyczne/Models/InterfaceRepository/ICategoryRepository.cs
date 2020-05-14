@@ -19,5 +19,6 @@ namespace InformacjeTurystyczne.Models.Repository
 
         Task SaveChangesAsync();
         IEnumerable<Category> GetAllCategoryAsNoTracking();
+        IEnumerable<Category> GetAllCategoryToUser();
     }
 }

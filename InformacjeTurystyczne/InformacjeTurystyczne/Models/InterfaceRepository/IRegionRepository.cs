@@ -21,6 +21,6 @@ namespace InformacjeTurystyczne.Models.InterfaceRepository
         IEnumerable<Region> GetAllRegionAsNoTracking();
         IEnumerable<Trail> GetAllTrails();
         void RemoveTrail(RegionLocation regionLocation);
-
+        IEnumerable<Region> GetAllRegionToUser();
     }
 }
