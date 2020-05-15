@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InformacjeTurystyczne.Controllers
 {
-    public class MapController : Controller
+    public class HelpController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-
     }
 }
