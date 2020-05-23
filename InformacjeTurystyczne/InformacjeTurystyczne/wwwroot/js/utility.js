@@ -29,4 +29,15 @@ Utility.createRow = function (...texts) {
     return rowDiv;
 }
 
+Utility.remove = function (array, ...items) {
+    for (let i = items.length - 1; i >= 0; i--) {
+        let what = items[i];
+        let whatIndex = array.indexOf(what);
+        while (whatIndex !== -1) {
+            array.splice(whatIndex, 1);
+            whatIndex = array.indexOf(what);
+        }
+    }
+}
+
 export default Utility;

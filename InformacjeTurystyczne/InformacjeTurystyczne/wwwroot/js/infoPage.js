@@ -6,19 +6,35 @@ const InfoPage = function (items, regions, types) {
     this.types = types;
     this.typeFilter = new Filter("Typ", "type", ...types);
     this.regionFilter = new Filter("Region", "region", ...regions);
+
+    this.typeFilter.onDirty = () => {
+        this.renderFilters();
+        this.renderItems();
+    };
+    this.regionFilter.onDirty = () => {
+        this.renderFilters();
+        this.renderItems();
+    };
 };
 
 InfoPage.prototype.renderItems = function () {
     let fragment = document.createDocumentFragment();
-    for (let item of this.items) {
+    let list = document.getElementById("info__list");
+    list.textContent = '';
+    for (let item of this.items.filter(item => this.typeFilter.check(item.type) && this.regionFilter.check(item.region))) {
         fragment.appendChild(item.render());
     }
-    document.getElementById("info__list").appendChild(fragment);
+    list.appendChild(fragment);
 };
 
 InfoPage.prototype.renderFilters = function () {
-    document.getElementsByClassName("sidebar")[0].prepend(this.regionFilter.render());
-    document.getElementsByClassName("sidebar")[0].prepend(this.typeFilter.render());
+    let sidebar = document.getElementsByClassName("sidebar")[0];
+    for (let child of sidebar.querySelectorAll(".expand")) {
+        sidebar.removeChild(child);
+    }
+    
+    sidebar.prepend(this.regionFilter.render());
+    sidebar.prepend(this.typeFilter.render());
 }
 
 export default InfoPage;
