@@ -1,8 +1,9 @@
 ﻿
 const Utility = {};
 
-Utility.createElement = function (tag, options)
-{
+Utility.createElement = function (tag, options) {
+
+    options = options || {};
     const { withText, withClass } = options;
 
     let element = document.createElement(tag);
@@ -11,7 +12,11 @@ Utility.createElement = function (tag, options)
         element.appendChild(text);
     }
     if (withClass) {
-        element.classList.add(withClass);
+        if (Array.isArray(withClass)) {
+            element.classList.add(...withClass);
+        } else {
+            element.classList.add(withClass);
+        }
     }
     return element;
 }
