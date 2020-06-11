@@ -2,8 +2,35 @@
 
 const User = function (name) {
     this.name = name;
+    this.Id = 0;
     this.regionPermissions = {};
     this.permissionsExpanded = false;
+    this.addUrl = "";
+    this.removeUrl = "";
+}
+
+const postPermission = function (url, user, regionName) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        id: user,
+        regionName: regionName
+    }));
+    console.log(`posting ${user} ${regionName} to ${url}`);
+    /*var stringArray = new Array();
+    stringArray[0] = "item1";
+    stringArray[1] = "item2";
+    stringArray[2] = "item3";
+    var postData = { values: stringArray };
+
+    $.ajax({
+        type: "POST",
+        url: "/Home/SaveList",
+        data: postData,
+        dataType: "json",
+        traditional: true
+    });*/
 }
 
 User.prototype.renderCheckbox = function (content, checked, id, name) {
@@ -14,8 +41,13 @@ User.prototype.renderCheckbox = function (content, checked, id, name) {
     checkbox.value = name;
     checkbox.checked = checked;
     checkbox.addEventListener("change", () => {
-        this.items[checkbox.id] = !this.items[checkbox.id];
-        this.makeDirty();
+        this.regionPermissions[checkbox.name] = !this.regionPermissions[checkbox.name];
+        if (this.regionPermissions[checkbox.name]) {
+            postPermission(this.addUrl, this.id, checkbox.name);
+        } else {
+            postPermission(this.removeUrl, this.id, checkbox.name);
+        }
+        //this.makeDirty();
     });
     content.appendChild(checkbox);
     let label = Util.createElement("label", { withText: name });
@@ -27,10 +59,10 @@ User.prototype.renderCheckbox = function (content, checked, id, name) {
 User.prototype.render = function () {
     let itemDiv = Util.createElement("div", { withClass: "info__item" });
 
-    itemDiv.appendChild(Util.createElement("h1", { withText: this.name }));
-    let deleteButton = Util.createElement("button", { withText: "Usuń", withClass: ["info__delete"] });
-    itemDiv.appendChild(deleteButton);
-    let button = Util.createElement("button", { withText: "Edytuj uprawnienia", withClass: ["toggle-button", "expand__button"] });
+    //itemDiv.appendChild(Util.createElement("h1", { withText: this.name }));
+    //let deleteButton = Util.createElement("button", { withText: "Usuń", withClass: ["info__delete"] });
+    //itemDiv.appendChild(deleteButton);
+    let button = Util.createElement("button", { withText: this.name, withClass: ["toggle-button", "expand__button"] });
 
     itemDiv.appendChild(button);
 

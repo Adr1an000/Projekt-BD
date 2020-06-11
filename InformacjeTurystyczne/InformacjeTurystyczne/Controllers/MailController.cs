@@ -47,11 +47,11 @@ namespace InformacjeTurystyczne.Controllers
         public async Task<IActionResult> Index([Bind("IdMessage,Name,Description,PostingDate1,IdCategory,IdRegion")] Message message)
         {
             var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            AppUser appUser = _appDbContext.Users
+            AppUser appUser = await _appDbContext.Users
                 .Include(i => i.PermissionRegions)
                 .ThenInclude(i => i.Region)
                 .Where(i => i.Id == id)
-                .Single();
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (ModelState.IsValid)
             {
                 message.PostingDate1 = DateTime.Now;
