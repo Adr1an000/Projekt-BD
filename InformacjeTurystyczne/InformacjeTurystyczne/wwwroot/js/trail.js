@@ -17,7 +17,11 @@ Trail.prototype.render = function () {
 
     itemDiv.appendChild(Util.createElement("h1", { withText: this.name }));
     itemDiv.appendChild(Util.createElement("p", { withText: this.type, withClass: "info__type" }));
-    itemDiv.appendChild(Util.createRow("region:", this.region));
+    if (Array.isArray(this.region)) {
+        itemDiv.appendChild(Util.createRow("region:", this.region.join(", ")));
+    } else {
+        itemDiv.appendChild(Util.createRow("region:", this.region));
+    }
     itemDiv.appendChild(Util.createRow("kolor:", this.colour));
     itemDiv.appendChild(Util.createRow("długość:", this.length));
     itemDiv.appendChild(Util.createRow("poziom trudności:", this.difficulty));

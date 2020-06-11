@@ -26,8 +26,16 @@
             let party = {};
 
             const addProperties = (type, region) => {
-                if (!regions.includes(region)) {
-                    regions.push(region);
+                if (Array.isArray(region)) {
+                    for (let reg of region) {
+                        if (!regions.includes(reg)) {
+                            regions.push(reg);
+                        }
+                    }
+                } else {
+                    if (!regions.includes(region)) {
+                        regions.push(region);
+                    }
                 }
                 if (!types.includes(type)) {
                     types.push(type);
@@ -53,6 +61,17 @@
             trail.colour = "@Html.Raw(trail.Colour)";
             trail.length = "@Html.Raw(trail.Length)";
             trail.difficulty = "@Html.Raw(trail.Difficulty)";
+            trail.region = [];
+            @if (trail.RegionLocation != null)
+            {
+                @foreach(var region in trail.RegionLocation)
+                {
+                    @:trail.region.push("@Html.Raw(region.Region.Name)");
+                }
+            } else
+            {
+                @:trail.region = "N/A";
+            }
             trail.open = "@Html.Raw(trail.Open)";
             trail.feedback = "@Html.Raw(trail.Feedback)";
             trail.description = "@Html.Raw(trail.Description)";

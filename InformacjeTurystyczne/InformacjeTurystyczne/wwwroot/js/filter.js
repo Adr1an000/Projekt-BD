@@ -3,6 +3,10 @@
 const Filter = function (name, propertyName, ...items) {
     this.name = name;
     this.propertyName = propertyName;
+    this.items = {};
+    for (let item of items) {
+        this.items[item] = true;
+    }
     this.activeItems = [...items];
     this.inactiveItems = []; //TODO: this casues filter items to change places
     this.selected = false;
@@ -14,30 +18,22 @@ Filter.prototype.makeDirty = function () {
     this.onDirty();
 }
 
-Filter.prototype.renderFilterItems = function (content, checked, items) {
-    for (let item of items) {
-        let checkbox = Util.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = item;
-        checkbox.name = item;
-        checkbox.value = item;
-        checkbox.checked = checked;
-        checkbox.addEventListener("change", () => {
-            if (checkbox.checked) {
-                this.activeItems.push(checkbox.id);
-                Util.remove(this.inactiveItems, checkbox.id);
-            } else {
-                this.inactiveItems.push(checkbox.id);
-                Util.remove(this.activeItems, checkbox.id);
-            }
-            this.makeDirty();
-        });
-        content.appendChild(checkbox);
-        let label = Util.createElement("label", { withText: item });
-        label.htmlFor = item;
-        content.appendChild(label);
-        content.appendChild(Util.createElement("br"));
-    }
+Filter.prototype.renderFilterItem = function (content, checked, item) {
+    let checkbox = Util.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = item;
+    checkbox.name = item;
+    checkbox.value = item;
+    checkbox.checked = checked;
+    checkbox.addEventListener("change", () => {
+        this.items[checkbox.id] = !this.items[checkbox.id];
+        this.makeDirty();
+    });
+    content.appendChild(checkbox);
+    let label = Util.createElement("label", { withText: item });
+    label.htmlFor = item;
+    content.appendChild(label);
+    content.appendChild(Util.createElement("br"));
 }
 
 Filter.prototype.render = function () {
@@ -48,8 +44,11 @@ Filter.prototype.render = function () {
     filterDiv.appendChild(button);
 
     let content = Util.createElement("div", { withClass: "expand__content" });
-    this.renderFilterItems(content, true, this.activeItems);
-    this.renderFilterItems(content, false, this.inactiveItems);
+    for (let [key, val] of Object.entries(this.items)) {
+        this.renderFilterItem(content, val, key);
+    }
+    //this.renderFilterItems(content, true, this.activeItems);
+    //this.renderFilterItems(content, false, this.inactiveItems);
     filterDiv.appendChild(content);
 
     if (this.expanded) {
@@ -67,7 +66,16 @@ Filter.prototype.render = function () {
 }
 
 Filter.prototype.check = function (item) {
-    return this.activeItems.includes(item);
+    //return this.activeItems.includes(item);
+    if (Array.isArray(item)) {
+        for (let i of item) {
+            if (this.items[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+    return this.items[item];
 }
 
 export default Filter;

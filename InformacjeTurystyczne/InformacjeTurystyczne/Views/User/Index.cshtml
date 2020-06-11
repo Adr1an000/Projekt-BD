@@ -1,2 +1,24 @@
-﻿<h1>// TODO filtrowanie informacji dla użytkownika</h1>
+﻿<div class="page users">
+    <div class="sidebar">
+    </div>
+    <div class="info__list" id="info__list">
+    </div>
+    <script type="module">
+        import Page from "./js/usersPage.js";
+        import User from "./js/user.js";
 
+        window.addEventListener("load", () => {
+            let user1 = new User("user1");
+            user1.regionPermissions["Katowice"] = true;
+            user1.regionPermissions["Gliwice"] = false;
+            let user2 = new User("user2");
+            user2.regionPermissions["Katowice"] = false;
+            user2.regionPermissions["Gliwice"] = true;
+
+            let users = [user1, user2];
+
+            let usersPage = new Page(users);
+            usersPage.renderItems();
+        });
+    </script>
+</div>
