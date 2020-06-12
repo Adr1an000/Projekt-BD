@@ -240,3 +240,15 @@ table th {
     background-color: rgba(215, 255, 167, 0.5);
     color: #006107;
 }
+
+/* || help, users */
+
+.help .info__item, .users .info__item {
+    width: calc(50% - 40px);
+    margin: 20px auto;
+}
+
+/* || admin */
+form > button {
+    width: 200px;
+}

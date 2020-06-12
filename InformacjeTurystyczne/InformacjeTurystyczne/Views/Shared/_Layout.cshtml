@@ -41,9 +41,6 @@
                     <a class="navbar__link" asp-area="" asp-controller="Admin" asp-action="Index">
                         <li class="navbar__item">Panel administracyjny</li>
                     </a>
-                }
-                @if (SignInManager.IsSignedIn(User))
-                {
                     <a class="navbar__link" asp-area="" asp-controller="Role" asp-action="Index">
                         <li class="navbar__item">Zarządzanie rolami</li>
                     </a>
@@ -81,8 +78,9 @@
     <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
           method="post" class="navbar-right">
     </form>
-    @RenderSection("Scripts", required: false)
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script> 
+    @RenderSection("Scripts", required: false)
     <script>
         window.addEventListener("load",  () => initNavbar(
             "@ViewContext.RouteData.Values["Controller"]",

@@ -1,8 +1,9 @@
 ﻿
 const Utility = {};
 
-Utility.createElement = function (tag, options)
-{
+Utility.createElement = function (tag, options) {
+
+    options = options || {};
     const { withText, withClass } = options;
 
     let element = document.createElement(tag);
@@ -11,7 +12,11 @@ Utility.createElement = function (tag, options)
         element.appendChild(text);
     }
     if (withClass) {
-        element.classList.add(withClass);
+        if (Array.isArray(withClass)) {
+            element.classList.add(...withClass);
+        } else {
+            element.classList.add(withClass);
+        }
     }
     return element;
 }
@@ -22,6 +27,17 @@ Utility.createRow = function (...texts) {
         rowDiv.appendChild(Utility.createElement("span", { withText: text }));
     }
     return rowDiv;
+}
+
+Utility.remove = function (array, ...items) {
+    for (let i = items.length - 1; i >= 0; i--) {
+        let what = items[i];
+        let whatIndex = array.indexOf(what);
+        while (whatIndex !== -1) {
+            array.splice(whatIndex, 1);
+            whatIndex = array.indexOf(what);
+        }
+    }
 }
 
 export default Utility;

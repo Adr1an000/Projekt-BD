@@ -25,29 +25,3 @@ const initHomepage = () => {
     window.addEventListener("load", resizeHomepage);
     window.addEventListener("resize", resizeHomepage);
 }
-
-const initToggleButtons = () => {
-    let buttons = document.getElementsByClassName("toggle-button");
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].addEventListener("click", toggleButton);
-    }
-};
-
-const toggleButton = function (e) {
-    this.classList.toggle("toggle-button--active");
-    document.getElementById(this.getAttribute("data-show")).classList.toggle("show");
-};
-
-const InfoPage = function (items, regions, types) {
-    this.regions = regions;
-    this.items = items;
-    this.types = types;
-};
-
-InfoPage.prototype.renderItems = function () {
-    let fragment = document.createDocumentFragment();
-    for (let item of this.items) {
-        fragment.appendChild(item.render());
-    }
-    document.getElementById("info__list").appendChild(fragment);
-};
