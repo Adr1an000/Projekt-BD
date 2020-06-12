@@ -22,21 +22,24 @@
                 }
             }
 
-            subscriptions.addUrl = "@Url.Action("AddSubscription")";
-            subscriptions.removeUrl = "@Url.Action("RemoveSubscription")";
-            @foreach(var region in Model.regions)
+            @if (Model.user != null)
             {
-            <text>
-            subscriptions.regionSubscriptions["@Html.Raw(region.Name)"] = false;
-            </text>
-            }
-            @foreach(var region in Model.user.Subscriptions.Select(s => s.Region))
-            {
-            <text>
-            subscriptions.regionSubscriptions["@Html.Raw(region.Name)"] = true;
-            </text>
-            }
+                @:subscriptions.addUrl = "@Url.Action("AddSubscription")";
+                @:subscriptions.removeUrl = "@Url.Action("RemoveSubscription")";
+                @foreach(var region in Model.regions)
+                {
+                <text>
+                subscriptions.regionSubscriptions["@Html.Raw(region.Name)"] = false;
+                </text>
+                }
+                @foreach(var region in Model.user.Subscriptions.Select(s => s.Region))
+                {
+                <text>
+                subscriptions.regionSubscriptions["@Html.Raw(region.Name)"] = true;
+                </text>
+                }
 
+            }
             let message = {};
             @foreach(var message in Model.messages.GetAllMessage().Result)
             {
@@ -55,7 +58,10 @@
             let messagePage = new Page(itemArray, regions, subscriptions);
             messagePage.renderItems();
             messagePage.renderFilters();
-            messagePage.renderSubs();
-        });
+            @if (Model.user != null)
+            {
+                @:messagePage.renderSubs();
+            }
+            });
     </script>
 </div>
