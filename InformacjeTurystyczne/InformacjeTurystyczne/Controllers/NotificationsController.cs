@@ -28,7 +28,7 @@ namespace InformacjeTurystyczne.Controllers
         public async Task<IActionResult> Index()
         {
             var viewModel = new NotificationsVM();
-            if (HttpContext.User != null)
+            if (HttpContext.User != null && HttpContext.User.FindFirst(ClaimTypes.NameIdentifier) != null)
             {
                 var id = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 AppUser appUser = await _appDbContext.Users
