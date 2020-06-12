@@ -41,9 +41,6 @@
                     <a class="navbar__link" asp-area="" asp-controller="Admin" asp-action="Index">
                         <li class="navbar__item">Panel administracyjny</li>
                     </a>
-                }
-                @if (SignInManager.IsSignedIn(User))
-                {
                     <a class="navbar__link" asp-area="" asp-controller="Role" asp-action="Index">
                         <li class="navbar__item">Zarządzanie rolami</li>
                     </a>
