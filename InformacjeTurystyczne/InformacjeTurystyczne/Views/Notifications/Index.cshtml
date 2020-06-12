@@ -8,16 +8,33 @@
     <script type="module">
         import Message from "./js/message.js";
         import Page from "./js/messagePage.js";
+        import Subscription from "./js/subscription.js";
 
         window.addEventListener("load", () => {
 
             let itemArray = [];
             let regions = [];
+            let subscriptions = new Subscription()
 
             const addProperties = (region) => {
                 if (!regions.includes(region)) {
                     regions.push(region);
                 }
+            }
+
+            subscriptions.addUrl = "@Url.Action("AddSubscription")";
+            subscriptions.removeUrl = "@Url.Action("RemoveSubscription")";
+            @foreach(var region in Model.regions)
+            {
+            <text>
+            subscriptions.regionSubscriptions["@Html.Raw(region.Name)"] = false;
+            </text>
+            }
+            @foreach(var region in Model.user.Subscriptions.Select(s => s.Region))
+            {
+            <text>
+            subscriptions.regionSubscriptions["@Html.Raw(region.Name)"] = true;
+            </text>
             }
 
             let message = {};
@@ -35,9 +52,10 @@
             </text>
             }
 
-            let messagePage = new Page(itemArray, regions);
+            let messagePage = new Page(itemArray, regions, subscriptions);
             messagePage.renderItems();
             messagePage.renderFilters();
+            messagePage.renderSubs();
         });
     </script>
 </div>

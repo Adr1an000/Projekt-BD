@@ -8,7 +8,7 @@ const Filter = function (name, propertyName, ...items) {
         this.items[item] = true;
     }
     this.activeItems = [...items];
-    this.inactiveItems = []; //TODO: this casues filter items to change places
+    this.inactiveItems = [];
     this.selected = false;
     this.onDirty = () => { };
     this.expanded = false;
@@ -37,7 +37,7 @@ Filter.prototype.renderFilterItem = function (content, checked, item) {
 }
 
 Filter.prototype.render = function () {
-    let filterDiv = Util.createElement("div", { withClass: "expand" });
+    let filterDiv = Util.createElement("div", { withClass: ["expand", "filteritem"] });
 
     let button = Util.createElement("button", { withText: this.name, withClass: ["toggle-button", "expand__button"] });
     
