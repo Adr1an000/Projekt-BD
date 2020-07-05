@@ -1,11 +1,9 @@
-﻿using InformacjeTurystyczne.Models.Tabels;
-using System;
+﻿using InformacjeTurystyczne.Models.InterfaceRepository;
+using InformacjeTurystyczne.Models.Tabels;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using InformacjeTurystyczne.Models.InterfaceRepository;
-using Microsoft.EntityFrameworkCore;
 
 namespace InformacjeTurystyczne.Models.Repository
 {
@@ -68,7 +66,10 @@ namespace InformacjeTurystyczne.Models.Repository
 
         public IEnumerable<Trail> GetAllTrailToUser()
         {
-            return _appDbContext.Trails.AsNoTracking().ToList();
+            return _appDbContext.Trails.AsNoTracking()
+                .Include(t => t.RegionLocation)
+                .ToList();
         }
+
     }
 }

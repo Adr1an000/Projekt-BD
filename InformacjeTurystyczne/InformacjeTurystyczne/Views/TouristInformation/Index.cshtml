@@ -62,11 +62,15 @@
             trail.length = "@Html.Raw(trail.Length)";
             trail.difficulty = "@Html.Raw(trail.Difficulty)";
             trail.region = [];
-            @if (trail.RegionLocation != null)
+            @if (trail.RegionLocation != null && trail.RegionLocation.Count > 0)
             {
                 @foreach(var region in trail.RegionLocation)
                 {
-                    @:trail.region.push("@Html.Raw(region.Region.Name)");
+                    var regions = Model.regions;
+                    var regTask = regions.GetRegionByID(region.IdRegion);
+                    var reg = regTask.Result;
+                    @:trail.region.push("@Html.Raw(reg.Name)");
+                    //@:trail.region.push("@Html.Raw(region.Region.Name)");
                 }
             } else
             {
