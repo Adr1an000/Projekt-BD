@@ -55,7 +55,7 @@ namespace InformacjeTurystyczne.Controllers
             if (ModelState.IsValid)
             {
                 message.PostingDate1 = DateTime.Now;
-                if (appUser.PermissionRegions.Where(p => p.Region == message.Region).Any() || HttpContext.User.IsInRole("Admin"))
+                if (appUser.PermissionRegions.Where(p => p.Region.IdRegion == message.IdRegion).Any() || HttpContext.User.IsInRole("Admin"))
                 {
                     await _messageRepository.AddMessageAsync(message);
                 }

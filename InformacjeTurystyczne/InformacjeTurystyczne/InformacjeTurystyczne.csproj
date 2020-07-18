@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ViewModels\ErrorMessageAttribute.cs" />
+    <Compile Remove="Models\ViewModels\InfoRecordVM.cs" />
+    <Compile Remove="Models\ViewModels\MessagesVM.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="MailKit" Version="2.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.3" />

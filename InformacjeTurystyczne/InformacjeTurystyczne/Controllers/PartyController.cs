@@ -62,96 +62,96 @@ namespace InformacjeTurystyczne.Controllers.TabelsController
                 return RedirectToAction(nameof(Index));
             }
 
-    PopulateParty(party.IdRegion);
+            PopulateParty(party.IdRegion);
 
             return View(party);
-}
-
-public async Task<IActionResult> Edit(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    var party = await _partyRepository.GetPartyByIDWithoutInclude(id);
-
-    if (party == null)
-            {
-        return NotFound();
-    }
-
-    PopulateParty(party.IdRegion);
-
-    return View(party);
-}
-
-[HttpPost, ActionName("Edit")]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> EditPost(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    var partyToUpdate = await _partyRepository.GetPartyByIDWithoutIncludeAndAsNoTracking(id);
-
-    if (await TryUpdateModelAsync<Party>(partyToUpdate,
-            "",
-            c => c.Name, c => c.PlaceDescription, c => c.Description, c => c.UpToDate, c => c.IdRegion))
-    {
-        try
-        {
-            await _partyRepository.SaveChangesAsync();
-        }
-        catch (DbUpdateException ex)
-        {
-            ModelState.AddModelError(String.Empty, "Nie można zapisać zmian.");
         }
 
-        return RedirectToAction(nameof(Index));
-    }
-
-    PopulateParty(partyToUpdate.IdRegion);
-    return View(partyToUpdate);
-}
-
-public void PopulateParty(object selectedRegion = null)
-{
-
-    var regionQuery = from e in _partyRepository.GetAllRegionAsNoTracking()
-                      orderby e.Name
-                      select e;
-
-    ViewBag.IdRegion = new SelectList(regionQuery, "IdRegion", "Name", selectedRegion);
-}
-
-public async Task<IActionResult> Delete(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    var party = await _partyRepository.GetPartyByID(id);
-
-    if (party == null)
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
             {
-        return NotFound();
+                return NotFound();
+            }
+
+            var party = await _partyRepository.GetPartyByIDWithoutInclude(id);
+
+            if (party == null)
+                    {
+                return NotFound();
+            }
+
+            PopulateParty(party.IdRegion);
+
+            return View(party);
+        }
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var partyToUpdate = await _partyRepository.GetPartyByIDWithoutIncludeAndAsNoTracking(id);
+
+            if (await TryUpdateModelAsync<Party>(partyToUpdate,
+                    "",
+                    c => c.Name, c => c.PlaceDescription, c => c.Description, c => c.UpToDate, c => c.IdRegion))
+            {
+                try
+                {
+                    await _partyRepository.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    ModelState.AddModelError(String.Empty, "Nie można zapisać zmian.");
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            PopulateParty(partyToUpdate.IdRegion);
+            return View(partyToUpdate);
+        }
+
+        public void PopulateParty(object selectedRegion = null)
+        {
+
+            var regionQuery = from e in _partyRepository.GetAllRegionAsNoTracking()
+                              orderby e.Name
+                              select e;
+
+            ViewBag.IdRegion = new SelectList(regionQuery, "IdRegion", "Name", selectedRegion);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var party = await _partyRepository.GetPartyByID(id);
+
+            if (party == null)
+                    {
+                return NotFound();
+            }
+
+            return View(party);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var course = await _partyRepository.GetPartyByIDWithoutIncludeAndAsNoTracking(id);
+            await _partyRepository.DeletePartyAsync(course);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
-
-    return View(party);
-}
-
-[HttpPost, ActionName("Delete")]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> DeleteConfirmed(int id)
-{
-    var course = await _partyRepository.GetPartyByIDWithoutIncludeAndAsNoTracking(id);
-    await _partyRepository.DeletePartyAsync(course);
-
-    return RedirectToAction(nameof(Index));
-}
-}
 }
